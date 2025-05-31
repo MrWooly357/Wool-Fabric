@@ -1,0 +1,12 @@
+accessWidener v2 named
+
+transitive-accessible class net/minecraft/registry/Registries$Initializer
+transitive-accessible method net/minecraft/registry/Registries create (Lnet/minecraft/registry/RegistryKey;Lnet/minecraft/registry/Registries$Initializer;)Lnet/minecraft/registry/Registry;
+transitive-accessible field net/minecraft/client/render/entity/model/ChickenEntityModel head Lnet/minecraft/client/model/ModelPart;
+transitive-accessible field net/minecraft/client/render/entity/model/ChickenEntityModel body Lnet/minecraft/client/model/ModelPart;
+transitive-accessible field net/minecraft/client/render/entity/model/ChickenEntityModel rightLeg Lnet/minecraft/client/model/ModelPart;
+transitive-accessible field net/minecraft/client/render/entity/model/ChickenEntityModel leftLeg Lnet/minecraft/client/model/ModelPart;
+transitive-accessible field net/minecraft/client/render/entity/model/ChickenEntityModel rightWing Lnet/minecraft/client/model/ModelPart;
+transitive-accessible field net/minecraft/client/render/entity/model/ChickenEntityModel leftWing Lnet/minecraft/client/model/ModelPart;
+transitive-accessible field net/minecraft/client/render/entity/model/ChickenEntityModel beak Lnet/minecraft/client/model/ModelPart;
+transitive-accessible field net/minecraft/client/render/entity/model/ChickenEntityModel wattle Lnet/minecraft/client/model/ModelPart;
