@@ -1,0 +1,21 @@
+package net.mrwooly357.wool.block.util;
+
+import net.minecraft.util.Identifier;
+import net.mrwooly357.wool.Wool;
+import net.mrwooly357.wool.registry.MultiblockConstructionBlueprintRegistryHelper;
+
+public class MultiblockConstructionBlueprints {
+
+    public static final MultiblockConstructionBlueprint EMPTY = register(
+            "empty", new MultiblockConstructionBlueprint()
+    );
+
+
+    private static MultiblockConstructionBlueprint register(String name, MultiblockConstructionBlueprint blueprint) {
+        return MultiblockConstructionBlueprintRegistryHelper.register(Identifier.of(Wool.MOD_ID, name), blueprint);
+    }
+
+    public static void init() {
+        Wool.LOGGER.info("Initializing " + Wool.MOD_ID + " multiblock construction blueprints");
+    }
+}

@@ -1,0 +1,38 @@
+{
+	"schemaVersion": 1,
+	"id": "wool",
+	"version": "${version}",
+	"name": "Wool",
+	"description": "A simple library/API mod mainly used by Medieval Stuff.",
+	"authors": [
+		"MrWooly357"
+	],
+	"contact": {
+		"homepage": "",
+		"sources": "https://github.com/MrWooly357/Wool-Fabric"
+	},
+	"license": "MIT",
+	"icon": "assets/wool/icon.png",
+	"environment": "*",
+	"entrypoints": {
+		"main": [
+			"net.mrwooly357.wool.Wool"
+		],
+		"client": [
+			"net.mrwooly357.wool.WoolClient"
+		]
+	},
+	"mixins": [
+		"wool.mixins.json"
+	],
+	"depends": {
+		"fabricloader": ">=0.16.14",
+		"minecraft": "~1.21.1",
+		"java": ">=21",
+		"fabric-api": "*"
+	},
+	"suggests": {
+		"another-mod": "*"
+	},
+	"accessWidener": "wool.accessWidener"
+}
