@@ -45,9 +45,11 @@ public class MultiblockConstructionBuilder {
 
                         for (@Nullable BlockState state : states) {
 
-                            if (stateToCheck != state && state != null) {
+                            if (stateToCheck != state && state != null && state == states.getLast()) {
                                 stop();
-                            } else {
+
+                                return;
+                            } else if (stateToCheck == state || state == null) {
                                 setPreviousPos(posToCheck);
 
                                 break;
