@@ -9,7 +9,7 @@ public interface MultiblockConstructionBuilding {
     default void tickBuilder(BlockPos startPos, BlockPos endPos) {
         createBuilder().tickTimer();
 
-        if (createBuilder().getTimer() == createBuilder().getDelay() && createBuilder().isSuccessful) {
+        if ((createBuilder().getTimer() == createBuilder().getDelay() || createBuilder().getDelay() == 0) && !createBuilder().isSuccessful) {
             createBuilder().tryBuild(startPos, endPos);
 
             if (createBuilder().isSuccessful) {
