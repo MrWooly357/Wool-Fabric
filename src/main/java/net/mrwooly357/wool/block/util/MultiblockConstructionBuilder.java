@@ -15,7 +15,7 @@ public class MultiblockConstructionBuilder {
     private boolean canContinue;
     private int delay;
     private int timer;
-    private BlockPos previous;
+    private BlockPos previousPos;
     public boolean isSuccessful;
 
     public MultiblockConstructionBuilder(MultiblockConstructionBlueprint blueprint, World world) {
@@ -24,7 +24,7 @@ public class MultiblockConstructionBuilder {
     }
 
 
-    public void tryBuild(BlockPos start, BlockPos end) {
+    public void tryBuild(BlockPos startPos, BlockPos endPos) {
         if (canContinue) {
             resetTimer();
 
@@ -32,26 +32,29 @@ public class MultiblockConstructionBuilder {
                 MultiblockConstructionBlueprint.Layer layer = blueprint.getLayer(a);
 
                 for (int b = 0; b < layer.getSizeInPatterns(); b++) {
-                    List<@Nullable BlockState> pattern = layer.getDefinedPattern(b);
+                    List<List<@Nullable BlockState>> pattern = layer.getDefinedPattern(b);
 
-                    for (BlockState blockState : pattern) {
+                    for (List<@Nullable BlockState> states : pattern) {
 
-                        if (previous == null) {
-                            setPrevious(start);
+                        if (previousPos == null) {
+                            setPreviousPos(startPos);
                         }
 
-                        BlockPos blockPosToCheck = getBlockPosToCheck(end, b);
-                        BlockState blockStateToCheck = world.getBlockState(blockPosToCheck);
+                        BlockPos posToCheck = getPosToCheck(endPos, b);
+                        BlockState stateToCheck = world.getBlockState(posToCheck);
 
-                        if (blockStateToCheck != blockState && blockState != null) {
-                            stop();
+                        for (@Nullable BlockState state : states) {
 
-                            return;
-                        } else {
-                            setPrevious(blockPosToCheck);
+                            if (stateToCheck != state && state != null) {
+                                stop();
+                            } else {
+                                setPreviousPos(posToCheck);
+
+                                break;
+                            }
                         }
 
-                        if (blockPosToCheck == end) {
+                        if (posToCheck == endPos) {
                             stop();
 
                             isSuccessful = true;
@@ -64,20 +67,20 @@ public class MultiblockConstructionBuilder {
         }
     }
 
-    private @NotNull BlockPos getBlockPosToCheck(BlockPos end, int b) {
-        int x = previous.getX();
-        int y = previous.getY() + b;
-        int z = previous.getZ();
+    private @NotNull BlockPos getPosToCheck(BlockPos endPos, int b) {
+        int x = previousPos.getX();
+        int y = previousPos.getY() + b;
+        int z = previousPos.getZ();
 
-        if (x < end.getX()) {
+        if (x < endPos.getX()) {
             x++;
-        } else if (x > end.getX()) {
+        } else if (x > endPos.getX()) {
             x--;
         }
 
-        if (z < end.getZ()) {
+        if (z < endPos.getZ()) {
             z++;
-        } else if (z > end.getZ()) {
+        } else if (z > endPos.getZ()) {
             z--;
         }
 
@@ -116,7 +119,7 @@ public class MultiblockConstructionBuilder {
         timer = 0;
     }
 
-    private void setPrevious(BlockPos previous) {
-        this.previous = previous;
+    private void setPreviousPos(BlockPos previousPos) {
+        this.previousPos = previousPos;
     }
 }

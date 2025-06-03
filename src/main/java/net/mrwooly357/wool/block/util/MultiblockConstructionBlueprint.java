@@ -14,7 +14,7 @@ import java.util.Map;
 public class MultiblockConstructionBlueprint {
 
     private List<Layer> layers = new ArrayList<>();
-    private Map<Character, @Nullable BlockState> definitions = new HashMap<>();
+    private Map<Character, List<@Nullable BlockState>> definitions = new HashMap<>();
 
     public MultiblockConstructionBlueprint() {}
 
@@ -47,10 +47,10 @@ public class MultiblockConstructionBlueprint {
     /**
      * Adds a definition to this blueprint.
      * @param character the character which represents a certain block state.
-     * @param blockState the block state which is represented by the {@code character}. If null then represents any block state.
+     * @param states a list of {@link BlockState}s which can be represented by the {@code character}. If null then represents any {@link BlockState}.
      */
-    public void addDefinition(Character character, @Nullable BlockState blockState) {
-        definitions.put(character, blockState);
+    public void addDefinition(Character character, List<@Nullable BlockState> states) {
+        definitions.put(character, states);
     }
 
 
@@ -75,15 +75,15 @@ public class MultiblockConstructionBlueprint {
         }
 
         /**
-         * Gets a certain pattern as a list of block states.
+         * Gets a certain pattern as a list of lists of {@link BlockState}s.
          * @param index the index of the pattern.
-         * @return a list of block states represented in a certain pattern.
+         * @return a list of lists of {@link BlockState}s represented in a certain pattern.
          */
-        public List<BlockState> getDefinedPattern(int index) {
-            List<BlockState> pattern = new ArrayList<>();
+        public List<List<@Nullable BlockState>> getDefinedPattern(int index) {
+            List<List<@Nullable BlockState>> pattern = new ArrayList<>();
             String raw = patterns.get(index);
 
-            for (int a = 1; a < raw.length(); a++) {
+            for (int a = 1; a < raw.length() + 1; a++) {
                 pattern.add(definitions.get(raw.charAt(a)));
             }
 

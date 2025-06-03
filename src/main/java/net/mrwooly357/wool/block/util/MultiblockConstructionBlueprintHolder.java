@@ -1,7 +1,7 @@
 package net.mrwooly357.wool.block.util;
 
 /**
- * Represents a thing which holds a {@link MultiblockConstructionBlueprint}
+ * Represents a thing that holds a {@link MultiblockConstructionBlueprint}
  */
 public interface MultiblockConstructionBlueprintHolder {
 
