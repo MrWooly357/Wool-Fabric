@@ -65,9 +65,7 @@ public class MultiblockConstructionBuilder {
                             return;
                         } else if (stateToCheck == state || state == null) {
 
-                            if (!last) {
-                                setPreviousPos(posToCheck);
-                            } else {
+                            if (last) {
                                 int x = previousPos.getX();
                                 int y = previousPos.getY();
                                 int z = previousPos.getZ();
@@ -88,6 +86,9 @@ public class MultiblockConstructionBuilder {
 
                                 first = true;
                                 setPreviousPos(new BlockPos(x, y, z));
+
+                            } else {
+                                setPreviousPos(posToCheck);
                             }
 
                             System.out.println(9);
