@@ -81,19 +81,19 @@ public class MultiblockConstructionBuilder {
 
                                 if (direction == Direction.NORTH) {
                                     x += pattern.size();
-                                    x -= 2;
+                                    x += 2;
                                     z--;
                                 } else if (direction == Direction.EAST) {
                                     z += pattern.size();
-                                    z += 2;
+                                    z -= 2;
                                     x++;
                                 } else if (direction == Direction.SOUTH) {
                                     x -= pattern.size();
-                                    x += 2;
+                                    x -= 2;
                                     z++;
                                 } else if (direction == Direction.WEST) {
                                     z -= pattern.size();
-                                    z -= 2;
+                                    z += 2;
                                     x--;
                                 }
 
