@@ -12,7 +12,7 @@ public class MultiblockConstructionBuilder {
 
     private final MultiblockConstructionBlueprint blueprint;
     private final World world;
-    private boolean canContinue;
+    public boolean canContinue;
     private int delay;
     private int timer;
     private BlockPos previousPos;
@@ -26,20 +26,20 @@ public class MultiblockConstructionBuilder {
 
     public void tryBuild(BlockPos startPos, BlockPos endPos) {
         System.out.println(canContinue);
-        if (canContinue || true) {
+        if (canContinue) {
             resetTimer();
             System.out.println(3);
 
             for (int a = 0; a < blueprint.getSizeInLayers(); a++) {
                 MultiblockConstructionBlueprint.Layer layer = blueprint.getLayer(a);
-                System.out.println(4);
+                System.out.println(layer);
 
                 for (int b = 0; b < layer.getSizeInPatterns(); b++) {
                     List<List<@Nullable BlockState>> pattern = layer.getDefinedPattern(b);
-                    System.out.println(5);
+                    System.out.println(pattern);
 
                     for (List<@Nullable BlockState> states : pattern) {
-                        System.out.println(6);
+                        System.out.println(states);
 
                         if (previousPos == null) {
                             setPreviousPos(startPos);
@@ -49,7 +49,7 @@ public class MultiblockConstructionBuilder {
                         BlockState stateToCheck = world.getBlockState(posToCheck);
 
                         for (@Nullable BlockState state : states) {
-                            System.out.println(7);
+                            System.out.println(state);
 
                             if (stateToCheck != state && state != null && state == states.getLast()) {
                                 stop();
