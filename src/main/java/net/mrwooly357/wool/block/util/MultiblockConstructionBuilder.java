@@ -37,6 +37,7 @@ public class MultiblockConstructionBuilder {
             for (int b = 0; b < layer.getSizeInPatterns(); b++) {
                 List<List<@Nullable BlockState>> pattern = layer.getDefinedPattern(b);
                 boolean first = true;
+                boolean toNextPattern = b == layer.getSizeInPatterns() - 1;
                 System.out.println("Pattern: " + pattern);
 
                 for (List<@Nullable BlockState> states : pattern) {
@@ -49,7 +50,7 @@ public class MultiblockConstructionBuilder {
                         setPreviousPos(startPos);
                     }
 
-                    BlockPos posToCheck = getPosToCheck(a, direction, first);
+                    BlockPos posToCheck = getPosToCheck(a, direction, first, toNextPattern);
 
                     if (first) {
                         setFirstPatternPos(posToCheck);
@@ -105,10 +106,23 @@ public class MultiblockConstructionBuilder {
         }
     }
 
-    private @NotNull BlockPos getPosToCheck(int a, Direction direction, boolean first) {
+    private @NotNull BlockPos getPosToCheck(int a, Direction direction, boolean first, boolean toNextPattern) {
         int x = previousPos.getX();
         int y = previousPos.getY() + a;
         int z = previousPos.getZ();
+
+        if (toNextPattern && previousPos == firstPatternPos) {
+
+            if (direction == Direction.NORTH) {
+                z--;
+            } else if (direction == Direction.EAST) {
+                x++;
+            } else if (direction == Direction.SOUTH) {
+                z++;
+            } else if (direction == Direction.WEST) {
+                x--;
+            }
+        }
 
         if (!first) {
 
