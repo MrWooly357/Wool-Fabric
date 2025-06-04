@@ -37,7 +37,7 @@ public class MultiblockConstructionBuilder {
             for (int b = 0; b < layer.getSizeInPatterns(); b++) {
                 List<List<@Nullable BlockState>> pattern = layer.getDefinedPattern(b);
                 boolean first = true;
-                boolean toNextPattern = b > 0 && previousPos == firstPatternPos;
+                boolean toNextPattern = b > 0 && previousPos.getX() == firstPatternPos.getX() && previousPos.getY() == firstPatternPos.getY() && previousPos.getZ() == firstPatternPos.getZ();
                 System.out.println("Pattern: " + pattern);
 
                 for (List<@Nullable BlockState> states : pattern) {
