@@ -40,7 +40,7 @@ public class MultiblockConstructionBuilder {
 
                 for (List<@Nullable BlockState> states : pattern) {
                     boolean shouldBreak = false;
-                    boolean last = states == pattern.getLast();
+                    boolean last = states != pattern.getLast();
                     System.out.println("Last: " + last);
                     System.out.println(pattern.getLast());
                     System.out.println("States: " + states);
