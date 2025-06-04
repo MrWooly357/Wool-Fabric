@@ -2,6 +2,7 @@ package net.mrwooly357.wool.block.util;
 
 import net.minecraft.block.BlockState;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.Direction;
 import net.minecraft.world.World;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -23,26 +24,27 @@ public class MultiblockConstructionBuilder {
     }
 
 
-    public void tryBuild(BlockPos startPos, BlockPos endPos) {
+    public void tryBuild(BlockPos startPos, BlockPos endPos, Direction direction) {
         resetTimer();
         System.out.println(3);
 
         for (int a = 0; a < blueprint.getSizeInLayers(); a++) {
             MultiblockConstructionBlueprint.Layer layer = blueprint.getLayer(a);
-            System.out.println(layer);
+            System.out.println("Layer: " + layer);
 
             for (int b = 0; b < layer.getSizeInPatterns(); b++) {
                 List<List<@Nullable BlockState>> pattern = layer.getDefinedPattern(b);
-                System.out.println(pattern);
+                System.out.println("Pattern: " + pattern);
 
                 for (List<@Nullable BlockState> states : pattern) {
-                    System.out.println(states);
+                    System.out.println("States: " + states);
 
                     if (previousPos == null) {
+                        System.out.println(4);
                         setPreviousPos(startPos);
                     }
 
-                    BlockPos posToCheck = getPosToCheck(endPos, b);
+                    BlockPos posToCheck = getPosToCheck(a, direction);
                     System.out.println(posToCheck);
                     BlockState stateToCheck = world.getBlockState(posToCheck);
                     System.out.println(stateToCheck);
@@ -73,21 +75,19 @@ public class MultiblockConstructionBuilder {
         }
     }
 
-    private @NotNull BlockPos getPosToCheck(BlockPos endPos, int b) {
+    private @NotNull BlockPos getPosToCheck(int a, Direction direction) {
         int x = previousPos.getX();
-        int y = previousPos.getY() + b;
+        int y = previousPos.getY() + a;
         int z = previousPos.getZ();
 
-        if (x < endPos.getX()) {
-            x++;
-        } else if (x > endPos.getX()) {
+        if (direction == Direction.NORTH) {
             x--;
-        }
-
-        if (z < endPos.getZ()) {
-            z++;
-        } else if (z > endPos.getZ()) {
+        } else if (direction == Direction.EAST) {
             z--;
+        } else if (direction == Direction.SOUTH) {
+            x++;
+        } else if (direction == Direction.WEST) {
+            z++;
         }
 
         return new BlockPos(x, y, z);
