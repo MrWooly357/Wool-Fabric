@@ -108,6 +108,9 @@ public class MultiblockConstructionBuilder {
     }*/
 
     public void tryBuild(BlockPos startPos, BlockPos endPos, Direction direction) {
+        System.out.println("startPos: " + startPos);
+        System.out.println("endPos: " + endPos);
+
         if (timer == delay) {
 
             resetTimer();
@@ -120,6 +123,8 @@ public class MultiblockConstructionBuilder {
                     List<List<@Nullable BlockState>> pattern = layer.getDefinedPattern(b);
                     boolean first = true;
                     boolean toNextPattern = b > 0 && previousPos.getX() == firstPatternPos.getX() && previousPos.getY() == firstPatternPos.getY() && previousPos.getZ() == firstPatternPos.getZ();
+                    System.out.println("first: " + first);
+                    System.out.println("toNextPattern: " + toNextPattern);
 
                     for (List<@Nullable BlockState> states : pattern) {
                         boolean shouldReturn = false;
@@ -171,6 +176,7 @@ public class MultiblockConstructionBuilder {
 
                         if (posToCheck.getX() == endPos.getX() && posToCheck.getY() == endPos.getY() && posToCheck.getZ() == endPos.getZ() && shouldReturn) {
                             setSuccessful(true);
+                            System.out.println(isSuccessful);
 
                             return;
                         }
