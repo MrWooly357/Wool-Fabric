@@ -43,7 +43,9 @@ public class MultiblockConstructionBuilder {
                     }
 
                     BlockPos posToCheck = getPosToCheck(endPos, b);
+                    System.out.println(posToCheck);
                     BlockState stateToCheck = world.getBlockState(posToCheck);
+                    System.out.println(stateToCheck);
 
                     for (@Nullable BlockState state : states) {
                         System.out.println(state);
