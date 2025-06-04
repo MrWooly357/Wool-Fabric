@@ -31,11 +31,11 @@ public class MultiblockConstructionBuilder {
 
         for (int a = 0; a < blueprint.getSizeInLayers(); a++) {
             MultiblockConstructionBlueprint.Layer layer = blueprint.getLayer(a);
-            boolean first = true;
             System.out.println("Layer: " + layer);
 
             for (int b = 0; b < layer.getSizeInPatterns(); b++) {
                 List<List<@Nullable BlockState>> pattern = layer.getDefinedPattern(b);
+                boolean first = true;
                 System.out.println("Pattern: " + pattern);
 
                 for (List<@Nullable BlockState> states : pattern) {
