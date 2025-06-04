@@ -56,7 +56,7 @@ public class MultiblockConstructionBuilder {
                         setLastPatternPos(getLastPatternPos(firstPatternPos, pattern, direction));
                         System.out.println("First pattern pos: " + firstPatternPos);
                         System.out.println("Last pattern pos: " + lastPatternPos);
-                        System.out.println(previousPos);
+                        System.out.println("Previous pos: " + previousPos);
 
                         first = false;
                     }
@@ -91,6 +91,7 @@ public class MultiblockConstructionBuilder {
 
                                 first = true;
 
+                                System.out.println(new BlockPos(x, y, z));
                                 setPreviousPos(new BlockPos(x, y, z));
                             } else {
                                 setPreviousPos(posToCheck);
