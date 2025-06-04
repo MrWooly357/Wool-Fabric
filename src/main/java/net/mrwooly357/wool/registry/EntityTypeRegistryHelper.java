@@ -11,13 +11,15 @@ import net.minecraft.entity.EntityType;
  */
 public interface EntityTypeRegistryHelper {
 
+
     /**
      * Registers a custom {@link EntityType}.
-     * @param id the {@link Identifier}.
+     * @param id  the {@link Identifier}.
      * @param entityType the {@link EntityType}.
-     * @return a registered entity type.
+     * @param <Type> the type of {@link Entity}.
+     * @return a registered {@link EntityType}.
      */
-    static <T extends Entity> EntityType<T> register(Identifier id, EntityType<T> entityType) {
+    static <Type extends Entity> EntityType<Type> register(Identifier id, EntityType<Type> entityType) {
         return Registry.register(Registries.ENTITY_TYPE, id, entityType);
     }
 }

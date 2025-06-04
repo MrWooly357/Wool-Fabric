@@ -3,10 +3,6 @@ package net.mrwooly357.wool;
 import net.fabricmc.api.ModInitializer;
 
 import net.mrwooly357.wool.animation.AnimationLoader;
-import net.mrwooly357.wool.animation.Animations;
-import net.mrwooly357.wool.animation.condition.Conditions;
-import net.mrwooly357.wool.animation.interpolation.Interpolations;
-import net.mrwooly357.wool.block.util.MultiblockConstructionBlueprints;
 import net.mrwooly357.wool.util.ModResourceReloadListenerKeys;
 import net.mrwooly357.wool.registry.ModRegistries;
 import net.mrwooly357.wool.registry.ModRegistryKeys;
@@ -24,10 +20,6 @@ public class Wool implements ModInitializer {
 		ModResourceReloadListenerKeys.init();
 		ModRegistries.init();
 		ModRegistryKeys.init();
-		MultiblockConstructionBlueprints.init();
-		Animations.init();
-		Conditions.init();
-		Interpolations.init();
 		AnimationLoader.init();
 	}
 }

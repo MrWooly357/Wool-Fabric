@@ -11,9 +11,14 @@ import net.mrwooly357.wool.animation.interpolation.Interpolation;
 import net.mrwooly357.wool.animation.interpolation.Interpolations;
 import net.mrwooly357.wool.block.util.MultiblockConstructionBlueprint;
 import net.mrwooly357.wool.block.util.MultiblockConstructionBlueprints;
+import net.mrwooly357.wool.config.Config;
+import net.mrwooly357.wool.config.Configs;
 
 public class ModRegistries {
 
+    public static final Registry<Config> CONFIG = create(
+            ModRegistryKeys.CONFIG, registry -> Configs.EMPTY
+    );
     public static final Registry<MultiblockConstructionBlueprint> MULTIBLOCK_CONSTRUCTION_BLUEPRINT = create(
             ModRegistryKeys.MULTIBLOCK_CONSTRUCTION_BLUEPRINT, registry -> MultiblockConstructionBlueprints.EMPTY
     );

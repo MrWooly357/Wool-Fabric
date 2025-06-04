@@ -14,8 +14,4 @@ public class MultiblockConstructionBlueprints {
     private static MultiblockConstructionBlueprint register(String name, MultiblockConstructionBlueprint blueprint) {
         return MultiblockConstructionBlueprintRegistryHelper.register(Identifier.of(Wool.MOD_ID, name), blueprint);
     }
-
-    public static void init() {
-        Wool.LOGGER.info("Initializing " + Wool.MOD_ID + " multiblock construction blueprints");
-    }
 }

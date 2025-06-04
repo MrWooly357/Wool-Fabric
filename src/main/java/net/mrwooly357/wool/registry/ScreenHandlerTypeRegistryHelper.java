@@ -11,12 +11,13 @@ import net.minecraft.util.Identifier;
  */
 public interface ScreenHandlerTypeRegistryHelper {
 
+
     /**
      * Registers a custom {@link ScreenHandlerType}.
      * @param id the {@link Identifier}.
      * @param screenHandlerType the {@link ScreenHandlerType}.
+     * @param <Type> the type of {@link ScreenHandler}.
      * @return a registered {@link ScreenHandlerType}.
-     * @param <Type> the type.
      */
     static <Type extends ScreenHandler> ScreenHandlerType<Type> register(Identifier id, ScreenHandlerType<Type> screenHandlerType) {
         return Registry.register(Registries.SCREEN_HANDLER, id, screenHandlerType);

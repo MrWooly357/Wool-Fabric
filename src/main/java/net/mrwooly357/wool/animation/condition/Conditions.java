@@ -4,6 +4,8 @@ import net.minecraft.registry.Registry;
 import net.minecraft.registry.RegistryKey;
 import net.minecraft.util.Identifier;
 import net.mrwooly357.wool.Wool;
+import net.mrwooly357.wool.animation.condition.custom.EmptyCondition;
+import net.mrwooly357.wool.animation.condition.custom.IsBabyCondition;
 import net.mrwooly357.wool.registry.ModRegistries;
 import net.mrwooly357.wool.registry.ModRegistryKeys;
 
@@ -24,9 +26,5 @@ public class Conditions {
 
     public static Condition register(Identifier id, Condition condition) {
         return Registry.register(ModRegistries.CONDITION, RegistryKey.of(ModRegistryKeys.CONDITION, id), condition);
-    }
-
-    public static void init() {
-        Wool.LOGGER.info("Initializing " + Wool.MOD_ID + " conditions");
     }
 }

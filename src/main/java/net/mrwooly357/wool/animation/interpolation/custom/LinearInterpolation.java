@@ -1,6 +1,7 @@
-package net.mrwooly357.wool.animation.interpolation;
+package net.mrwooly357.wool.animation.interpolation.custom;
 
 import net.minecraft.util.math.MathHelper;
+import net.mrwooly357.wool.animation.interpolation.Interpolation;
 
 public class LinearInterpolation implements Interpolation {
 

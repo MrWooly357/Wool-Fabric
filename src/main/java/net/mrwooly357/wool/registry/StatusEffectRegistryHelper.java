@@ -11,11 +11,12 @@ import net.minecraft.util.Identifier;
  */
 public interface StatusEffectRegistryHelper {
 
+
     /**
      * Registers a custom {@link StatusEffect}.
      * @param id the {@link Identifier}.
      * @param statusEffect the {@link StatusEffect}.
-     * @return a registered status effect.
+     * @return a registered {@link StatusEffect}.
      */
     static RegistryEntry<StatusEffect> register(Identifier id, StatusEffect statusEffect) {
         return Registry.registerReference(Registries.STATUS_EFFECT, id, statusEffect);

@@ -12,11 +12,12 @@ import net.minecraft.util.Identifier;
  */
 public interface BlockRegistryHelper {
 
+
     /**
      * Registers a custom {@link Block}.
      * @param id the {@link Identifier}.
      * @param block the {@link Block}.
-     * @return a registered block.
+     * @return a registered {@link Block}.
      */
     static Block register(Identifier id, Block block) {
         return Registry.register(Registries.BLOCK, id, block);

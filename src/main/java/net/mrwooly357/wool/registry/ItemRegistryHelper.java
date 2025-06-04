@@ -10,11 +10,12 @@ import net.minecraft.util.Identifier;
  */
 public interface ItemRegistryHelper {
 
+
     /**
      * Registers a custom {@link Item}.
      * @param id the {@link Identifier}.
      * @param item the {@link Item}.
-     * @return a registered item.
+     * @return a registered {@link Item}.
      */
     static Item register(Identifier id, Item item) {
         return Registry.register(Registries.ITEM, id, item);
