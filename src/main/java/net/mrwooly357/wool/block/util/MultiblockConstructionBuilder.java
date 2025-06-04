@@ -55,6 +55,7 @@ public class MultiblockConstructionBuilder {
                     if (first) {
                         setFirstPatternPos(posToCheck);
                         setLastPatternPos(getLastPatternPos(firstPatternPos, pattern, direction));
+                        System.out.println("Last pattern pos: " + lastPatternPos);
 
                         first = false;
                     }
@@ -78,16 +79,16 @@ public class MultiblockConstructionBuilder {
                                 int z = previousPos.getZ();
 
                                 if (direction == Direction.NORTH) {
-                                    x += pattern.size() - 1;
+                                    x += pattern.size() - 2;
                                     z--;
                                 } else if (direction == Direction.EAST) {
-                                    z += pattern.size() - 1;
+                                    z += pattern.size() - 2;
                                     x++;
                                 } else if (direction == Direction.SOUTH) {
-                                    x -= pattern.size() + 1;
+                                    x -= pattern.size() + 2;
                                     z++;
                                 } else if (direction == Direction.WEST) {
-                                    z -= pattern.size() + 1;
+                                    z -= pattern.size() + 2;
                                     x--;
                                 }
 
