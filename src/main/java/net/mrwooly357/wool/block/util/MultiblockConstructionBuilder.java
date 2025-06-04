@@ -30,6 +30,7 @@ public class MultiblockConstructionBuilder {
 
         for (int a = 0; a < blueprint.getSizeInLayers(); a++) {
             MultiblockConstructionBlueprint.Layer layer = blueprint.getLayer(a);
+            boolean first = true;
             System.out.println("Layer: " + layer);
 
             for (int b = 0; b < layer.getSizeInPatterns(); b++) {
@@ -44,7 +45,8 @@ public class MultiblockConstructionBuilder {
                         setPreviousPos(startPos);
                     }
 
-                    BlockPos posToCheck = getPosToCheck(a, direction);
+                    BlockPos posToCheck = getPosToCheck(a, direction, first);
+                    first = false;
                     System.out.println(posToCheck);
                     BlockState stateToCheck = world.getBlockState(posToCheck);
                     System.out.println(stateToCheck);
@@ -75,19 +77,22 @@ public class MultiblockConstructionBuilder {
         }
     }
 
-    private @NotNull BlockPos getPosToCheck(int a, Direction direction) {
+    private @NotNull BlockPos getPosToCheck(int a, Direction direction, boolean first) {
         int x = previousPos.getX();
         int y = previousPos.getY() + a;
         int z = previousPos.getZ();
 
-        if (direction == Direction.NORTH) {
-            x--;
-        } else if (direction == Direction.EAST) {
-            z--;
-        } else if (direction == Direction.SOUTH) {
-            x++;
-        } else if (direction == Direction.WEST) {
-            z++;
+        if (!first) {
+
+            if (direction == Direction.NORTH) {
+                x--;
+            } else if (direction == Direction.EAST) {
+                z--;
+            } else if (direction == Direction.SOUTH) {
+                x++;
+            } else if (direction == Direction.WEST) {
+                z++;
+            }
         }
 
         return new BlockPos(x, y, z);
