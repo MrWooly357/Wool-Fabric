@@ -132,6 +132,7 @@ public class MultiblockConstructionBuilder {
                         if (previousPos == null) setPreviousPos(startPos);
 
                         BlockPos posToCheck = getPosToCheck(a, direction, first, toNextPattern);
+                        System.out.println("posToCheck: " + posToCheck);
                         BlockState stateToCheck = world.getBlockState(posToCheck);
 
                         if (first) {
@@ -156,16 +157,16 @@ public class MultiblockConstructionBuilder {
                                     first = true;
                                     shouldReturn = true;
 
-                                    System.out.println(previousPos);
-                                    System.out.println(posToCheck);
-                                    System.out.println(firstPatternPos);
+                                    System.out.println("previousPos: " + previousPos);
+                                    System.out.println("posToCheck: " + posToCheck);
+                                    System.out.println("firstPatternPos: " + firstPatternPos);
                                     System.out.println("success");
                                     System.out.println("-----");
                                 } else {
                                     setPreviousPos(posToCheck);
 
-                                    System.out.println(previousPos);
-                                    System.out.println(posToCheck);
+                                    System.out.println("previousPos: " + previousPos);
+                                    System.out.println("posToCheck: " + posToCheck);
                                     System.out.println("fail");
                                     System.out.println("-----");
                                 }
