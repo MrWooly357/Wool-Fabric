@@ -91,9 +91,10 @@ public class MultiblockConstructionBuilder {
 
                                 first = true;
 
-                                System.out.println(new BlockPos(x, y, z));
+                                System.out.println("success");
                                 setPreviousPos(new BlockPos(x, y, z));
                             } else {
+                                System.out.println("fail");
                                 setPreviousPos(posToCheck);
                             }
 
