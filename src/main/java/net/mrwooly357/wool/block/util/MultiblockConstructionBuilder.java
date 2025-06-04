@@ -8,7 +8,6 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
-import java.util.Objects;
 
 public class MultiblockConstructionBuilder {
 
@@ -76,25 +75,17 @@ public class MultiblockConstructionBuilder {
                         } else if (stateToCheck == state || state == null) {
 
                             if (posToCheck == lastPatternPos) {
-                                int x = posToCheck.getX();
-                                int y = posToCheck.getY();
-                                int z = posToCheck.getZ();
+                                int x = firstPatternPos.getX();
+                                int y = firstPatternPos.getY();
+                                int z = firstPatternPos.getZ();
 
                                 if (direction == Direction.NORTH) {
-                                    x += pattern.size();
-                                    x -= 1;
                                     z--;
                                 } else if (direction == Direction.EAST) {
-                                    z += pattern.size();
-                                    z += 1;
                                     x++;
                                 } else if (direction == Direction.SOUTH) {
-                                    x -= pattern.size();
-                                    x += 1;
                                     z++;
                                 } else if (direction == Direction.WEST) {
-                                    z -= pattern.size();
-                                    z -= 1;
                                     x--;
                                 }
 
@@ -105,9 +96,9 @@ public class MultiblockConstructionBuilder {
                                 setPreviousPos(posToCheck);
                             }
 
-                            System.out.println(9);
+                            shouldBreak = true;
 
-                            if (states == pattern.getLast() && Objects.equals(layer.getPattern(b), layer.getLast())) shouldBreak = true;
+                            System.out.println(9);
 
                             break;
                         }
@@ -117,10 +108,9 @@ public class MultiblockConstructionBuilder {
                         isSuccessful = true;
 
                         System.out.println(10);
+
                         return;
                     }
-
-                    if (shouldBreak) break;
                 }
             }
         }

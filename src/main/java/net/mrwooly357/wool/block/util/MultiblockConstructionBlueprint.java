@@ -101,9 +101,5 @@ public class MultiblockConstructionBlueprint {
         public int getSizeInPatterns() {
             return patterns.size();
         }
-
-        public String getLast() {
-            return patterns.getLast();
-        }
     }
 }
