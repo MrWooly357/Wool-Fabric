@@ -26,7 +26,6 @@ public class MultiblockConstructionBuilder {
 
     public void tryBuild(BlockPos startPos, BlockPos endPos) {
         System.out.println(canContinue);
-        start();
         if (canContinue) {
             resetTimer();
             System.out.println(3);
@@ -39,7 +38,7 @@ public class MultiblockConstructionBuilder {
                     List<List<@Nullable BlockState>> pattern = layer.getDefinedPattern(b);
                     System.out.println(5);
 
-                    for (List<@Nullable BlockState> states : pattern) {
+                    /*for (List<@Nullable BlockState> states : pattern) {
                         System.out.println(6);
 
                         if (previousPos == null) {
@@ -73,7 +72,7 @@ public class MultiblockConstructionBuilder {
                             System.out.println(10);
                             return;
                         }
-                    }
+                    }*/
                 }
             }
         }
