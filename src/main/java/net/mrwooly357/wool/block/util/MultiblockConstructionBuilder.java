@@ -26,7 +26,7 @@ public class MultiblockConstructionBuilder {
     }
 
 
-    public void tryBuild(BlockPos startPos, BlockPos endPos, Direction direction) {
+    /*public void tryBuild(BlockPos startPos, BlockPos endPos, Direction direction) {
         resetTimer();
         System.out.println(3);
 
@@ -105,6 +105,79 @@ public class MultiblockConstructionBuilder {
                 }
             }
         }
+    }*/
+
+    public void tryBuild(BlockPos startPos, BlockPos endPos, Direction direction) {
+        if (timer == delay) {
+
+            resetTimer();
+            setSuccessful(false);
+
+            for (int a = 0; a < blueprint.getSizeInLayers(); a++) {
+                MultiblockConstructionBlueprint.Layer layer = blueprint.getLayer(a);
+
+                for (int b = 0; b < layer.getSizeInPatterns(); b++) {
+                    List<List<@Nullable BlockState>> pattern = layer.getDefinedPattern(b);
+                    boolean first = true;
+                    boolean toNextPattern = b > 0 && previousPos.getX() == firstPatternPos.getX() && previousPos.getY() == firstPatternPos.getY() && previousPos.getZ() == firstPatternPos.getZ();
+
+                    for (List<@Nullable BlockState> states : pattern) {
+                        boolean shouldReturn = false;
+
+                        if (previousPos == null) setPreviousPos(startPos);
+
+                        BlockPos posToCheck = getPosToCheck(a, direction, first, toNextPattern);
+                        BlockState stateToCheck = world.getBlockState(posToCheck);
+
+                        if (first) {
+                            setFirstPatternPos(posToCheck);
+                            setLastPatternPos(getLastPatternPos(firstPatternPos, pattern, direction));
+
+                            first = false;
+
+                            System.out.println("firstPatternPos: " + firstPatternPos);
+                            System.out.println("lastPatternPos: " + lastPatternPos);
+                        }
+
+                        for (@Nullable BlockState state : states) {
+
+                            if (stateToCheck != state && state != null && state == states.getLast()) {
+                                return;
+                            } else if (stateToCheck == state || state == null) {
+
+                                if (posToCheck.getX() == lastPatternPos.getX() && posToCheck.getY() == lastPatternPos.getY() && posToCheck.getZ() == lastPatternPos.getZ()) {
+                                    setPreviousPos(firstPatternPos);
+
+                                    first = true;
+                                    shouldReturn = true;
+
+                                    System.out.println(previousPos);
+                                    System.out.println(posToCheck);
+                                    System.out.println(firstPatternPos);
+                                    System.out.println("success");
+                                    System.out.println("-----");
+                                } else {
+                                    setPreviousPos(posToCheck);
+
+                                    System.out.println(previousPos);
+                                    System.out.println(posToCheck);
+                                    System.out.println("fail");
+                                    System.out.println("-----");
+                                }
+
+                                break;
+                            }
+                        }
+
+                        if (posToCheck.getX() == endPos.getX() && posToCheck.getY() == endPos.getY() && posToCheck.getZ() == endPos.getZ() && shouldReturn) {
+                            setSuccessful(true);
+
+                            return;
+                        }
+                    }
+                }
+            }
+        }
     }
 
     private @NotNull BlockPos getPosToCheck(int a, Direction direction, boolean first, boolean toNextPattern) {
@@ -171,6 +244,10 @@ public class MultiblockConstructionBuilder {
 
     public void setLastPatternPos(BlockPos lastPatternPos) {
         this.lastPatternPos = lastPatternPos;
+    }
+
+    public void setSuccessful(boolean successful) {
+        isSuccessful = successful;
     }
 
     public BlockPos getLastPatternPos(BlockPos firstPatternPos, List<List<@Nullable BlockState>> pattern, Direction direction) {
