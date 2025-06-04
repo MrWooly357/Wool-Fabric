@@ -15,9 +15,11 @@ public interface MultiblockConstructionBuilding {
 
         if ((createBuilder().getTimer() == createBuilder().getDelay() || createBuilder().getDelay() == 0) && !createBuilder().isSuccessful) {
             createBuilder().tryBuild(startPos, endPos);
+            System.out.println(1);
 
             if (createBuilder().isSuccessful) {
                 onSuccess(createBuilder());
+                System.out.println(2);
             }
         }
     }
