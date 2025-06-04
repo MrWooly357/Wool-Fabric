@@ -73,8 +73,10 @@ public class MultiblockConstructionBuilder {
 
                             return;
                         } else if (stateToCheck == state || state == null) {
+                            System.out.println("posToCheck: " + posToCheck);
+                            System.out.println("lastPatternPos: " + lastPatternPos);
 
-                            if (posToCheck == lastPatternPos) {
+                            if (posToCheck.getX() == lastPatternPos.getX() && posToCheck.getY() == lastPatternPos.getY() && posToCheck.getZ() == lastPatternPos.getZ()) {
                                 int x = firstPatternPos.getX();
                                 int y = firstPatternPos.getY();
                                 int z = firstPatternPos.getZ();
