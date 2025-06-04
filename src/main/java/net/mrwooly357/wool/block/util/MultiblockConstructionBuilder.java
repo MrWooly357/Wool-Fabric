@@ -38,6 +38,7 @@ public class MultiblockConstructionBuilder {
                 System.out.println("Pattern: " + pattern);
 
                 for (List<@Nullable BlockState> states : pattern) {
+                    boolean shouldBreak = false;
                     System.out.println("States: " + states);
 
                     if (previousPos == null) {
@@ -62,16 +63,20 @@ public class MultiblockConstructionBuilder {
                             setPreviousPos(posToCheck);
                             System.out.println(9);
 
+                            if (states == pattern.getLast()) shouldBreak = true;
+
                             break;
                         }
                     }
 
-                    if (posToCheck == endPos) {
+                    if (posToCheck == endPos && shouldBreak) {
                         isSuccessful = true;
 
                         System.out.println(10);
                         return;
                     }
+
+                    if (shouldBreak) break;
                 }
             }
         }
