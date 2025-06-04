@@ -55,6 +55,7 @@ public class MultiblockConstructionBuilder {
                     if (first) {
                         setFirstPatternPos(posToCheck);
                         setLastPatternPos(getLastPatternPos(firstPatternPos, pattern, direction));
+                        System.out.println("First pattern pos: " + firstPatternPos);
                         System.out.println("Last pattern pos: " + lastPatternPos);
 
                         first = false;
@@ -79,16 +80,20 @@ public class MultiblockConstructionBuilder {
                                 int z = previousPos.getZ();
 
                                 if (direction == Direction.NORTH) {
-                                    x += pattern.size() - 2;
+                                    x += pattern.size();
+                                    x -= 2;
                                     z--;
                                 } else if (direction == Direction.EAST) {
-                                    z += pattern.size() - 2;
+                                    z += pattern.size();
+                                    z += 2;
                                     x++;
                                 } else if (direction == Direction.SOUTH) {
-                                    x -= pattern.size() + 2;
+                                    x -= pattern.size();
+                                    x += 2;
                                     z++;
                                 } else if (direction == Direction.WEST) {
-                                    z -= pattern.size() + 2;
+                                    z -= pattern.size();
+                                    z -= 2;
                                     x--;
                                 }
 
@@ -189,13 +194,17 @@ public class MultiblockConstructionBuilder {
         int z = firstPatternPos.getZ();
 
         if (direction == Direction.NORTH) {
-            x -= pattern.size() + 1;
+            x -= pattern.size();
+            x++;
         } else if (direction == Direction.EAST) {
-            z -= pattern.size() + 1;
+            z -= pattern.size();
+            z++;
         } else if (direction == Direction.SOUTH) {
-            x += pattern.size() - 1;
+            x += pattern.size();
+            x--;
         } else if (direction == Direction.WEST) {
-            z += pattern.size() - 1;
+            z += pattern.size();
+            z--;
         }
 
         return new BlockPos(x, y, z);
