@@ -12,7 +12,6 @@ import net.minecraft.resource.ResourceType;
 import net.minecraft.util.Identifier;
 import net.mrwooly357.wool.Wool;
 import net.mrwooly357.wool.animation.condition.Condition;
-import net.mrwooly357.wool.animation.condition.Conditions;
 import net.mrwooly357.wool.animation.interpolation.Interpolation;
 import net.mrwooly357.wool.registry.ModRegistries;
 import net.mrwooly357.wool.util.ModResourceReloadListenerKeys;
@@ -268,7 +267,7 @@ public class AnimationLoader implements SimpleSynchronousResourceReloadListener 
         setTemporaryActualKeyframeData(null);
     }
 
-    public static void init() {
+    public static void initialize() {
         ResourceManagerHelper.get(ResourceType.CLIENT_RESOURCES).registerReloadListener(new AnimationLoader());
         Wool.LOGGER.info("Initializing " + Wool.MOD_ID + " animation loader");
     }

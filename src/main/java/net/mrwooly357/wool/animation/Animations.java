@@ -27,4 +27,8 @@ public class Animations {
     public static Animation register(Identifier id, Animation animation) {
         return Registry.register(ModRegistries.ANIMATION, RegistryKey.of(ModRegistryKeys.ANIMATION, id), animation);
     }
+
+    public static void initialize() {
+        System.out.println("Initializing " + Wool.MOD_ID + " animations");
+    }
 }

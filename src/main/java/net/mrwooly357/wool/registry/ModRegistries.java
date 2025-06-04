@@ -37,7 +37,7 @@ public class ModRegistries {
         return Registries.create(key, initializer);
     }
 
-    public static void init() {
+    public static void initialize() {
         Wool.LOGGER.info("Initializing " + Wool.MOD_ID + " registries");
     }
 }

@@ -27,7 +27,7 @@ public class ModRegistryKeys {
         return RegistryKey.ofRegistry(id);
     }
 
-    public static void init() {
+    public static void initialize() {
         Wool.LOGGER.info("Initializing " + Wool.MOD_ID + " registry keys");
     }
 }
