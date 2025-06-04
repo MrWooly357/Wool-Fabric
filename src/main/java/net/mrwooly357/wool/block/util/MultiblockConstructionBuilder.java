@@ -132,6 +132,7 @@ public class MultiblockConstructionBuilder {
                         if (previousPos == null) setPreviousPos(startPos);
 
                         BlockPos posToCheck = getPosToCheck(a, direction, first, toNextPattern);
+                        toNextPattern = false;
                         System.out.println("posToCheck: " + posToCheck);
                         BlockState stateToCheck = world.getBlockState(posToCheck);
 
