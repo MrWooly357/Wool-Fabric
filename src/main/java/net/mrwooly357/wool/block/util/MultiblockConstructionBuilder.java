@@ -40,6 +40,7 @@ public class MultiblockConstructionBuilder {
 
                 for (List<@Nullable BlockState> states : pattern) {
                     boolean shouldBreak = false;
+                    boolean last = states == pattern.getLast();
                     System.out.println("States: " + states);
 
                     if (previousPos == null) {
@@ -61,7 +62,32 @@ public class MultiblockConstructionBuilder {
 
                             return;
                         } else if (stateToCheck == state || state == null) {
-                            setPreviousPos(posToCheck);
+
+                            if (!last) {
+                                setPreviousPos(posToCheck);
+                            } else {
+                                int x = previousPos.getX();
+                                int y = previousPos.getY();
+                                int z = previousPos.getZ();
+
+                                if (direction == Direction.NORTH) {
+                                    x += pattern.size() - 1;
+                                    z--;
+                                } else if (direction == Direction.EAST) {
+                                    z += pattern.size() - 1;
+                                    x--;
+                                } else if (direction == Direction.SOUTH) {
+                                    x -= pattern.size() - 1;
+                                    z++;
+                                } else if (direction == Direction.WEST) {
+                                    z -= pattern.size() - 1;
+                                    x++;
+                                }
+
+                                first = true;
+                                setPreviousPos(new BlockPos(x, y, z));
+                            }
+
                             System.out.println(9);
 
                             if (states == pattern.getLast() && Objects.equals(layer.getPattern(b), layer.getLast())) shouldBreak = true;
