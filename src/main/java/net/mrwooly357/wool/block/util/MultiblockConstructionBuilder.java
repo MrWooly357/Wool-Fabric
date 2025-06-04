@@ -76,9 +76,9 @@ public class MultiblockConstructionBuilder {
                         } else if (stateToCheck == state || state == null) {
 
                             if (posToCheck == lastPatternPos) {
-                                int x = previousPos.getX();
-                                int y = previousPos.getY();
-                                int z = previousPos.getZ();
+                                int x = posToCheck.getX();
+                                int y = posToCheck.getY();
+                                int z = posToCheck.getZ();
 
                                 if (direction == Direction.NORTH) {
                                     x += pattern.size();
