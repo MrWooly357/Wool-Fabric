@@ -26,6 +26,7 @@ public class MultiblockConstructionBuilder {
 
     public void tryBuild(BlockPos startPos, BlockPos endPos) {
         System.out.println(canContinue);
+        start();
         if (canContinue) {
             resetTimer();
             System.out.println(3);
