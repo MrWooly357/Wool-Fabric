@@ -6,9 +6,12 @@ import org.jetbrains.annotations.NotNull;
 public interface MultiblockConstructionBuilding {
 
 
+    default void start() {
+        createBuilder().start();
+    }
+
     default void tickBuilder(BlockPos startPos, BlockPos endPos) {
         createBuilder().tickTimer();
-        createBuilder().start();
 
         if ((createBuilder().getTimer() == createBuilder().getDelay() || createBuilder().getDelay() == 0) && !createBuilder().isSuccessful) {
             createBuilder().tryBuild(startPos, endPos);

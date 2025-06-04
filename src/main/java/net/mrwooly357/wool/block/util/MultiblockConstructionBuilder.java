@@ -10,8 +10,8 @@ import java.util.List;
 
 public class MultiblockConstructionBuilder {
 
-    private MultiblockConstructionBlueprint blueprint;
-    private World world;
+    private final MultiblockConstructionBlueprint blueprint;
+    private final World world;
     private boolean canContinue;
     private int delay;
     private int timer;
