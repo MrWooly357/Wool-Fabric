@@ -83,7 +83,7 @@ public class MultiblockConstructionBlueprint {
             List<List<@Nullable BlockState>> pattern = new ArrayList<>();
             String raw = patterns.get(index);
 
-            for (int a = 1; a < raw.length() + 1; a++) {
+            for (int a = 0; a < raw.length(); a++) {
                 pattern.add(definitions.get(raw.charAt(a)));
             }
 
