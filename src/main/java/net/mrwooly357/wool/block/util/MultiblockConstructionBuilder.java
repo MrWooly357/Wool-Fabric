@@ -8,6 +8,7 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
+import java.util.Objects;
 
 public class MultiblockConstructionBuilder {
 
@@ -46,7 +47,7 @@ public class MultiblockConstructionBuilder {
                         setPreviousPos(startPos);
                     }
 
-                    BlockPos posToCheck = getPosToCheck(a, direction, first);
+                    BlockPos posToCheck = getPosToCheck(a, b, direction, first);
                     first = false;
                     System.out.println(posToCheck);
                     BlockState stateToCheck = world.getBlockState(posToCheck);
@@ -63,7 +64,7 @@ public class MultiblockConstructionBuilder {
                             setPreviousPos(posToCheck);
                             System.out.println(9);
 
-                            if (states == pattern.getLast()) shouldBreak = true;
+                            if (states == pattern.getLast() && Objects.equals(layer.getPattern(b), layer.getLast())) shouldBreak = true;
 
                             break;
                         }
@@ -82,10 +83,20 @@ public class MultiblockConstructionBuilder {
         }
     }
 
-    private @NotNull BlockPos getPosToCheck(int a, Direction direction, boolean first) {
+    private @NotNull BlockPos getPosToCheck(int a, int b, Direction direction, boolean first) {
         int x = previousPos.getX();
         int y = previousPos.getY() + a;
         int z = previousPos.getZ();
+
+        if (direction == Direction.NORTH) {
+            z -= b;
+        } else if (direction == Direction.EAST) {
+            x += b;
+        } else if (direction == Direction.SOUTH) {
+            z += b;
+        } else if (direction == Direction.WEST) {
+            x -=b;
+        }
 
         if (!first) {
 

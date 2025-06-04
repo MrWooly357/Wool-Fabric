@@ -64,6 +64,10 @@ public class MultiblockConstructionBlueprint {
         public Layer() {}
 
 
+        public String getPattern(int index) {
+            return patterns.get(index);
+        }
+
         /**
          * Adds a pattern to this layer.
          * @param pattern the pattern to add.
@@ -96,6 +100,10 @@ public class MultiblockConstructionBlueprint {
          */
         public int getSizeInPatterns() {
             return patterns.size();
+        }
+
+        public String getLast() {
+            return patterns.getLast();
         }
     }
 }
