@@ -77,30 +77,15 @@ public class MultiblockConstructionBuilder {
                             System.out.println("lastPatternPos: " + lastPatternPos);
 
                             if (posToCheck.getX() == lastPatternPos.getX() && posToCheck.getY() == lastPatternPos.getY() && posToCheck.getZ() == lastPatternPos.getZ()) {
-                                int x = firstPatternPos.getX();
-                                int y = firstPatternPos.getY();
-                                int z = firstPatternPos.getZ();
-
-                                if (direction == Direction.NORTH) {
-                                    z--;
-                                } else if (direction == Direction.EAST) {
-                                    x++;
-                                } else if (direction == Direction.SOUTH) {
-                                    z++;
-                                } else if (direction == Direction.WEST) {
-                                    x--;
-                                }
+                                System.out.println("success");
+                                setPreviousPos(firstPatternPos);
 
                                 first = true;
-
-                                System.out.println("success");
-                                setPreviousPos(new BlockPos(x, y, z));
+                                shouldBreak = true;
                             } else {
                                 System.out.println("fail");
                                 setPreviousPos(posToCheck);
                             }
-
-                            shouldBreak = true;
 
                             System.out.println(9);
 
