@@ -132,7 +132,7 @@ public class MultiblockConstructionBuilder {
         } else if (direction == Direction.SOUTH) {
             z += b;
         } else if (direction == Direction.WEST) {
-            x -=b;
+            x -= b;
         }
 
         if (!first) {
