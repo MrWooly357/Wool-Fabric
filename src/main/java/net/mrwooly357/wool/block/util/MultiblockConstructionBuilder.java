@@ -185,8 +185,8 @@ public class MultiblockConstructionBuilder {
 
     public BlockPos getLastPatternPos(BlockPos firstPatternPos, List<List<@Nullable BlockState>> pattern, Direction direction) {
         int x = firstPatternPos.getX();
-        int y = firstPatternPos.getX();
-        int z = firstPatternPos.getX();
+        int y = firstPatternPos.getY();
+        int z = firstPatternPos.getZ();
 
         if (direction == Direction.NORTH) {
             x -= pattern.size() + 1;
