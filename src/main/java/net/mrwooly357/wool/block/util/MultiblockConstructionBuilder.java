@@ -49,7 +49,7 @@ public class MultiblockConstructionBuilder {
                         setPreviousPos(startPos);
                     }
 
-                    BlockPos posToCheck = getPosToCheck(a, b, direction, first);
+                    BlockPos posToCheck = getPosToCheck(a, direction, first);
 
                     if (first) {
                         setFirstPatternPos(posToCheck);
@@ -105,20 +105,10 @@ public class MultiblockConstructionBuilder {
         }
     }
 
-    private @NotNull BlockPos getPosToCheck(int a, int b, Direction direction, boolean first) {
+    private @NotNull BlockPos getPosToCheck(int a, Direction direction, boolean first) {
         int x = previousPos.getX();
         int y = previousPos.getY() + a;
         int z = previousPos.getZ();
-
-        if (direction == Direction.NORTH) {
-            z -= b;
-        } else if (direction == Direction.EAST) {
-            x += b;
-        } else if (direction == Direction.SOUTH) {
-            z += b;
-        } else if (direction == Direction.WEST) {
-            x -= b;
-        }
 
         if (!first) {
 
