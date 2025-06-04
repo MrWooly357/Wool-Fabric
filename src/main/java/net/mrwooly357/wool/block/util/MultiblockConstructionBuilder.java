@@ -12,7 +12,6 @@ public class MultiblockConstructionBuilder {
 
     private final MultiblockConstructionBlueprint blueprint;
     private final World world;
-    public boolean canContinue;
     private int delay;
     private int timer;
     private BlockPos previousPos;
@@ -25,53 +24,47 @@ public class MultiblockConstructionBuilder {
 
 
     public void tryBuild(BlockPos startPos, BlockPos endPos) {
-        System.out.println(canContinue);
-        if (canContinue) {
-            resetTimer();
-            System.out.println(3);
+        resetTimer();
+        System.out.println(3);
 
-            for (int a = 0; a < blueprint.getSizeInLayers(); a++) {
-                MultiblockConstructionBlueprint.Layer layer = blueprint.getLayer(a);
-                System.out.println(layer);
+        for (int a = 0; a < blueprint.getSizeInLayers(); a++) {
+            MultiblockConstructionBlueprint.Layer layer = blueprint.getLayer(a);
+            System.out.println(layer);
 
-                for (int b = 0; b < layer.getSizeInPatterns(); b++) {
-                    List<List<@Nullable BlockState>> pattern = layer.getDefinedPattern(b);
-                    System.out.println(pattern);
+            for (int b = 0; b < layer.getSizeInPatterns(); b++) {
+                List<List<@Nullable BlockState>> pattern = layer.getDefinedPattern(b);
+                System.out.println(pattern);
 
-                    for (List<@Nullable BlockState> states : pattern) {
-                        System.out.println(states);
+                for (List<@Nullable BlockState> states : pattern) {
+                    System.out.println(states);
 
-                        if (previousPos == null) {
-                            setPreviousPos(startPos);
-                        }
+                    if (previousPos == null) {
+                        setPreviousPos(startPos);
+                    }
 
-                        BlockPos posToCheck = getPosToCheck(endPos, b);
-                        BlockState stateToCheck = world.getBlockState(posToCheck);
+                    BlockPos posToCheck = getPosToCheck(endPos, b);
+                    BlockState stateToCheck = world.getBlockState(posToCheck);
 
-                        for (@Nullable BlockState state : states) {
-                            System.out.println(state);
+                    for (@Nullable BlockState state : states) {
+                        System.out.println(state);
 
-                            if (stateToCheck != state && state != null && state == states.getLast()) {
-                                stop();
-                                System.out.println(8);
+                        if (stateToCheck != state && state != null && state == states.getLast()) {
+                            System.out.println(8);
 
-                                return;
-                            } else if (stateToCheck == state || state == null) {
-                                setPreviousPos(posToCheck);
-                                System.out.println(9);
-
-                                break;
-                            }
-                        }
-
-                        if (posToCheck == endPos) {
-                            stop();
-
-                            isSuccessful = true;
-
-                            System.out.println(10);
                             return;
+                        } else if (stateToCheck == state || state == null) {
+                            setPreviousPos(posToCheck);
+                            System.out.println(9);
+
+                            break;
                         }
+                    }
+
+                    if (posToCheck == endPos) {
+                        isSuccessful = true;
+
+                        System.out.println(10);
+                        return;
                     }
                 }
             }
@@ -96,18 +89,6 @@ public class MultiblockConstructionBuilder {
         }
 
         return new BlockPos(x, y, z);
-    }
-
-    public void start() {
-        canContinue = true;
-
-        resetTimer();
-    }
-
-    public void stop() {
-        canContinue = false;
-
-        resetTimer();
     }
 
     public int getDelay() {
