@@ -13,8 +13,6 @@ public class MultiblockConstructionBuilder {
 
     private final MultiblockConstructionBlueprint blueprint;
     private final World world;
-    private int delay;
-    private int timer;
     private BlockPos previousPos;
     private BlockPos firstPatternPos;
     private BlockPos lastPatternPos;
@@ -29,84 +27,79 @@ public class MultiblockConstructionBuilder {
     public void tryBuild(BlockPos startPos, BlockPos endPos, Direction direction) {
         System.out.println("startPos: " + startPos);
         System.out.println("endPos: " + endPos);
+        setIsSuccessful(false);
 
-        if (timer == delay) {
+        for (int a = 0; a < blueprint.getSizeInLayers(); a++) {
+            MultiblockConstructionBlueprint.Layer layer = blueprint.getLayer(a);
 
-            resetTimer();
-            setSuccessful(false);
+            for (int b = 0; b < layer.getSizeInPatterns(); b++) {
+                List<List<@Nullable BlockState>> pattern = layer.getDefinedPattern(b);
+                boolean first = true;
+                boolean toNextPattern = b > 0 && previousPos.getX() == firstPatternPos.getX() && previousPos.getY() == firstPatternPos.getY() && previousPos.getZ() == firstPatternPos.getZ();
+                System.out.println("first: " + first);
+                System.out.println("toNextPattern: " + toNextPattern);
 
-            for (int a = 0; a < blueprint.getSizeInLayers(); a++) {
-                MultiblockConstructionBlueprint.Layer layer = blueprint.getLayer(a);
+                for (List<@Nullable BlockState> states : pattern) {
+                    boolean shouldReturn = false;
 
-                for (int b = 0; b < layer.getSizeInPatterns(); b++) {
-                    List<List<@Nullable BlockState>> pattern = layer.getDefinedPattern(b);
-                    boolean first = true;
-                    boolean toNextPattern = b > 0 && previousPos.getX() == firstPatternPos.getX() && previousPos.getY() == firstPatternPos.getY() && previousPos.getZ() == firstPatternPos.getZ();
-                    System.out.println("first: " + first);
-                    System.out.println("toNextPattern: " + toNextPattern);
+                    if (previousPos == null) setPreviousPos(startPos);
 
-                    for (List<@Nullable BlockState> states : pattern) {
-                        boolean shouldReturn = false;
+                    System.out.println("a: " + a);
+                    BlockPos posToCheck = getPosToCheck(startPos, a, direction, first, toNextPattern);
+                    toNextPattern = false;
+                    System.out.println("posToCheck: " + posToCheck);
+                    BlockState stateToCheck = world.getBlockState(posToCheck);
 
-                        if (previousPos == null) setPreviousPos(startPos);
+                    if (first) {
+                        setFirstPatternPos(posToCheck);
+                        setLastPatternPos(getLastPatternPos(firstPatternPos, pattern, direction));
 
-                        System.out.println("a: " + a);
-                        BlockPos posToCheck = getPosToCheck(startPos, a, direction, first, toNextPattern);
-                        toNextPattern = false;
-                        System.out.println("posToCheck: " + posToCheck);
-                        BlockState stateToCheck = world.getBlockState(posToCheck);
+                        first = false;
 
-                        if (first) {
-                            setFirstPatternPos(posToCheck);
-                            setLastPatternPos(getLastPatternPos(firstPatternPos, pattern, direction));
+                        System.out.println("firstPatternPos: " + firstPatternPos);
+                        System.out.println("lastPatternPos: " + lastPatternPos);
+                    }
 
-                            first = false;
+                    for (@Nullable BlockState state : states) {
 
-                            System.out.println("firstPatternPos: " + firstPatternPos);
-                            System.out.println("lastPatternPos: " + lastPatternPos);
-                        }
+                        if (stateToCheck != state && state != null && state == states.getLast()) {
+                            return;
+                        } else if (stateToCheck == state || state == null) {
 
-                        for (@Nullable BlockState state : states) {
+                            if (posToCheck.getX() == lastPatternPos.getX() && posToCheck.getY() == lastPatternPos.getY() && posToCheck.getZ() == lastPatternPos.getZ()) {
 
-                            if (stateToCheck != state && state != null && state == states.getLast()) {
-                                return;
-                            } else if (stateToCheck == state || state == null) {
-
-                                if (posToCheck.getX() == lastPatternPos.getX() && posToCheck.getY() == lastPatternPos.getY() && posToCheck.getZ() == lastPatternPos.getZ()) {
-
-                                    if (posToCheck.getX() == endPos.getX() && posToCheck.getZ() == endPos.getZ()) {
-                                        setPreviousPos(new BlockPos(startPos.getX(), firstPatternPos.getY(), startPos.getZ()));
-                                    } else {
-                                        setPreviousPos(firstPatternPos);
-                                    }
-
-                                    first = true;
-                                    shouldReturn = true;
-
-                                    System.out.println("previousPos: " + previousPos);
-                                    System.out.println("posToCheck: " + posToCheck);
-                                    System.out.println("firstPatternPos: " + firstPatternPos);
-                                    System.out.println("success");
-                                    System.out.println("-----");
+                                if (posToCheck.getX() == endPos.getX() && posToCheck.getZ() == endPos.getZ()) {
+                                    setPreviousPos(new BlockPos(startPos.getX(), firstPatternPos.getY(), startPos.getZ()));
                                 } else {
-                                    setPreviousPos(posToCheck);
-
-                                    System.out.println("previousPos: " + previousPos);
-                                    System.out.println("posToCheck: " + posToCheck);
-                                    System.out.println("fail");
-                                    System.out.println("-----");
+                                    setPreviousPos(firstPatternPos);
                                 }
 
-                                break;
+                                first = true;
+                                shouldReturn = true;
+
+                                System.out.println("previousPos: " + previousPos);
+                                System.out.println("posToCheck: " + posToCheck);
+                                System.out.println("firstPatternPos: " + firstPatternPos);
+                                System.out.println("success");
+                                System.out.println("-----");
+                            } else {
+                                setPreviousPos(posToCheck);
+
+                                System.out.println("previousPos: " + previousPos);
+                                System.out.println("posToCheck: " + posToCheck);
+                                System.out.println("fail");
+                                System.out.println("-----");
                             }
-                        }
 
-                        if (posToCheck.getX() == endPos.getX() && posToCheck.getY() == endPos.getY() && posToCheck.getZ() == endPos.getZ() && shouldReturn) {
-                            setSuccessful(true);
-                            System.out.println(isSuccessful);
-
-                            return;
+                            break;
                         }
+                    }
+
+                    if (posToCheck.getX() == endPos.getX() && posToCheck.getY() == endPos.getY() && posToCheck.getZ() == endPos.getZ() && shouldReturn) {
+                        setIsSuccessful(true);
+                        System.out.println("isSuccessful: " + isSuccessful);
+
+                        return;
                     }
                 }
             }
@@ -147,26 +140,6 @@ public class MultiblockConstructionBuilder {
         return new BlockPos(x, y, z);
     }
 
-    public int getDelay() {
-        return delay;
-    }
-
-    public void setDelay(int delay) {
-        this.delay = delay;
-    }
-
-    public int getTimer() {
-        return timer;
-    }
-
-    public void tickTimer() {
-        timer++;
-    }
-
-    private void resetTimer() {
-        timer = 0;
-    }
-
     private void setPreviousPos(BlockPos previousPos) {
         this.previousPos = previousPos;
     }
@@ -179,8 +152,8 @@ public class MultiblockConstructionBuilder {
         this.lastPatternPos = lastPatternPos;
     }
 
-    public void setSuccessful(boolean successful) {
-        isSuccessful = successful;
+    public void setIsSuccessful(boolean isSuccessful) {
+        this.isSuccessful = isSuccessful;
     }
 
     public BlockPos getLastPatternPos(BlockPos firstPatternPos, List<List<@Nullable BlockState>> pattern, Direction direction) {
