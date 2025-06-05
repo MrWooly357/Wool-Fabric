@@ -74,7 +74,7 @@ public class MultiblockConstructionBuilder {
                                 if (posToCheck.getX() == lastPatternPos.getX() && posToCheck.getY() == lastPatternPos.getY() && posToCheck.getZ() == lastPatternPos.getZ()) {
 
                                     if (posToCheck.getX() == endPos.getX() && posToCheck.getZ() == endPos.getZ()) {
-                                        setPreviousPos(new BlockPos(startPos.getX(), firstPatternPos.getY() + 1, startPos.getZ()));
+                                        setPreviousPos(new BlockPos(startPos.getX(), firstPatternPos.getY(), startPos.getZ()));
                                     } else {
                                         setPreviousPos(firstPatternPos);
                                     }
