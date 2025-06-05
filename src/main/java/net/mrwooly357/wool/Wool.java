@@ -6,6 +6,7 @@ import net.mrwooly357.wool.animation.AnimationLoader;
 import net.mrwooly357.wool.animation.Animations;
 import net.mrwooly357.wool.animation.condition.Conditions;
 import net.mrwooly357.wool.animation.interpolation.Interpolations;
+import net.mrwooly357.wool.block.util.MultiblockConstructionBlueprints;
 import net.mrwooly357.wool.config.Configs;
 import net.mrwooly357.wool.util.ModResourceReloadListenerKeys;
 import net.mrwooly357.wool.registry.ModRegistries;
@@ -21,13 +22,14 @@ public class Wool implements ModInitializer {
 
 	@Override
 	public void onInitialize() {
-		Configs.initialize();
-		ModResourceReloadListenerKeys.initialize();
 		ModRegistries.initialize();
 		ModRegistryKeys.initialize();
+		ModResourceReloadListenerKeys.initialize();
+		Configs.initialize();
 		Conditions.initialize();
 		Interpolations.initialize();
 		Animations.initialize();
 		AnimationLoader.initialize();
+		MultiblockConstructionBlueprints.initialize();
 	}
 }

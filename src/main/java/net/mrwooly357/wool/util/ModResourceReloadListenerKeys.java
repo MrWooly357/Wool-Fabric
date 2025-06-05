@@ -9,6 +9,6 @@ public final class ModResourceReloadListenerKeys {
 
 
     public static void initialize() {
-        Wool.LOGGER.info("Initializing " + Wool.MOD_ID + " resource reload listener keys.");
+        Wool.LOGGER.info("Initializing " + Wool.MOD_ID + " resource reload listener keys");
     }
 }

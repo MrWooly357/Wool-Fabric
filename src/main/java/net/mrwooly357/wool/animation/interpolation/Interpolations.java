@@ -32,6 +32,6 @@ public class Interpolations {
     }
 
     public static void initialize() {
-        Wool.LOGGER.info("Initializing " + Wool.MOD_ID + " interpolations.");
+        Wool.LOGGER.info("Initializing " + Wool.MOD_ID + " interpolations");
     }
 }

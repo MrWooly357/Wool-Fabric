@@ -26,6 +26,6 @@ public class Animations {
     }
 
     public static void initialize() {
-        System.out.println("Initializing " + Wool.MOD_ID + " animations.");
+        Wool.LOGGER.info("Initializing " + Wool.MOD_ID + " animations");
     }
 }

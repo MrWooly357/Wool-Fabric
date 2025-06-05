@@ -28,6 +28,6 @@ public class ModRegistryKeys {
     }
 
     public static void initialize() {
-        Wool.LOGGER.info("Initializing " + Wool.MOD_ID + " registry keys.");
+        Wool.LOGGER.info("Initializing " + Wool.MOD_ID + " registry keys");
     }
 }

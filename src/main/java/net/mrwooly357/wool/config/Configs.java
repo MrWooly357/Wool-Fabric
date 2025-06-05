@@ -17,6 +17,6 @@ public class Configs {
     }
 
     public static void initialize() {
-        Wool.LOGGER.info("Initializing " + Wool.MOD_ID + " configs.");
+        Wool.LOGGER.info("Initializing " + Wool.MOD_ID + " configs");
     }
 }

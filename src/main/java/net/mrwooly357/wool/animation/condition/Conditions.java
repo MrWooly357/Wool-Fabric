@@ -29,6 +29,6 @@ public class Conditions {
     }
 
     public static void initialize() {
-        Wool.LOGGER.info("Initializing " + Wool.MOD_ID + " conditions.");
+        Wool.LOGGER.info("Initializing " + Wool.MOD_ID + " conditions");
     }
 }
