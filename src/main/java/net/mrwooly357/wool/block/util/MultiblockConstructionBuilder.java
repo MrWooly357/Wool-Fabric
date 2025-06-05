@@ -37,12 +37,11 @@ public class MultiblockConstructionBuilder {
 
             for (int a = 0; a < blueprint.getSizeInLayers(); a++) {
                 MultiblockConstructionBlueprint.Layer layer = blueprint.getLayer(a);
-                boolean first = false;
 
                 for (int b = 0; b < layer.getSizeInPatterns(); b++) {
                     List<List<@Nullable BlockState>> pattern = layer.getDefinedPattern(b);
-                    boolean toNextPattern = b > 0 && previousPos.getX() == firstPatternPos.getX() && previousPos.getY() == firstPatternPos.getY() && previousPos.getZ() == firstPatternPos.getZ() && !first;
-                    first = true;
+                    boolean first = true;
+                    boolean toNextPattern = b > 0 && previousPos.getX() == firstPatternPos.getX() && previousPos.getY() == firstPatternPos.getY() && previousPos.getZ() == firstPatternPos.getZ();
                     System.out.println("toNextPattern: " + toNextPattern);
 
                     for (List<@Nullable BlockState> states : pattern) {
