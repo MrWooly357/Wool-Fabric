@@ -26,87 +26,6 @@ public class MultiblockConstructionBuilder {
     }
 
 
-    /*public void tryBuild(BlockPos startPos, BlockPos endPos, Direction direction) {
-        resetTimer();
-        System.out.println(3);
-
-        for (int a = 0; a < blueprint.getSizeInLayers(); a++) {
-            MultiblockConstructionBlueprint.Layer layer = blueprint.getLayer(a);
-            System.out.println("Layer: " + layer);
-
-            for (int b = 0; b < layer.getSizeInPatterns(); b++) {
-                List<List<@Nullable BlockState>> pattern = layer.getDefinedPattern(b);
-                boolean first = true;
-                boolean toNextPattern = b > 0 && previousPos.getX() == firstPatternPos.getX() && previousPos.getY() == firstPatternPos.getY() && previousPos.getZ() == firstPatternPos.getZ();
-                System.out.println("Pattern: " + pattern);
-
-                for (List<@Nullable BlockState> states : pattern) {
-                    boolean shouldBreak = false;
-                    System.out.println(pattern.getLast());
-                    System.out.println("States: " + states);
-
-                    if (previousPos == null) {
-                        System.out.println(4);
-                        setPreviousPos(startPos);
-                    }
-
-                    System.out.println(toNextPattern);
-                    BlockPos posToCheck = getPosToCheck(a, direction, first, toNextPattern);
-
-                    if (first) {
-                        setFirstPatternPos(posToCheck);
-                        setLastPatternPos(getLastPatternPos(firstPatternPos, pattern, direction));
-                        System.out.println("First pattern pos: " + firstPatternPos);
-                        System.out.println("Last pattern pos: " + lastPatternPos);
-                        System.out.println("Previous pos: " + previousPos);
-
-                        first = false;
-                    }
-
-                    System.out.println(posToCheck);
-                    BlockState stateToCheck = world.getBlockState(posToCheck);
-                    System.out.println(stateToCheck);
-
-                    for (@Nullable BlockState state : states) {
-                        System.out.println(state);
-
-                        if (stateToCheck != state && state != null && state == states.getLast()) {
-                            System.out.println(8);
-
-                            return;
-                        } else if (stateToCheck == state || state == null) {
-                            System.out.println("posToCheck: " + posToCheck);
-                            System.out.println("lastPatternPos: " + lastPatternPos);
-
-                            if (posToCheck.getX() == lastPatternPos.getX() && posToCheck.getY() == lastPatternPos.getY() && posToCheck.getZ() == lastPatternPos.getZ()) {
-                                System.out.println("success");
-                                setPreviousPos(firstPatternPos);
-
-                                first = true;
-                                shouldBreak = true;
-                            } else {
-                                System.out.println("fail");
-                                setPreviousPos(posToCheck);
-                            }
-
-                            System.out.println(9);
-
-                            break;
-                        }
-                    }
-
-                    if (posToCheck == endPos && shouldBreak) {
-                        isSuccessful = true;
-
-                        System.out.println(10);
-
-                        return;
-                    }
-                }
-            }
-        }
-    }*/
-
     public void tryBuild(BlockPos startPos, BlockPos endPos, Direction direction) {
         System.out.println("startPos: " + startPos);
         System.out.println("endPos: " + endPos);
@@ -153,7 +72,12 @@ public class MultiblockConstructionBuilder {
                             } else if (stateToCheck == state || state == null) {
 
                                 if (posToCheck.getX() == lastPatternPos.getX() && posToCheck.getY() == lastPatternPos.getY() && posToCheck.getZ() == lastPatternPos.getZ()) {
-                                    setPreviousPos(firstPatternPos);
+
+                                    if (posToCheck.getX() == endPos.getX() && posToCheck.getZ() == endPos.getZ()) {
+                                        setPreviousPos(new BlockPos(firstPatternPos.getX(), firstPatternPos.getY() + 1, firstPatternPos.getZ()));
+                                    } else {
+                                        setPreviousPos(firstPatternPos);
+                                    }
 
                                     first = true;
                                     shouldReturn = true;
