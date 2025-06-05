@@ -30,4 +30,8 @@ public class Interpolations {
     public static Interpolation register(Identifier id, Interpolation interpolation) {
         return Registry.register(ModRegistries.INTERPOLATION, RegistryKey.of(ModRegistryKeys.INTERPOLATION, id), interpolation);
     }
+
+    public static void initialize() {
+        Wool.LOGGER.info("Initializing " + Wool.MOD_ID + " interpolations.");
+    }
 }

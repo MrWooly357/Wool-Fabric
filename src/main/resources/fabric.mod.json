@@ -3,7 +3,7 @@
 	"id": "wool",
 	"version": "${version}",
 	"name": "Wool",
-	"description": "A simple library/API mod mainly used by Medieval Stuff.",
+	"description": "A simple library/API which offers some cool hooks for developers. Examples of use can be found in Medieval Stuff",
 	"authors": [
 		"MrWooly357"
 	],
@@ -13,7 +13,7 @@
 	},
 	"license": "MIT",
 	"icon": "assets/wool/icon.png",
-	"environment": "*",
+	"environment": "IntelliJ IDEA Community Edition 2025.1.2 and Eclipse Temurin JDK with Hotspot 21.0.7+6 (x64).",
 	"entrypoints": {
 		"main": [
 			"net.mrwooly357.wool.Wool"
@@ -29,7 +29,7 @@
 		"fabricloader": ">=0.16.14",
 		"minecraft": "~1.21.1",
 		"java": ">=21",
-		"fabric-api": "*"
+		"fabric-api": "0.116.1+1.21.1"
 	},
 	"suggests": {},
 	"accessWidener": "wool.accessWidener"

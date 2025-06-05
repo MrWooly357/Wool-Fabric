@@ -269,6 +269,6 @@ public class AnimationLoader implements SimpleSynchronousResourceReloadListener 
 
     public static void initialize() {
         ResourceManagerHelper.get(ResourceType.CLIENT_RESOURCES).registerReloadListener(new AnimationLoader());
-        Wool.LOGGER.info("Initializing " + Wool.MOD_ID + " animation loader");
+        Wool.LOGGER.info("Initializing " + Wool.MOD_ID + " animation loader.");
     }
 }

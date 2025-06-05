@@ -15,4 +15,8 @@ public class Configs {
     private static Config register(String name, Config config) {
         return ConfigRegistryHelper.register(Identifier.of(Wool.MOD_ID, name), config);
     }
+
+    public static void initialize() {
+        Wool.LOGGER.info("Initializing " + Wool.MOD_ID + " configs.");
+    }
 }

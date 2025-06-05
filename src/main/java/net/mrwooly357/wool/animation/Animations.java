@@ -13,10 +13,7 @@ public class Animations {
 
     public static final Animation EMPTY = register(
             "empty", new Animation(
-                    Identifier.of(Wool.MOD_ID, "empty"),
-                    0,
-                    false,
-                    Map.of()
+                    Identifier.of(Wool.MOD_ID, "empty"), 0, false, Map.of()
             ));
 
 
@@ -29,6 +26,6 @@ public class Animations {
     }
 
     public static void initialize() {
-        System.out.println("Initializing " + Wool.MOD_ID + " animations");
+        System.out.println("Initializing " + Wool.MOD_ID + " animations.");
     }
 }

@@ -38,6 +38,6 @@ public class ModRegistries {
     }
 
     public static void initialize() {
-        Wool.LOGGER.info("Initializing " + Wool.MOD_ID + " registries");
+        Wool.LOGGER.info("Initializing " + Wool.MOD_ID + " registries.");
     }
 }

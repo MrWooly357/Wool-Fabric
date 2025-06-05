@@ -27,4 +27,8 @@ public class Conditions {
     public static Condition register(Identifier id, Condition condition) {
         return Registry.register(ModRegistries.CONDITION, RegistryKey.of(ModRegistryKeys.CONDITION, id), condition);
     }
+
+    public static void initialize() {
+        Wool.LOGGER.info("Initializing " + Wool.MOD_ID + " conditions.");
+    }
 }
