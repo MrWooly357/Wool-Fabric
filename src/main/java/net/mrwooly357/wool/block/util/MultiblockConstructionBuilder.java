@@ -16,7 +16,6 @@ public class MultiblockConstructionBuilder {
     private BlockPos previousPos;
     private BlockPos firstPatternPos;
     private BlockPos lastPatternPos;
-    private boolean successful;
 
     public MultiblockConstructionBuilder(MultiblockConstructionBlueprint blueprint, World world) {
         this.blueprint = blueprint;
@@ -25,10 +24,6 @@ public class MultiblockConstructionBuilder {
 
 
     public boolean tryBuild(BlockPos startPos, BlockPos endPos, Direction direction) {
-        System.out.println("startPos: " + startPos);
-        System.out.println("endPos: " + endPos);
-        setSuccessful(false);
-
         for (int a = 0; a < blueprint.getSizeInLayers(); a++) {
             MultiblockConstructionBlueprint.Layer layer = blueprint.getLayer(a);
 
@@ -36,18 +31,14 @@ public class MultiblockConstructionBuilder {
                 List<List<@Nullable BlockState>> pattern = layer.getDefinedPattern(b);
                 boolean first = true;
                 boolean toNextPattern = b > 0 && previousPos.getX() == firstPatternPos.getX() && previousPos.getY() == firstPatternPos.getY() && previousPos.getZ() == firstPatternPos.getZ();
-                System.out.println("first: " + first);
-                System.out.println("toNextPattern: " + toNextPattern);
 
                 for (List<@Nullable BlockState> states : pattern) {
                     boolean shouldReturn = false;
 
                     if (previousPos == null) setPreviousPos(startPos);
 
-                    System.out.println("a: " + a);
                     BlockPos posToCheck = calculatePosToCheck(startPos, a, direction, first, toNextPattern);
                     toNextPattern = false;
-                    System.out.println("posToCheck: " + posToCheck);
                     BlockState stateToCheck = world.getBlockState(posToCheck);
 
                     if (first) {
@@ -55,9 +46,6 @@ public class MultiblockConstructionBuilder {
                         setLastPatternPos(calculateLastPatternPos(firstPatternPos, pattern, direction));
 
                         first = false;
-
-                        System.out.println("firstPatternPos: " + firstPatternPos);
-                        System.out.println("lastPatternPos: " + lastPatternPos);
                     }
 
                     for (@Nullable BlockState state : states) {
@@ -76,19 +64,8 @@ public class MultiblockConstructionBuilder {
 
                                 first = true;
                                 shouldReturn = true;
-
-                                System.out.println("previousPos: " + previousPos);
-                                System.out.println("posToCheck: " + posToCheck);
-                                System.out.println("firstPatternPos: " + firstPatternPos);
-                                System.out.println("success");
-                                System.out.println("-----");
                             } else {
                                 setPreviousPos(posToCheck);
-
-                                System.out.println("previousPos: " + previousPos);
-                                System.out.println("posToCheck: " + posToCheck);
-                                System.out.println("fail");
-                                System.out.println("-----");
                             }
 
                             break;
@@ -96,10 +73,7 @@ public class MultiblockConstructionBuilder {
                     }
 
                     if (posToCheck.getX() == endPos.getX() && posToCheck.getY() == endPos.getY() && posToCheck.getZ() == endPos.getZ() && shouldReturn) {
-                        setSuccessful(true);
-                        System.out.println("successful: " + successful);
-
-                        return successful;
+                        return true;
                     }
                 }
             }
@@ -118,14 +92,6 @@ public class MultiblockConstructionBuilder {
 
     private void setLastPatternPos(BlockPos lastPatternPos) {
         this.lastPatternPos = lastPatternPos;
-    }
-
-    public boolean isSuccessful() {
-        return successful;
-    }
-
-    public void setSuccessful(boolean successful) {
-        this.successful = successful;
     }
 
     private @NotNull BlockPos calculatePosToCheck(BlockPos startPos, int a, Direction direction, boolean first, boolean toNextPattern) {
