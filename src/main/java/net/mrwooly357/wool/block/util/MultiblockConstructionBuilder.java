@@ -16,7 +16,7 @@ public class MultiblockConstructionBuilder {
     private BlockPos previousPos;
     private BlockPos firstPatternPos;
     private BlockPos lastPatternPos;
-    public boolean isSuccessful;
+    private boolean isSuccessful;
 
     public MultiblockConstructionBuilder(MultiblockConstructionBlueprint blueprint, World world) {
         this.blueprint = blueprint;
@@ -24,7 +24,7 @@ public class MultiblockConstructionBuilder {
     }
 
 
-    public void tryBuild(BlockPos startPos, BlockPos endPos, Direction direction) {
+    public boolean tryBuild(BlockPos startPos, BlockPos endPos, Direction direction) {
         System.out.println("startPos: " + startPos);
         System.out.println("endPos: " + endPos);
         setIsSuccessful(false);
@@ -63,7 +63,7 @@ public class MultiblockConstructionBuilder {
                     for (@Nullable BlockState state : states) {
 
                         if (stateToCheck != state && state != null && state == states.getLast()) {
-                            return;
+                            return false;
                         } else if (stateToCheck == state || state == null) {
 
                             if (posToCheck.getX() == lastPatternPos.getX() && posToCheck.getY() == lastPatternPos.getY() && posToCheck.getZ() == lastPatternPos.getZ()) {
@@ -99,11 +99,13 @@ public class MultiblockConstructionBuilder {
                         setIsSuccessful(true);
                         System.out.println("isSuccessful: " + isSuccessful);
 
-                        return;
+                        return isSuccessful;
                     }
                 }
             }
         }
+
+        return false;
     }
 
     private @NotNull BlockPos getPosToCheck(BlockPos startPos, int a, Direction direction, boolean first, boolean toNextPattern) {

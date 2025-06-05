@@ -9,9 +9,9 @@ public interface MultiblockConstructionBuilding {
 
     default void tickBuilder(BlockPos startPos, BlockPos endPos, Direction direction) {
             System.out.println(1);
-            getBuilder().tryBuild(startPos, endPos, direction);
 
-            if (getBuilder().isSuccessful) {
+
+            if (getBuilder().tryBuild(startPos, endPos, direction)) {
                 onSuccess(getBuilder());
                 System.out.println(2);
             }
