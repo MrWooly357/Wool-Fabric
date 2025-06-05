@@ -42,6 +42,7 @@ public class MultiblockConstructionBuilder {
                     List<List<@Nullable BlockState>> pattern = layer.getDefinedPattern(b);
                     boolean first = true;
                     boolean toNextPattern = b > 0 && previousPos.getX() == firstPatternPos.getX() && previousPos.getY() == firstPatternPos.getY() && previousPos.getZ() == firstPatternPos.getZ();
+                    System.out.println("first: " + first);
                     System.out.println("toNextPattern: " + toNextPattern);
 
                     for (List<@Nullable BlockState> states : pattern) {
