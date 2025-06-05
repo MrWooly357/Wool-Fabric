@@ -10,10 +10,14 @@ public interface MultiblockConstructionBuilding {
     default void tryBuild(BlockPos startPos, BlockPos endPos, Direction direction) {
             if (getBuilder().tryBuild(startPos, endPos, direction)) {
                 onSuccess();
+            } else {
+                onFail();
             }
     }
 
     void onSuccess();
+
+    void onFail();
 
     @NotNull MultiblockConstructionBuilder getBuilder();
 }
