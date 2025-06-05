@@ -13,7 +13,7 @@
 	},
 	"license": "MIT",
 	"icon": "assets/wool/icon.png",
-	"environment": "IntelliJ IDEA Community Edition 2025.1.2 and Eclipse Temurin JDK with Hotspot 21.0.7+6 (x64).",
+	"environment": "*",
 	"entrypoints": {
 		"main": [
 			"net.mrwooly357.wool.Wool"
