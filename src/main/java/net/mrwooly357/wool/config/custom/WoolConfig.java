@@ -7,13 +7,17 @@ import net.mrwooly357.wool.config.ConfigEntry;
 public class WoolConfig extends Config {
 
     public static final ConfigEntry.Category general = new ConfigEntry.Category("general");
-    public ConfigEntry<Boolean> developerModeEntry = booleanField("If this is true, the game will log additional information.", general, "developerMode", false);
+    public ConfigEntry<Boolean> developerModeEntry;
+
     public static boolean developerMode;
 
     public WoolConfig() {
         super(Wool.MOD_ID);
 
-        onUpdate();
+        addComment("General");
+        addEmptyLine();
+
+        developerModeEntry = booleanField("If this is true, the game will log additional information.", general, "developerMode", false);
     }
 
 

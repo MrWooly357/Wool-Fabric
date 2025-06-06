@@ -5,18 +5,14 @@ import org.jetbrains.annotations.Nullable;
 
 public class ConfigEntry<T> {
 
-    private final @Nullable String comment;
     private final @Nullable Category category;
     private final String key;
-    private final T defaultValue;
     private T value;
     private final FieldType<T> type;
 
-    public ConfigEntry(@Nullable String comment, @Nullable Category category, String key, T defaultValue, FieldType<T> type) {
-        this.comment = comment;
+    public ConfigEntry(@Nullable Category category, String key, T defaultValue, FieldType<T> type) {
         this.category = category;
         this.key = key;
-        this.defaultValue = defaultValue;
         this.value = defaultValue;
         this.type = type;
     }
@@ -24,10 +20,6 @@ public class ConfigEntry<T> {
 
     public String fullKey() {
         return category == null ? key : category.name() + "." + key;
-    }
-
-    public @Nullable String getComment() {
-        return comment;
     }
 
     public T getValue() {
@@ -38,11 +30,11 @@ public class ConfigEntry<T> {
         this.value = value;
     }
 
-    public String formatValue() {
+    public String getFormattedValue() {
         return type.format(value);
     }
 
-    public void parseValue(String string) {
+    public void parseAndSetValue(String string) {
         this.value = type.parse(string);
     }
 

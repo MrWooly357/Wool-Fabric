@@ -11,13 +11,13 @@ public class ConfigManager {
     public static void register(Config config) {
         if (!configs.contains(config)) {
             configs.add(config);
-            config.reload();
+            config.load();
         }
     }
 
-    public static void reloadAll() {
+    public static void loadAll() {
         for (Config config : configs) {
-            config.reload();
+            config.load();
         }
     }
 
