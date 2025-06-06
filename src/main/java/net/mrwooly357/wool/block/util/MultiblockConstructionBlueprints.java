@@ -2,6 +2,7 @@ package net.mrwooly357.wool.block.util;
 
 import net.minecraft.util.Identifier;
 import net.mrwooly357.wool.Wool;
+import net.mrwooly357.wool.config.custom.WoolConfig;
 import net.mrwooly357.wool.registry.MultiblockConstructionBlueprintRegistryHelper;
 
 public class MultiblockConstructionBlueprints {
@@ -16,6 +17,6 @@ public class MultiblockConstructionBlueprints {
     }
 
     public static void initialize() {
-        Wool.LOGGER.info("Initializing " + Wool.MOD_ID + " multiblock construction blueprints");
+        if (WoolConfig.developerMode) Wool.LOGGER.info("Initializing " + Wool.MOD_ID + " multiblock construction blueprints");
     }
 }

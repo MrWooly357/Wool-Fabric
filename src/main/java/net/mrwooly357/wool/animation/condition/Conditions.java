@@ -6,6 +6,7 @@ import net.minecraft.util.Identifier;
 import net.mrwooly357.wool.Wool;
 import net.mrwooly357.wool.animation.condition.custom.EmptyCondition;
 import net.mrwooly357.wool.animation.condition.custom.IsBabyCondition;
+import net.mrwooly357.wool.config.custom.WoolConfig;
 import net.mrwooly357.wool.registry.ModRegistries;
 import net.mrwooly357.wool.registry.ModRegistryKeys;
 
@@ -29,6 +30,6 @@ public class Conditions {
     }
 
     public static void initialize() {
-        Wool.LOGGER.info("Initializing " + Wool.MOD_ID + " conditions");
+        if (WoolConfig.developerMode) Wool.LOGGER.info("Initializing " + Wool.MOD_ID + " conditions");
     }
 }

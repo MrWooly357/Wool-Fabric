@@ -4,6 +4,7 @@ import net.minecraft.registry.Registry;
 import net.minecraft.registry.RegistryKey;
 import net.minecraft.util.Identifier;
 import net.mrwooly357.wool.Wool;
+import net.mrwooly357.wool.config.custom.WoolConfig;
 import net.mrwooly357.wool.registry.ModRegistries;
 import net.mrwooly357.wool.registry.ModRegistryKeys;
 
@@ -26,6 +27,6 @@ public class Animations {
     }
 
     public static void initialize() {
-        Wool.LOGGER.info("Initializing " + Wool.MOD_ID + " animations");
+        if (WoolConfig.developerMode) Wool.LOGGER.info("Initializing " + Wool.MOD_ID + " animations");
     }
 }

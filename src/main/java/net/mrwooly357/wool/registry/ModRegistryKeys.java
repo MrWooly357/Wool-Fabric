@@ -8,11 +8,10 @@ import net.mrwooly357.wool.animation.Animation;
 import net.mrwooly357.wool.animation.condition.Condition;
 import net.mrwooly357.wool.animation.interpolation.Interpolation;
 import net.mrwooly357.wool.block.util.MultiblockConstructionBlueprint;
-import net.mrwooly357.wool.config.Config;
+import net.mrwooly357.wool.config.custom.WoolConfig;
 
 public class ModRegistryKeys {
 
-    public static final RegistryKey<Registry<Config>> CONFIG = of("config");
     public static final RegistryKey<Registry<MultiblockConstructionBlueprint>> MULTIBLOCK_CONSTRUCTION_BLUEPRINT = of("multiblock_construction_blueprint");
     public static final RegistryKey<Registry<Animation>> ANIMATION = of("animation");
     public static final RegistryKey<Registry<Condition>> CONDITION = of("condition");
@@ -28,6 +27,6 @@ public class ModRegistryKeys {
     }
 
     public static void initialize() {
-        Wool.LOGGER.info("Initializing " + Wool.MOD_ID + " registry keys");
+        if (WoolConfig.developerMode) Wool.LOGGER.info("Initializing " + Wool.MOD_ID + " registry keys");
     }
 }

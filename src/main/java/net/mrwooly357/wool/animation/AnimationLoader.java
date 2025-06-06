@@ -13,6 +13,7 @@ import net.minecraft.util.Identifier;
 import net.mrwooly357.wool.Wool;
 import net.mrwooly357.wool.animation.condition.Condition;
 import net.mrwooly357.wool.animation.interpolation.Interpolation;
+import net.mrwooly357.wool.config.custom.WoolConfig;
 import net.mrwooly357.wool.registry.ModRegistries;
 import net.mrwooly357.wool.util.ModResourceReloadListenerKeys;
 import org.joml.Vector3f;
@@ -82,7 +83,7 @@ public class AnimationLoader implements SimpleSynchronousResourceReloadListener 
 
                         optionalEntityType.ifPresent(entityType -> LOADED_ANIMATIONS.put(entityType, animationsData));
                     } catch (Exception exception) {
-                        Wool.LOGGER.error("Couldn't load animations for {} {}", entityPath, exception);
+                        Wool.LOGGER.error("Couldn't reload animations for {} {}", entityPath, exception);
                     }
                 }
         );
@@ -119,7 +120,7 @@ public class AnimationLoader implements SimpleSynchronousResourceReloadListener 
 
                         setTemporaryAnimationData(new AnimationData(action, id, animationVariantsData));
                     } catch (Exception exception) {
-                        Wool.LOGGER.error("Couldn't load animation data for {} {} {}", entityId, entityPath, exception);
+                        Wool.LOGGER.error("Couldn't reload animation data for {} {} {}", entityId, entityPath, exception);
                     }
                 }
         );
@@ -162,7 +163,7 @@ public class AnimationLoader implements SimpleSynchronousResourceReloadListener 
 
                         setTemporaryAnimationVariantData(new AnimationVariantData(id, weight, conditions, actualAnimationsData));
                     } catch (Exception exception) {
-                        Wool.LOGGER.error("Couldn't load animation variant data for {} {} {}", animationId, entityPath, exception);
+                        Wool.LOGGER.error("Couldn't reload animation variant data for {} {} {}", animationId, entityPath, exception);
                     }
                 }
         );
@@ -201,7 +202,7 @@ public class AnimationLoader implements SimpleSynchronousResourceReloadListener 
                         keyframesData.add(keyframeData);
                         setTemporaryActualAnimationData(new ActualAnimationData(duration, loop, keyframes, keyframesData));
                     } catch (Exception exception) {
-                        Wool.LOGGER.error("Couldn't load actual animation data for {} {} {}", animationVariantId, entityPath, exception);
+                        Wool.LOGGER.error("Couldn't reload actual animation data for {} {} {}", animationVariantId, entityPath, exception);
                     }
                 }
         );
@@ -227,7 +228,7 @@ public class AnimationLoader implements SimpleSynchronousResourceReloadListener 
 
                         setTemporaryKeyframeData(new KeyframeData(modelPart, actualKeyframesData));
                     } catch (Exception exception) {
-                        Wool.LOGGER.error("Couldn't load keyframe data for {} {} {}", entityId, entityPath, exception);
+                        Wool.LOGGER.error("Couldn't reload keyframe data for {} {} {}", entityId, entityPath, exception);
                     }
                 }
         );
@@ -269,6 +270,7 @@ public class AnimationLoader implements SimpleSynchronousResourceReloadListener 
 
     public static void initialize() {
         ResourceManagerHelper.get(ResourceType.CLIENT_RESOURCES).registerReloadListener(new AnimationLoader());
-        Wool.LOGGER.info("Initializing " + Wool.MOD_ID + " animation loader");
+
+        if (WoolConfig.developerMode) Wool.LOGGER.info("Initializing " + Wool.MOD_ID + " animation loader");
     }
 }

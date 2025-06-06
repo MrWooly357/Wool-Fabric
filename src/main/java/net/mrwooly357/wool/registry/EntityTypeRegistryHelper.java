@@ -16,10 +16,10 @@ public interface EntityTypeRegistryHelper {
      * Registers a custom {@link EntityType}.
      * @param id  the {@link Identifier}.
      * @param entityType the {@link EntityType}.
-     * @param <Type> the type of {@link Entity}.
+     * @param <T> the type of {@link Entity}.
      * @return a registered {@link EntityType}.
      */
-    static <Type extends Entity> EntityType<Type> register(Identifier id, EntityType<Type> entityType) {
+    static <T extends Entity> EntityType<T> register(Identifier id, EntityType<T> entityType) {
         return Registry.register(Registries.ENTITY_TYPE, id, entityType);
     }
 }

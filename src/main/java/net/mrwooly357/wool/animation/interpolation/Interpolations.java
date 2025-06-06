@@ -7,6 +7,7 @@ import net.mrwooly357.wool.Wool;
 import net.mrwooly357.wool.animation.interpolation.custom.EaseInInterpolation;
 import net.mrwooly357.wool.animation.interpolation.custom.EaseOutInterpolation;
 import net.mrwooly357.wool.animation.interpolation.custom.LinearInterpolation;
+import net.mrwooly357.wool.config.custom.WoolConfig;
 import net.mrwooly357.wool.registry.ModRegistries;
 import net.mrwooly357.wool.registry.ModRegistryKeys;
 
@@ -32,6 +33,6 @@ public class Interpolations {
     }
 
     public static void initialize() {
-        Wool.LOGGER.info("Initializing " + Wool.MOD_ID + " interpolations");
+        if (WoolConfig.developerMode) Wool.LOGGER.info("Initializing " + Wool.MOD_ID + " interpolations");
     }
 }
