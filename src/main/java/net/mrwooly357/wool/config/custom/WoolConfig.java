@@ -6,7 +6,7 @@ import net.mrwooly357.wool.config.ConfigEntry;
 
 public class WoolConfig extends Config {
 
-    public static final ConfigEntry.Category general = new ConfigEntry.Category("general");
+    protected static final ConfigEntry.Category general = new ConfigEntry.Category("general");
     public ConfigEntry<Boolean> developerModeEntry;
 
     public static boolean developerMode;

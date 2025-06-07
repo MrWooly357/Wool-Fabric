@@ -17,7 +17,9 @@ import java.util.*;
 public abstract class Config {
 
     protected final String fileName;
-    protected final List<String> lines = new ArrayList<>();
+    protected List<String> defaultLines = new ArrayList<>();
+    protected List<String> previousLines;
+    protected List<String> lines = new ArrayList<>();
     protected final Map<String, ConfigEntry<?>> entries = new LinkedHashMap<>();
 
     protected Config(String fileName) {
@@ -320,21 +322,28 @@ public abstract class Config {
     }
 
     protected void addEmptyLine() {
+        defaultLines.add("");
         lines.add("");
     }
 
     protected void addComment(String comment) {
-        lines.add("# " + comment);
+        String formattedComment = "# " + comment;
+
+        defaultLines.add(formattedComment);
+        lines.add(formattedComment);
     }
 
     protected void addEntry(ConfigEntry<?> entry) {
-        lines.add(entry.fullKey() + " = " + entry.getFormattedValue());
+        String entryAsString = entry.fullKey() + " = " + entry.getFormattedValue();
+
+        defaultLines.add(entryAsString);
+        lines.add(entryAsString);
         entries.put(entry.fullKey(), entry);
     }
 
     protected abstract void onUpdate();
 
-    protected void load() {
+    public void load() {
         Path configDirectory = FabricLoader.getInstance().getGameDir().resolve("wool").resolve("config");
         Path filePath = configDirectory.resolve(fileName + ".txt");
         Map<String, String> existing = new HashMap<>();
@@ -342,6 +351,7 @@ public abstract class Config {
         if (Files.exists(filePath)) {
 
             try (BufferedReader reader = Files.newBufferedReader(filePath, StandardCharsets.UTF_8)) {
+                List<String> previousLines = new ArrayList<>();
                 String line;
 
                 while ((line = reader.readLine()) != null) {
@@ -356,8 +366,11 @@ public abstract class Config {
                     String key = line.substring(0, equals).trim();
                     String value = line.substring(equals + 1).trim();
 
+                    previousLines.add(line);
                     existing.put(key, value);
                 }
+
+                this.previousLines = previousLines;
             } catch (IOException exception) {
 
                 if (WoolConfig.developerMode) Wool.LOGGER.error("An error occurred while reading config {}: {}", filePath, exception.getMessage());
@@ -394,9 +407,9 @@ public abstract class Config {
             } else {
                 outputLines.add(key + " = " + entries.get(key).getFormattedValue());
             }
-
-            onUpdate();
         }
+
+        onUpdate();
 
         try (BufferedWriter writer = Files.newBufferedWriter(filePath, StandardCharsets.UTF_8)) {
 
@@ -404,15 +417,34 @@ public abstract class Config {
                 writer.write(line);
                 writer.newLine();
             }
+
+            lines = outputLines;
         } catch (IOException exception) {
 
             if (WoolConfig.developerMode) Wool.LOGGER.error("An error occurred while writing config {}: {}", filePath, exception.getMessage());
         }
     }
 
-    protected void save() {
+    public void save() {
         Path configDirectory = FabricLoader.getInstance().getGameDir().resolve("wool").resolve("config");
         Path filePath = configDirectory.resolve(fileName);
+
+        if (Files.exists(filePath)) {
+
+            try (BufferedReader reader = Files.newBufferedReader(filePath, StandardCharsets.UTF_8)) {
+                List<String> previousLines = new ArrayList<>();
+                String line;
+
+                while ((line = reader.readLine()) != null) {
+                    previousLines.add(line);
+                }
+
+                this.previousLines = previousLines;
+            } catch (IOException exception) {
+
+                if (WoolConfig.developerMode) Wool.LOGGER.error("An error occurred while reading config {}: {}", filePath, exception.getMessage());
+            }
+        }
 
         try {
             Files.createDirectories(configDirectory);
@@ -424,6 +456,53 @@ public abstract class Config {
         try (BufferedWriter writer = Files.newBufferedWriter(filePath, StandardCharsets.UTF_8)) {
 
             for (String line : lines) {
+                writer.write(line);
+                writer.newLine();
+            }
+        } catch (IOException exception) {
+
+            if (WoolConfig.developerMode) Wool.LOGGER.error("An error occurred while writing config {}: {}", filePath, exception.getMessage());
+        }
+    }
+
+    public void reset() {
+        Path configDirectory = FabricLoader.getInstance().getGameDir().resolve("wool").resolve("config");
+        Path filePath = configDirectory.resolve(fileName + ".txt");
+
+        try {
+            Files.createDirectories(configDirectory);
+        } catch (IOException exception) {
+
+            if (WoolConfig.developerMode) Wool.LOGGER.error("Can't create config directory {}: {}", configDirectory, exception.getMessage());
+        }
+
+        try (BufferedWriter writer = Files.newBufferedWriter(filePath, StandardCharsets.UTF_8)) {
+            List<String> previousLines = this.previousLines != null ? this.previousLines : defaultLines;
+
+            for (String line : previousLines) {
+                writer.write(line);
+                writer.newLine();
+            }
+        } catch (IOException exception) {
+
+            if (WoolConfig.developerMode) Wool.LOGGER.error("An error occurred while writing config {}: {}", filePath, exception.getMessage());
+        }
+    }
+
+    public void resetToDefault() {
+        Path configDirectory = FabricLoader.getInstance().getGameDir().resolve("wool").resolve("config");
+        Path filePath = configDirectory.resolve(fileName + ".txt");
+
+        try {
+            Files.createDirectories(configDirectory);
+        } catch (IOException exception) {
+
+            if (WoolConfig.developerMode) Wool.LOGGER.error("Can't create config directory {}: {}", configDirectory, exception.getMessage());
+        }
+
+        try (BufferedWriter writer = Files.newBufferedWriter(filePath, StandardCharsets.UTF_8)) {
+
+            for (String line : defaultLines) {
                 writer.write(line);
                 writer.newLine();
             }

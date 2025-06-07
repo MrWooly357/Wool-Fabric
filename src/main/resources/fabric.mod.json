@@ -20,6 +20,9 @@
 		],
 		"client": [
 			"net.mrwooly357.wool.WoolClient"
+		],
+		"wool": [
+			"net.mrwooly357.wool.Wool"
 		]
 	},
 	"mixins": [

@@ -26,4 +26,16 @@ public class ConfigManager {
             config.save();
         }
     }
+
+    public static void resetAll() {
+        for (Config config : configs) {
+            config.reset();
+        }
+    }
+
+    public static void resetToDefaultAll() {
+        for (Config config : configs) {
+            config.resetToDefault();
+        }
+    }
 }
