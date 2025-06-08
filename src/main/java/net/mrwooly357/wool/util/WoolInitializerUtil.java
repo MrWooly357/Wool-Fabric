@@ -11,7 +11,7 @@ import java.util.List;
 public class WoolInitializerUtil {
 
 
-    public static void invokeEnvious() {
+    public static void invokeEntrypoint() {
         List<EntrypointContainer<WoolInitializer>> containers = FabricLoader.getInstance().getEntrypointContainers("wool", WoolInitializer.class);
 
         for (EntrypointContainer<WoolInitializer> container : containers) {

@@ -2,9 +2,9 @@ package net.mrwooly357.wool.config.field_type.custom;
 
 import net.mrwooly357.wool.config.field_type.FieldType;
 
-public class IntegerFieldType implements FieldType<Integer> {
+public class IntFieldType implements FieldType<Integer> {
 
-    public IntegerFieldType() {}
+    public IntFieldType() {}
 
 
     @Override

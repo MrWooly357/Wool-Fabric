@@ -2,9 +2,9 @@ package net.mrwooly357.wool.config.field_type.custom;
 
 import net.mrwooly357.wool.config.field_type.FieldType;
 
-public class IntegerArrayFieldType implements FieldType<int[]> {
+public class IntArrayFieldType implements FieldType<int[]> {
 
-    public IntegerArrayFieldType() {}
+    public IntArrayFieldType() {}
 
 
     @Override

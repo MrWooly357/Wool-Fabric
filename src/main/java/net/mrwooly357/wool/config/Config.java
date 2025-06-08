@@ -4,6 +4,7 @@ import net.fabricmc.loader.api.FabricLoader;
 import net.mrwooly357.wool.Wool;
 import net.mrwooly357.wool.config.custom.WoolConfig;
 import net.mrwooly357.wool.config.field_type.FieldType;
+import net.mrwooly357.wool.config.restriction.Restriction;
 import org.jetbrains.annotations.Nullable;
 
 import java.io.BufferedReader;
@@ -27,306 +28,788 @@ public abstract class Config {
     }
 
 
-    protected ConfigEntry<Integer> intField(String key, int defaultValue) {
-        return intField(null, null, key, defaultValue);
+    protected ConfigEntry<Byte> byteField(String key, byte defaultValue) {
+
+        return byteField(key, defaultValue, null);
     }
 
-    protected ConfigEntry<Integer> intField(ConfigEntry.Category category, String key, int defaultValue) {
-        return intField(null, category, key, defaultValue);
+    protected ConfigEntry<Byte> byteField(ConfigEntry.Category category, String key, byte defaultValue) {
+
+        return byteField(category, key, defaultValue, null);
     }
 
-    protected ConfigEntry<Integer> intField(String comment, String key, int defaultValue) {
-        return intField(comment, null, key, defaultValue);
+    protected ConfigEntry<Byte> byteField(String comment, String key, byte defaultValue) {
+
+        return byteField(comment, key, defaultValue, null);
     }
 
-    protected ConfigEntry<Integer> intField(@Nullable String comment, @Nullable ConfigEntry.Category category, String key, int defaultValue) {
-        ConfigEntry<Integer> entry =  new ConfigEntry<>(category, key, defaultValue, FieldType.INTEGER);
+    protected ConfigEntry<Byte> byteField(String key, byte defaultValue, Restriction<Byte> restriction) {
 
-        addComment(comment);
+        return byteField(null, null, key, defaultValue, restriction);
+    }
+
+    protected ConfigEntry<Byte> byteField(ConfigEntry.Category category, String key, byte defaultValue, Restriction<Byte> restriction) {
+
+        return byteField(null, category, key, defaultValue, restriction);
+    }
+
+    protected ConfigEntry<Byte> byteField(String comment, String key, byte defaultValue, Restriction<Byte> restriction) {
+
+        return byteField(comment, null, key, defaultValue, restriction);
+    }
+
+    protected ConfigEntry<Byte> byteField(@Nullable String comment, @Nullable ConfigEntry.Category category, String key, byte defaultValue, @Nullable Restriction<Byte> restriction) {
+
+        ConfigEntry<Byte> entry =  new ConfigEntry<>(category, key, defaultValue, FieldType.BYTE, restriction);
+
+        if (comment != null) addComment(comment);
+
+        if (restriction != null) addComment(restriction.getComment());
+
         addEntry(entry);
 
         return entry;
     }
 
     protected ConfigEntry<Short> shortField(String key, short defaultValue) {
-        return shortField(null, null, key, defaultValue);
+
+        return shortField(key, defaultValue, null);
     }
 
     protected ConfigEntry<Short> shortField(ConfigEntry.Category category, String key, short defaultValue) {
-        return shortField(null, category, key, defaultValue);
+
+        return shortField(category, key, defaultValue, null);
     }
 
     protected ConfigEntry<Short> shortField(String comment, String key, short defaultValue) {
-        return shortField(comment, null, key, defaultValue);
+
+        return shortField(comment, key, defaultValue, null);
     }
 
-    protected ConfigEntry<Short> shortField(@Nullable String comment, @Nullable ConfigEntry.Category category, String key, short defaultValue) {
-        ConfigEntry<Short> entry =  new ConfigEntry<>(category, key, defaultValue, FieldType.SHORT);
+    protected ConfigEntry<Short> shortField(String key, short defaultValue, Restriction<Short> restriction) {
 
-        addComment(comment);
+        return shortField(null, null, key, defaultValue, restriction);
+    }
+
+    protected ConfigEntry<Short> shortField(ConfigEntry.Category category, String key, short defaultValue, Restriction<Short> restriction) {
+
+        return shortField(null, category, key, defaultValue, restriction);
+    }
+
+    protected ConfigEntry<Short> shortField(String comment, String key, short defaultValue, Restriction<Short> restriction) {
+
+        return shortField(comment, null, key, defaultValue, restriction);
+    }
+
+    protected ConfigEntry<Short> shortField(@Nullable String comment, @Nullable ConfigEntry.Category category, String key, short defaultValue, @Nullable Restriction<Short> restriction) {
+
+        ConfigEntry<Short> entry =  new ConfigEntry<>(category, key, defaultValue, FieldType.SHORT, restriction);
+
+        if (comment != null) addComment(comment);
+
+        if (restriction != null) addComment(restriction.getComment());
+
+        addEntry(entry);
+
+        return entry;
+    }
+
+    protected ConfigEntry<Integer> intField(String key, int defaultValue) {
+
+        return intField(key, defaultValue, null);
+    }
+
+    protected ConfigEntry<Integer> intField(ConfigEntry.Category category, String key, int defaultValue) {
+
+        return intField(category, key, defaultValue, null);
+    }
+
+    protected ConfigEntry<Integer> intField(String comment, String key, int defaultValue) {
+
+        return intField(comment, key, defaultValue, null);
+    }
+
+    protected ConfigEntry<Integer> intField(String key, int defaultValue, Restriction<Integer> restriction) {
+
+        return intField(null, null, key, defaultValue, restriction);
+    }
+
+    protected ConfigEntry<Integer> intField(ConfigEntry.Category category, String key, int defaultValue, Restriction<Integer> restriction) {
+
+        return intField(null, category, key, defaultValue, restriction);
+    }
+
+    protected ConfigEntry<Integer> intField(String comment, String key, int defaultValue, Restriction<Integer> restriction) {
+
+        return intField(comment, null, key, defaultValue, restriction);
+    }
+
+    protected ConfigEntry<Integer> intField(@Nullable String comment, @Nullable ConfigEntry.Category category, String key, int defaultValue, @Nullable Restriction<Integer> restriction) {
+
+        ConfigEntry<Integer> entry =  new ConfigEntry<>(category, key, defaultValue, FieldType.INT, restriction);
+
+        if (comment != null) addComment(comment);
+
+        if (restriction != null) addComment(restriction.getComment());
+
         addEntry(entry);
 
         return entry;
     }
 
     protected ConfigEntry<Long> longField(String key, long defaultValue) {
-        return longField(null, null, key, defaultValue);
+
+        return longField(key, defaultValue, null);
     }
 
     protected ConfigEntry<Long> longField(ConfigEntry.Category category, String key, long defaultValue) {
-        return longField(null, category, key, defaultValue);
+
+        return longField(category, key, defaultValue, null);
     }
 
     protected ConfigEntry<Long> longField(String comment, String key, long defaultValue) {
-        return longField(comment, null, key, defaultValue);
+
+        return longField(comment, key, defaultValue, null);
     }
 
-    protected ConfigEntry<Long> longField(@Nullable String comment, @Nullable ConfigEntry.Category category, String key, long defaultValue) {
-        ConfigEntry<Long> entry =  new ConfigEntry<>(category, key, defaultValue, FieldType.LONG);
+    protected ConfigEntry<Long> longField(String key, long defaultValue, Restriction<Long> restriction) {
 
-        addComment(comment);
+        return longField(null, null, key, defaultValue, restriction);
+    }
+
+    protected ConfigEntry<Long> longField(ConfigEntry.Category category, String key, long defaultValue, Restriction<Long> restriction) {
+
+        return longField(null, category, key, defaultValue, restriction);
+    }
+
+    protected ConfigEntry<Long> longField(String comment, String key, long defaultValue, Restriction<Long> restriction) {
+
+        return longField(comment, null, key, defaultValue, restriction);
+    }
+
+    protected ConfigEntry<Long> longField(@Nullable String comment, @Nullable ConfigEntry.Category category, String key, long defaultValue, @Nullable Restriction<Long> restriction) {
+
+        ConfigEntry<Long> entry =  new ConfigEntry<>(category, key, defaultValue, FieldType.LONG, restriction);
+
+        if (comment != null) addComment(comment);
+
+        if (restriction != null) addComment(restriction.getComment());
+
         addEntry(entry);
 
         return entry;
     }
 
     protected ConfigEntry<Float> floatField(String key, float defaultValue) {
-        return floatField(null, null, key, defaultValue);
+
+        return floatField(key, defaultValue, null);
     }
 
     protected ConfigEntry<Float> floatField(ConfigEntry.Category category, String key, float defaultValue) {
-        return floatField(null, category, key, defaultValue);
+
+        return floatField(category, key, defaultValue, null);
     }
 
     protected ConfigEntry<Float> floatField(String comment, String key, float defaultValue) {
-        return floatField(comment, null, key, defaultValue);
+
+        return floatField(comment, key, defaultValue, null);
     }
 
-    protected ConfigEntry<Float> floatField(@Nullable String comment, @Nullable ConfigEntry.Category category, String key, float defaultValue) {
-        ConfigEntry<Float> entry =  new ConfigEntry<>(category, key, defaultValue, FieldType.FLOAT);
+    protected ConfigEntry<Float> floatField(String key, float defaultValue, Restriction<Float> restriction) {
 
-        addComment(comment);
+        return floatField(null, null, key, defaultValue, restriction);
+    }
+
+    protected ConfigEntry<Float> floatField(ConfigEntry.Category category, String key, float defaultValue, Restriction<Float> restriction) {
+
+        return floatField(null, category, key, defaultValue, restriction);
+    }
+
+    protected ConfigEntry<Float> floatField(String comment, String key, float defaultValue, Restriction<Float> restriction) {
+
+        return floatField(comment, null, key, defaultValue, restriction);
+    }
+
+    protected ConfigEntry<Float> floatField(@Nullable String comment, @Nullable ConfigEntry.Category category, String key, float defaultValue, @Nullable Restriction<Float> restriction) {
+
+        ConfigEntry<Float> entry =  new ConfigEntry<>(category, key, defaultValue, FieldType.FLOAT, restriction);
+
+        if (comment != null) addComment(comment);
+
+        if (restriction != null) addComment(restriction.getComment());
+
         addEntry(entry);
 
         return entry;
     }
 
     protected ConfigEntry<Double> doubleField(String key, double defaultValue) {
-        return doubleField(null, null, key, defaultValue);
+
+        return doubleField(key, defaultValue, null);
     }
 
     protected ConfigEntry<Double> doubleField(ConfigEntry.Category category, String key, double defaultValue) {
-        return doubleField(null, category, key, defaultValue);
+
+        return doubleField(category, key, defaultValue, null);
     }
 
     protected ConfigEntry<Double> doubleField(String comment, String key, double defaultValue) {
-        return doubleField(comment, null, key, defaultValue);
+
+        return doubleField(comment, key, defaultValue, null);
     }
 
-    protected ConfigEntry<Double> doubleField(@Nullable String comment, @Nullable ConfigEntry.Category category, String key, double defaultValue) {
-        ConfigEntry<Double> entry =  new ConfigEntry<>(category, key, defaultValue, FieldType.DOUBLE);
+    protected ConfigEntry<Double> doubleField(String key, double defaultValue, Restriction<Double> restriction) {
 
-        addComment(comment);
+        return doubleField(null, null, key, defaultValue, restriction);
+    }
+
+    protected ConfigEntry<Double> doubleField(ConfigEntry.Category category, String key, double defaultValue, Restriction<Double> restriction) {
+
+        return doubleField(null, category, key, defaultValue, restriction);
+    }
+
+    protected ConfigEntry<Double> doubleField(String comment, String key, double defaultValue, Restriction<Double> restriction) {
+
+        return doubleField(comment, null, key, defaultValue, restriction);
+    }
+
+    protected ConfigEntry<Double> doubleField(@Nullable String comment, @Nullable ConfigEntry.Category category, String key, double defaultValue, @Nullable Restriction<Double> restriction) {
+
+        ConfigEntry<Double> entry =  new ConfigEntry<>(category, key, defaultValue, FieldType.DOUBLE, restriction);
+
+        if (comment != null) addComment(comment);
+
+        if (restriction != null) addComment(restriction.getComment());
+
         addEntry(entry);
 
         return entry;
     }
 
     protected ConfigEntry<Boolean> booleanField(String key, boolean defaultValue) {
-        return booleanField(null, null, key, defaultValue);
+
+        return booleanField(key, defaultValue, null);
     }
 
     protected ConfigEntry<Boolean> booleanField(ConfigEntry.Category category, String key, boolean defaultValue) {
-        return booleanField(null, category, key, defaultValue);
+
+        return booleanField(category, key, defaultValue, null);
     }
 
     protected ConfigEntry<Boolean> booleanField(String comment, String key, boolean defaultValue) {
-        return booleanField(comment, null, key, defaultValue);
+
+        return booleanField(comment, key, defaultValue, null);
     }
 
-    protected ConfigEntry<Boolean> booleanField(@Nullable String comment, @Nullable ConfigEntry.Category category, String key, boolean defaultValue) {
-        ConfigEntry<Boolean> entry =  new ConfigEntry<>(category, key, defaultValue, FieldType.BOOLEAN);
+    protected ConfigEntry<Boolean> booleanField(String key, boolean defaultValue, Restriction<Boolean> restriction) {
 
-        addComment(comment);
+        return booleanField(null, null, key, defaultValue, restriction);
+    }
+
+    protected ConfigEntry<Boolean> booleanField(ConfigEntry.Category category, String key, boolean defaultValue, Restriction<Boolean> restriction) {
+
+        return booleanField(null, category, key, defaultValue, restriction);
+    }
+
+    protected ConfigEntry<Boolean> booleanField(String comment, String key, boolean defaultValue, Restriction<Boolean> restriction) {
+
+        return booleanField(comment, null, key, defaultValue, restriction);
+    }
+
+    protected ConfigEntry<Boolean> booleanField(@Nullable String comment, @Nullable ConfigEntry.Category category, String key, boolean defaultValue, @Nullable Restriction<Boolean> restriction) {
+
+        ConfigEntry<Boolean> entry =  new ConfigEntry<>(category, key, defaultValue, FieldType.BOOLEAN, restriction);
+
+        if (comment != null) addComment(comment);
+
+        if (restriction != null) addComment(restriction.getComment());
+
+        addEntry(entry);
+
+        return entry;
+    }
+
+    protected ConfigEntry<Character> charField(String key, char defaultValue) {
+
+        return charField(key, defaultValue, null);
+    }
+
+    protected ConfigEntry<Character> charField(ConfigEntry.Category category, String key, char defaultValue) {
+
+        return charField(category, key, defaultValue, null);
+    }
+
+    protected ConfigEntry<Character> charField(String comment, String key, char defaultValue) {
+
+        return charField(comment, key, defaultValue, null);
+    }
+
+    protected ConfigEntry<Character> charField(String key, char defaultValue, Restriction<Character> restriction) {
+
+        return charField(null, null, key, defaultValue, restriction);
+    }
+
+    protected ConfigEntry<Character> charField(ConfigEntry.Category category, String key, char defaultValue, Restriction<Character> restriction) {
+
+        return charField(null, category, key, defaultValue, restriction);
+    }
+
+    protected ConfigEntry<Character> charField(String comment, String key, char defaultValue, Restriction<Character> restriction) {
+
+        return charField(comment, null, key, defaultValue, restriction);
+    }
+
+    protected ConfigEntry<Character> charField(@Nullable String comment, @Nullable ConfigEntry.Category category, String key, char defaultValue, @Nullable Restriction<Character> restriction) {
+
+        ConfigEntry<Character> entry =  new ConfigEntry<>(category, key, defaultValue, FieldType.CHAR, restriction);
+
+        if (comment != null) addComment(comment);
+
+        if (restriction != null) addComment(restriction.getComment());
+
         addEntry(entry);
 
         return entry;
     }
 
     protected ConfigEntry<String> stringField(String key, String defaultValue) {
-        return stringField(null, null, key, defaultValue);
+
+        return stringField(key, defaultValue, (Restriction<String>) null);
     }
 
     protected ConfigEntry<String> stringField(ConfigEntry.Category category, String key, String defaultValue) {
-        return stringField(null, category, key, defaultValue);
+
+        return stringField(category, key, defaultValue, null);
     }
 
     protected ConfigEntry<String> stringField(String comment, String key, String defaultValue) {
-        return stringField(comment, null, key, defaultValue);
+
+        return stringField(comment, key, defaultValue, null);
     }
 
-    protected ConfigEntry<String> stringField(@Nullable String comment, @Nullable ConfigEntry.Category category, String key, String defaultValue) {
-        ConfigEntry<String> entry =  new ConfigEntry<>(category, key, defaultValue, FieldType.STRING);
+    protected ConfigEntry<String> stringField(String key, String defaultValue, Restriction<String> restriction) {
 
-        addComment(comment);
+        return stringField(null, null, key, defaultValue, restriction);
+    }
+
+    protected ConfigEntry<String> stringField(ConfigEntry.Category category, String key, String defaultValue, Restriction<String> restriction) {
+
+        return stringField(null, category, key, defaultValue, restriction);
+    }
+
+    protected ConfigEntry<String> stringField(String comment, String key, String defaultValue, Restriction<String> restriction) {
+
+        return stringField(comment, null, key, defaultValue, restriction);
+    }
+
+    protected ConfigEntry<String> stringField(@Nullable String comment, @Nullable ConfigEntry.Category category, String key, String defaultValue, @Nullable Restriction<String> restriction) {
+
+        ConfigEntry<String> entry =  new ConfigEntry<>(category, key, defaultValue, FieldType.STRING, restriction);
+
+        if (comment != null) addComment(comment);
+
+        if (restriction != null) addComment(restriction.getComment());
+
         addEntry(entry);
 
         return entry;
     }
 
-    protected ConfigEntry<int[]> intArray(String key, int[] defaultValue) {
-        return intArray(null, null, key, defaultValue);
+    protected ConfigEntry<byte[]> byteArrayField(String key, byte[] defaultValue) {
+
+        return byteArrayField(key, defaultValue, null);
     }
 
-    protected ConfigEntry<int[]> intArray(ConfigEntry.Category category, String key, int[] defaultValue) {
-        return intArray(null, category, key, defaultValue);
+    protected ConfigEntry<byte[]> byteArrayField(ConfigEntry.Category category, String key, byte[] defaultValue) {
+
+        return byteArrayField(category, key, defaultValue, null);
     }
 
-    protected ConfigEntry<int[]> intArray(String comment, String key, int[] defaultValue) {
-        return intArray(comment, null, key, defaultValue);
+    protected ConfigEntry<byte[]> byteArrayField(String comment, String key, byte[] defaultValue) {
+
+        return byteArrayField(comment, key, defaultValue, null);
     }
 
-    protected ConfigEntry<int[]> intArray(@Nullable String comment, @Nullable ConfigEntry.Category category, String key, int[] defaultValue) {
-        ConfigEntry<int[]> entry =  new ConfigEntry<>(category, key, defaultValue, FieldType.INTEGER_ARRAY);
+    protected ConfigEntry<byte[]> byteArrayField(String key, byte[] defaultValue, Restriction<byte[]> restriction) {
 
-        addComment(comment);
+        return byteArrayField(null, null, key, defaultValue, restriction);
+    }
+
+    protected ConfigEntry<byte[]> byteArrayField(ConfigEntry.Category category, String key, byte[] defaultValue, Restriction<byte[]> restriction) {
+
+        return byteArrayField(null, category, key, defaultValue, restriction);
+    }
+
+    protected ConfigEntry<byte[]> byteArrayField(String comment, String key, byte[] defaultValue, Restriction<byte[]> restriction) {
+
+        return byteArrayField(comment, null, key, defaultValue, restriction);
+    }
+
+    protected ConfigEntry<byte[]> byteArrayField(@Nullable String comment, @Nullable ConfigEntry.Category category, String key, byte[] defaultValue, @Nullable Restriction<byte[]> restriction) {
+
+        ConfigEntry<byte[]> entry =  new ConfigEntry<>(category, key, defaultValue, FieldType.BYTE_ARRAY, restriction);
+
+        if (comment != null) addComment(comment);
+
+        if (restriction != null) addComment(restriction.getComment());
+
         addEntry(entry);
 
         return entry;
     }
 
-    protected ConfigEntry<short[]> shortArray(String key, short[] defaultValue) {
-        return shortArray(null, null, key, defaultValue);
+    protected ConfigEntry<short[]> shortArrayField(String key, short[] defaultValue) {
+
+        return shortArrayField(key, defaultValue, null);
     }
 
-    protected ConfigEntry<short[]> shortArray(ConfigEntry.Category category, String key, short[] defaultValue) {
-        return shortArray(null, category, key, defaultValue);
+    protected ConfigEntry<short[]> shortArrayField(ConfigEntry.Category category, String key, short[] defaultValue) {
+
+        return shortArrayField(category, key, defaultValue, null);
     }
 
-    protected ConfigEntry<short[]> shortArray(String comment, String key, short[] defaultValue) {
-        return shortArray(comment, null, key, defaultValue);
+    protected ConfigEntry<short[]> shortArrayField(String comment, String key, short[] defaultValue) {
+
+        return shortArrayField(comment, key, defaultValue, null);
     }
 
-    protected ConfigEntry<short[]> shortArray(@Nullable String comment, @Nullable ConfigEntry.Category category, String key, short[] defaultValue) {
-        ConfigEntry<short[]> entry =  new ConfigEntry<>(category, key, defaultValue, FieldType.SHORT_ARRAY);
+    protected ConfigEntry<short[]> shortArrayField(String key, short[] defaultValue, Restriction<short[]> restriction) {
 
-        addComment(comment);
+        return shortArrayField(null, null, key, defaultValue, restriction);
+    }
+
+    protected ConfigEntry<short[]> shortArrayField(ConfigEntry.Category category, String key, short[] defaultValue, Restriction<short[]> restriction) {
+
+        return shortArrayField(null, category, key, defaultValue, restriction);
+    }
+
+    protected ConfigEntry<short[]> shortArrayField(String comment, String key, short[] defaultValue, Restriction<short[]> restriction) {
+
+        return shortArrayField(comment, null, key, defaultValue, restriction);
+    }
+
+    protected ConfigEntry<short[]> shortArrayField(@Nullable String comment, @Nullable ConfigEntry.Category category, String key, short[] defaultValue, @Nullable Restriction<short[]> restriction) {
+
+        ConfigEntry<short[]> entry =  new ConfigEntry<>(category, key, defaultValue, FieldType.SHORT_ARRAY, restriction);
+
+        if (comment != null) addComment(comment);
+
+        if (restriction != null) addComment(restriction.getComment());
+
         addEntry(entry);
 
         return entry;
     }
 
-    protected ConfigEntry<long[]> longArray(String key, long[] defaultValue) {
-        return longArray(null, null, key, defaultValue);
+    protected ConfigEntry<int[]> intArrayField(String key, int[] defaultValue) {
+
+        return intArrayField(key, defaultValue, null);
     }
 
-    protected ConfigEntry<long[]> longArray(ConfigEntry.Category category, String key, long[] defaultValue) {
-        return longArray(null, category, key, defaultValue);
+    protected ConfigEntry<int[]> intArrayField(ConfigEntry.Category category, String key, int[] defaultValue) {
+
+        return intArrayField(category, key, defaultValue, null);
     }
 
-    protected ConfigEntry<long[]> longArray(String comment, String key, long[] defaultValue) {
-        return longArray(comment, null, key, defaultValue);
+    protected ConfigEntry<int[]> intArrayField(String comment, String key, int[] defaultValue) {
+
+        return intArrayField(comment, key, defaultValue, null);
     }
 
-    protected ConfigEntry<long[]> longArray(@Nullable String comment, @Nullable ConfigEntry.Category category, String key, long[] defaultValue) {
-        ConfigEntry<long[]> entry =  new ConfigEntry<>(category, key, defaultValue, FieldType.LONG_ARRAY);
+    protected ConfigEntry<int[]> intArrayField(String key, int[] defaultValue, Restriction<int[]> restriction) {
 
-        addComment(comment);
+        return intArrayField(null, null, key, defaultValue, restriction);
+    }
+
+    protected ConfigEntry<int[]> intArrayField(ConfigEntry.Category category, String key, int[] defaultValue, Restriction<int[]> restriction) {
+
+        return intArrayField(null, category, key, defaultValue, restriction);
+    }
+
+    protected ConfigEntry<int[]> intArrayField(String comment, String key, int[] defaultValue, Restriction<int[]> restriction) {
+
+        return intArrayField(comment, null, key, defaultValue, restriction);
+    }
+
+    protected ConfigEntry<int[]> intArrayField(@Nullable String comment, @Nullable ConfigEntry.Category category, String key, int[] defaultValue, @Nullable Restriction<int[]> restriction) {
+
+        ConfigEntry<int[]> entry =  new ConfigEntry<>(category, key, defaultValue, FieldType.INT_ARRAY, restriction);
+
+        if (comment != null) addComment(comment);
+
+        if (restriction != null) addComment(restriction.getComment());
+
         addEntry(entry);
 
         return entry;
     }
 
-    protected ConfigEntry<float[]> floatArray(String key, float[] defaultValue) {
-        return floatArray(null, null, key, defaultValue);
+    protected ConfigEntry<long[]> longArrayField(String key, long[] defaultValue) {
+
+        return longArrayField(key, defaultValue, null);
     }
 
-    protected ConfigEntry<float[]> floatArray(ConfigEntry.Category category, String key, float[] defaultValue) {
-        return floatArray(null, category, key, defaultValue);
+    protected ConfigEntry<long[]> longArrayField(ConfigEntry.Category category, String key, long[] defaultValue) {
+
+        return longArrayField(category, key, defaultValue, null);
     }
 
-    protected ConfigEntry<float[]> floatArray(String comment, String key, float[] defaultValue) {
-        return floatArray(comment, null, key, defaultValue);
+    protected ConfigEntry<long[]> longArrayField(String comment, String key, long[] defaultValue) {
+
+        return longArrayField(comment, key, defaultValue, null);
     }
 
-    protected ConfigEntry<float[]> floatArray(@Nullable String comment, @Nullable ConfigEntry.Category category, String key, float[] defaultValue) {
-        ConfigEntry<float[]> entry =  new ConfigEntry<>(category, key, defaultValue, FieldType.FLOAT_ARRAY);
+    protected ConfigEntry<long[]> longArrayField(String key, long[] defaultValue, Restriction<long[]> restriction) {
 
-        addComment(comment);
+        return longArrayField(null, null, key, defaultValue, restriction);
+    }
+
+    protected ConfigEntry<long[]> longArrayField(ConfigEntry.Category category, String key, long[] defaultValue, Restriction<long[]> restriction) {
+
+        return longArrayField(null, category, key, defaultValue, restriction);
+    }
+
+    protected ConfigEntry<long[]> longArrayField(String comment, String key, long[] defaultValue, Restriction<long[]> restriction) {
+
+        return longArrayField(comment, null, key, defaultValue, restriction);
+    }
+
+    protected ConfigEntry<long[]> longArrayField(@Nullable String comment, @Nullable ConfigEntry.Category category, String key, long[] defaultValue, @Nullable Restriction<long[]> restriction) {
+
+        ConfigEntry<long[]> entry =  new ConfigEntry<>(category, key, defaultValue, FieldType.LONG_ARRAY, restriction);
+
+        if (comment != null) addComment(comment);
+
+        if (restriction != null) addComment(restriction.getComment());
+
         addEntry(entry);
 
         return entry;
     }
 
-    protected ConfigEntry<double[]> doubleArray(String key, double[] defaultValue) {
-        return doubleArray(null, null, key, defaultValue);
+    protected ConfigEntry<float[]> floatArrayField(String key, float[] defaultValue) {
+
+        return floatArrayField(key, defaultValue, null);
     }
 
-    protected ConfigEntry<double[]> doubleArray(ConfigEntry.Category category, String key, double[] defaultValue) {
-        return doubleArray(null, category, key, defaultValue);
+    protected ConfigEntry<float[]> floatArrayField(ConfigEntry.Category category, String key, float[] defaultValue) {
+
+        return floatArrayField(category, key, defaultValue, null);
     }
 
-    protected ConfigEntry<double[]> doubleArray(String comment, String key, double[] defaultValue) {
-        return doubleArray(comment, null, key, defaultValue);
+    protected ConfigEntry<float[]> floatArrayField(String comment, String key, float[] defaultValue) {
+
+        return floatArrayField(comment, key, defaultValue, null);
     }
 
-    protected ConfigEntry<double[]> doubleArray(@Nullable String comment, @Nullable ConfigEntry.Category category, String key, double[] defaultValue) {
-        ConfigEntry<double[]> entry =  new ConfigEntry<>(category, key, defaultValue, FieldType.DOUBLE_ARRAY);
+    protected ConfigEntry<float[]> floatArrayField(String key, float[] defaultValue, Restriction<float[]> restriction) {
 
-        addComment(comment);
+        return floatArrayField(null, null, key, defaultValue, restriction);
+    }
+
+    protected ConfigEntry<float[]> floatArrayField(ConfigEntry.Category category, String key, float[] defaultValue, Restriction<float[]> restriction) {
+
+        return floatArrayField(null, category, key, defaultValue, restriction);
+    }
+
+    protected ConfigEntry<float[]> floatArrayField(String comment, String key, float[] defaultValue, Restriction<float[]> restriction) {
+
+        return floatArrayField(comment, null, key, defaultValue, restriction);
+    }
+
+    protected ConfigEntry<float[]> floatArrayField(@Nullable String comment, @Nullable ConfigEntry.Category category, String key, float[] defaultValue, @Nullable Restriction<float[]> restriction) {
+
+        ConfigEntry<float[]> entry =  new ConfigEntry<>(category, key, defaultValue, FieldType.FLOAT_ARRAY, restriction);
+
+        if (comment != null) addComment(comment);
+
+        if (restriction != null) addComment(restriction.getComment());
+
         addEntry(entry);
 
         return entry;
     }
 
-    protected ConfigEntry<boolean[]> booleanArray(String key, boolean[] defaultValue) {
-        return booleanArray(null, null, key, defaultValue);
+    protected ConfigEntry<double[]> doubleArrayField(String key, double[] defaultValue) {
+
+        return doubleArrayField(key, defaultValue, null);
     }
 
-    protected ConfigEntry<boolean[]> booleanArray(ConfigEntry.Category category, String key, boolean[] defaultValue) {
-        return booleanArray(null, category, key, defaultValue);
+    protected ConfigEntry<double[]> doubleArrayField(ConfigEntry.Category category, String key, double[] defaultValue) {
+
+        return doubleArrayField(category, key, defaultValue, null);
     }
 
-    protected ConfigEntry<boolean[]> booleanArray(String comment, String key, boolean[] defaultValue) {
-        return booleanArray(comment, null, key, defaultValue);
+    protected ConfigEntry<double[]> doubleArrayField(String comment, String key, double[] defaultValue) {
+
+        return doubleArrayField(comment, key, defaultValue, null);
     }
 
-    protected ConfigEntry<boolean[]> booleanArray(@Nullable String comment, @Nullable ConfigEntry.Category category, String key, boolean[] defaultValue) {
-        ConfigEntry<boolean[]> entry =  new ConfigEntry<>(category, key, defaultValue, FieldType.BOOLEAN_ARRAY);
+    protected ConfigEntry<double[]> doubleArrayField(String key, double[] defaultValue, Restriction<double[]> restriction) {
 
-        addComment(comment);
+        return doubleArrayField(null, null, key, defaultValue, restriction);
+    }
+
+    protected ConfigEntry<double[]> doubleArrayField(ConfigEntry.Category category, String key, double[] defaultValue, Restriction<double[]> restriction) {
+
+        return doubleArrayField(null, category, key, defaultValue, restriction);
+    }
+
+    protected ConfigEntry<double[]> doubleArrayField(String comment, String key, double[] defaultValue, Restriction<double[]> restriction) {
+
+        return doubleArrayField(comment, null, key, defaultValue, restriction);
+    }
+
+    protected ConfigEntry<double[]> doubleArrayField(@Nullable String comment, @Nullable ConfigEntry.Category category, String key, double[] defaultValue, @Nullable Restriction<double[]> restriction) {
+
+        ConfigEntry<double[]> entry =  new ConfigEntry<>(category, key, defaultValue, FieldType.DOUBLE_ARRAY, restriction);
+
+        if (comment != null) addComment(comment);
+
+        if (restriction != null) addComment(restriction.getComment());
+
         addEntry(entry);
 
         return entry;
     }
 
-    protected ConfigEntry<String[]> stringArray(String key, String[] defaultValue) {
-        return stringArray(null, null, key, defaultValue);
+    protected ConfigEntry<boolean[]> booleanArrayField(String key, boolean[] defaultValue) {
+
+        return booleanArrayField(key, defaultValue, null);
     }
 
-    protected ConfigEntry<String[]> stringArray(ConfigEntry.Category category, String key, String[] defaultValue) {
-        return stringArray(null, category, key, defaultValue);
+    protected ConfigEntry<boolean[]> booleanArrayField(ConfigEntry.Category category, String key, boolean[] defaultValue) {
+
+        return booleanArrayField(category, key, defaultValue, null);
     }
 
-    protected ConfigEntry<String[]> stringArray(String comment, String key, String[] defaultValue) {
-        return stringArray(comment, null, key, defaultValue);
+    protected ConfigEntry<boolean[]> booleanArrayField(String comment, String key, boolean[] defaultValue) {
+
+        return booleanArrayField(comment, key, defaultValue, null);
     }
 
-    protected ConfigEntry<String[]> stringArray(@Nullable String comment, @Nullable ConfigEntry.Category category, String key, String[] defaultValue) {
-        ConfigEntry<String[]> entry =  new ConfigEntry<>(category, key, defaultValue, FieldType.STRING_ARRAY);
+    protected ConfigEntry<boolean[]> booleanArrayField(String key, boolean[] defaultValue, Restriction<boolean[]> restriction) {
 
-        addComment(comment);
+        return booleanArrayField(null, null, key, defaultValue, restriction);
+    }
+
+    protected ConfigEntry<boolean[]> booleanArrayField(ConfigEntry.Category category, String key, boolean[] defaultValue, Restriction<boolean[]> restriction) {
+
+        return booleanArrayField(null, category, key, defaultValue, restriction);
+    }
+
+    protected ConfigEntry<boolean[]> booleanArrayField(String comment, String key, boolean[] defaultValue, Restriction<boolean[]> restriction) {
+
+        return booleanArrayField(comment, null, key, defaultValue, restriction);
+    }
+
+    protected ConfigEntry<boolean[]> booleanArrayField(@Nullable String comment, @Nullable ConfigEntry.Category category, String key, boolean[] defaultValue, @Nullable Restriction<boolean[]> restriction) {
+
+        ConfigEntry<boolean[]> entry =  new ConfigEntry<>(category, key, defaultValue, FieldType.BOOLEAN_ARRAY, restriction);
+
+        if (comment != null) addComment(comment);
+
+        if (restriction != null) addComment(restriction.getComment());
+
+        addEntry(entry);
+
+        return entry;
+    }
+
+    protected ConfigEntry<char[]> charArrayField(String key, char[] defaultValue) {
+
+        return charArrayField(key, defaultValue, null);
+    }
+
+    protected ConfigEntry<char[]> charArrayField(ConfigEntry.Category category, String key, char[] defaultValue) {
+
+        return charArrayField(category, key, defaultValue, null);
+    }
+
+    protected ConfigEntry<char[]> charArrayField(String comment, String key, char[] defaultValue) {
+
+        return charArrayField(comment, key, defaultValue, null);
+    }
+
+    protected ConfigEntry<char[]> charArrayField(String key, char[] defaultValue, Restriction<char[]> restriction) {
+
+        return charArrayField(null, null, key, defaultValue, restriction);
+    }
+
+    protected ConfigEntry<char[]> charArrayField(ConfigEntry.Category category, String key, char[] defaultValue, Restriction<char[]> restriction) {
+
+        return charArrayField(null, category, key, defaultValue, restriction);
+    }
+
+    protected ConfigEntry<char[]> charArrayField(String comment, String key, char[] defaultValue, Restriction<char[]> restriction) {
+
+        return charArrayField(comment, null, key, defaultValue, restriction);
+    }
+
+    protected ConfigEntry<char[]> charArrayField(@Nullable String comment, @Nullable ConfigEntry.Category category, String key, char[] defaultValue, @Nullable Restriction<char[]> restriction) {
+
+        ConfigEntry<char[]> entry =  new ConfigEntry<>(category, key, defaultValue, FieldType.CHAR_ARRAY, restriction);
+
+        if (comment != null) addComment(comment);
+
+        if (restriction != null) addComment(restriction.getComment());
+
+        addEntry(entry);
+
+        return entry;
+    }
+
+    protected ConfigEntry<String[]> stringArrayField(String key, String[] defaultValue) {
+
+        return stringArrayField(key, defaultValue, null);
+    }
+
+    protected ConfigEntry<String[]> stringArrayField(ConfigEntry.Category category, String key, String[] defaultValue) {
+
+        return stringArrayField(category, key, defaultValue, null);
+    }
+
+    protected ConfigEntry<String[]> stringArrayField(String comment, String key, String[] defaultValue) {
+
+        return stringArrayField(comment, key, defaultValue, null);
+    }
+
+    protected ConfigEntry<String[]> stringArrayField(String key, String[] defaultValue, Restriction<String[]> restriction) {
+
+        return stringArrayField(null, null, key, defaultValue, restriction);
+    }
+
+    protected ConfigEntry<String[]> stringArrayField(ConfigEntry.Category category, String key, String[] defaultValue, Restriction<String[]> restriction) {
+
+        return stringArrayField(null, category, key, defaultValue, restriction);
+    }
+
+    protected ConfigEntry<String[]> stringArrayField(String comment, String key, String[] defaultValue, Restriction<String[]> restriction) {
+
+        return stringArrayField(comment, null, key, defaultValue, restriction);
+    }
+
+    protected ConfigEntry<String[]> stringArrayField(@Nullable String comment, @Nullable ConfigEntry.Category category, String key, String[] defaultValue, @Nullable Restriction<String[]> restriction) {
+
+        ConfigEntry<String[]> entry =  new ConfigEntry<>(category, key, defaultValue, FieldType.STRING_ARRAY, restriction);
+
+        if (comment != null) addComment(comment);
+
+        if (restriction != null) addComment(restriction.getComment());
+
         addEntry(entry);
 
         return entry;
     }
 
     protected void addEmptyLine() {
+
         defaultLines.add("");
         lines.add("");
     }
 
     protected void addComment(String comment) {
+
         String formattedComment = "# " + comment;
 
         defaultLines.add(formattedComment);
@@ -334,6 +817,7 @@ public abstract class Config {
     }
 
     protected void addEntry(ConfigEntry<?> entry) {
+
         String entryAsString = entry.fullKey() + " = " + entry.getFormattedValue();
 
         defaultLines.add(entryAsString);
@@ -344,6 +828,7 @@ public abstract class Config {
     protected abstract void onUpdate();
 
     public void load() {
+
         Path configDirectory = FabricLoader.getInstance().getGameDir().resolve("wool").resolve("config");
         Path filePath = configDirectory.resolve(fileName + ".txt");
         Map<String, String> existing = new HashMap<>();
@@ -426,6 +911,7 @@ public abstract class Config {
     }
 
     public void save() {
+
         Path configDirectory = FabricLoader.getInstance().getGameDir().resolve("wool").resolve("config");
         Path filePath = configDirectory.resolve(fileName);
 
@@ -466,6 +952,7 @@ public abstract class Config {
     }
 
     public void reset() {
+
         Path configDirectory = FabricLoader.getInstance().getGameDir().resolve("wool").resolve("config");
         Path filePath = configDirectory.resolve(fileName + ".txt");
 
@@ -490,6 +977,7 @@ public abstract class Config {
     }
 
     public void resetToDefault() {
+
         Path configDirectory = FabricLoader.getInstance().getGameDir().resolve("wool").resolve("config");
         Path filePath = configDirectory.resolve(fileName + ".txt");
 
