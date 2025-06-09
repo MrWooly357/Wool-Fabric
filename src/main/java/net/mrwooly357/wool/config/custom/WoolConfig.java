@@ -19,6 +19,9 @@ public class WoolConfig extends Config {
         addEmptyLine();
 
         enableRestrictionsEntry = booleanField("Enables config entry restrictions. Not recommended to disable!", general, "enableRestrictions", true);
+
+        addEmptyLine();
+
         developerModeEntry = booleanField("If this is true, the game will log additional information.", general, "developerMode", false);
     }
 

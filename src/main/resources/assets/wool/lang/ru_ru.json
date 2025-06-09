@@ -1,0 +1,4 @@
+{
+  "command.wool.wool.config.loadAll": "Загрузка конфигов на основе Wool",
+  "command.wool.wool.config.resetToDefaultAll": "Сброс конфигов основанных на Wool к значениям по умолчанию"
+}
