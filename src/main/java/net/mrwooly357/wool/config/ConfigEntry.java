@@ -5,6 +5,9 @@ import net.mrwooly357.wool.config.field_type.FieldType;
 import net.mrwooly357.wool.config.restriction.Restriction;
 import org.jetbrains.annotations.Nullable;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class ConfigEntry<T> {
 
     private final @Nullable Category category;
@@ -23,7 +26,7 @@ public class ConfigEntry<T> {
 
 
     public String fullKey() {
-        return category == null ? key : category.name() + "." + key;
+        return category == null ? key : category.getName() + "." + key;
     }
 
     public T getValue() {
@@ -49,5 +52,42 @@ public class ConfigEntry<T> {
     }
 
 
-    public record Category(String name) {}
+    public static class Category {
+
+        private final String name;
+        private final List<Category> categories;
+
+        public Category(String name) {
+            this(name, null);
+        }
+
+        public Category(String name, @Nullable List<Category> categories) {
+            this.name = name;
+            this.categories = categories;
+        }
+
+
+        public String getName() {
+            String name = this.name;
+
+            if (categories != null) {
+                List<String> additionalCategories = new ArrayList<>();
+                StringBuilder builder = new StringBuilder();
+
+                for (Category category : categories) {
+                    additionalCategories.add(category.getName());
+                }
+
+                builder.append(name);
+
+                for (String additionalCategory : additionalCategories) {
+                    builder.append(".").append(additionalCategory);
+                }
+
+                name = builder.toString();
+            }
+
+            return name;
+        }
+    }
 }
