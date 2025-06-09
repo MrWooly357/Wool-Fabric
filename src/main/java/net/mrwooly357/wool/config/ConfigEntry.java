@@ -78,11 +78,11 @@ public class ConfigEntry<T> {
                     additionalCategories.add(category.getName());
                 }
 
-                builder.append(name);
-
                 for (String additionalCategory : additionalCategories) {
                     builder.append(".").append(additionalCategory);
                 }
+
+                builder.append(".").append(name);
 
                 name = builder.toString();
             }
