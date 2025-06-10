@@ -829,10 +829,9 @@ public abstract class Config {
 
             if (entries.containsKey(key) && existing.containsKey(key)) {
                 entry.parseAndSetValue(existing.get(key));
-                outputLines.add(key + " = " + existing.get(key));
-            } else {
-                outputLines.add(key + " = " + entries.get(key).getFormattedValue());
             }
+
+            outputLines.add(key + " = " + entries.get(key).getFormattedValue());
         }
 
         onUpdate();
