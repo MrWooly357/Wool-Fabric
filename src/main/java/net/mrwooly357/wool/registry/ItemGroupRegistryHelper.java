@@ -14,10 +14,10 @@ public interface ItemGroupRegistryHelper {
     /**
      * Registers a custom {@link ItemGroup}.
      * @param id the {@link Identifier}.
-     * @param itemGroup the {@link ItemGroup}.
+     * @param group the {@link ItemGroup}.
      * @return a registered {@link ItemGroup}.
      */
-    static ItemGroup register(Identifier id, ItemGroup itemGroup) {
-        return Registry.register(Registries.ITEM_GROUP, id, itemGroup);
+    static ItemGroup register(Identifier id, ItemGroup group) {
+        return Registry.register(Registries.ITEM_GROUP, id, group);
     }
 }
