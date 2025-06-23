@@ -10,21 +10,17 @@ import net.minecraft.command.argument.IdentifierArgumentType;
 import net.minecraft.command.argument.ItemStackArgument;
 import net.minecraft.command.argument.ItemStackArgumentType;
 import net.minecraft.entity.Entity;
-import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.server.command.CommandManager;
 import net.minecraft.server.command.ServerCommandSource;
-import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.text.Text;
 import net.minecraft.util.Identifier;
 import net.mrwooly357.wool.Wool;
 import net.mrwooly357.wool.config.ConfigManager;
 import net.mrwooly357.wool.entity.util.AccessoryInventoryHolder;
-import net.mrwooly357.wool.entity.util.AccessoryInventoryUnit;
 import net.mrwooly357.wool.entity.util.EntityTypeAccessoryInventoryManager;
 
 import java.util.Collection;
-import java.util.Map;
 
 public class WoolCommand {
 
@@ -36,6 +32,17 @@ public class WoolCommand {
                         .requires(source -> source.hasPermissionLevel(3))
                         .then(
                                 CommandManager.literal("config")
+                                        .then(
+                                                CommandManager.argument("id", IdentifierArgumentType.identifier())
+                                                        .then(
+                                                                CommandManager.literal("load")
+                                                                        .executes(context -> Config.executeLoad(context.getSource(), IdentifierArgumentType.getIdentifier(context, "id")))
+                                                        )
+                                                        .then(
+                                                                CommandManager.literal("resetToDefault")
+                                                                        .executes(context -> Config.executeResetToDefault(context.getSource(), IdentifierArgumentType.getIdentifier(context, "id")))
+                                                        )
+                                        )
                                         .then(
                                                 CommandManager.literal("loadAll")
                                                         .executes(context -> Config.executeLoadAll(context.getSource()))
@@ -77,8 +84,23 @@ public class WoolCommand {
     private static class Config {
 
 
-        private static int executeLoadAll(ServerCommandSource source) {
+        private static int executeLoad(ServerCommandSource source, Identifier id) {
+            System.out.println(ConfigManager.getIdToConfig());
+            ConfigManager.getIdToConfig().get(id).load();
+            System.out.println(ConfigManager.getIdToConfig().get(id));
+            source.sendFeedback(() -> Text.translatable("command." + Wool.MOD_ID + ".wool.config.load").append(Text.literal(id.toString())), true);
 
+            return 1;
+        }
+
+        private static int executeResetToDefault(ServerCommandSource source, Identifier id) {
+            ConfigManager.getIdToConfig().get(id).resetToDefault();
+            source.sendFeedback(() -> Text.translatable("command." + Wool.MOD_ID + ".wool.config.resetToDefault").append(Text.literal(id.toString())), true);
+
+            return 1;
+        }
+
+        private static int executeLoadAll(ServerCommandSource source) {
             ConfigManager.loadAll();
             source.sendFeedback(() -> Text.translatable("command." + Wool.MOD_ID + ".wool.config.loadAll"), true);
 
@@ -86,7 +108,6 @@ public class WoolCommand {
         }
 
         private static int executeResetToDefaultAll(ServerCommandSource source) {
-
             ConfigManager.resetToDefaultAll();
             source.sendFeedback(() -> Text.translatable("command." + Wool.MOD_ID + ".wool.config.resetToDefaultAll"), true);
 

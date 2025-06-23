@@ -3,6 +3,7 @@ package net.mrwooly357.wool.registry;
 import net.minecraft.registry.Registry;
 import net.minecraft.util.Identifier;
 import net.mrwooly357.wool.config.Config;
+import net.mrwooly357.wool.config.ConfigManager;
 
 /**
  * A helper used for registering custom {@link Config}s
@@ -18,6 +19,8 @@ public interface ConfigRegistryHelper {
      */
     static Config register(Identifier id, Config config) {
         config.load();
+        ConfigManager.getIdToConfig().put(id, config);
+
         return Registry.register(WoolRegistries.CONFIG, id, config);
     }
 }

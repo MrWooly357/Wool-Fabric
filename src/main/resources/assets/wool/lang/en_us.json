@@ -1,6 +1,8 @@
 {
-  "command.wool.wool.config.loadAll": "Loading Wool-based configs",
-  "command.wool.wool.config.resetToDefaultAll": "Resetting to default Wool-based configs",
-  "command.wool.wool.accessory.get": "${targets.iterator().next().getDisplayName()} (${entity.getUUID()}) has ${holder.getAccessoryInventory().get(Identifier.of(slot)).getStack()} in slot ${slot}",
-  "command.wool.wool.accessory.set": ""
+  "command.wool.wool.config.load": "§e[Wool]§r Loading ",
+  "command.wool.wool.config.resetToDefault": "§e[Wool]§r Resetting to default ",
+  "command.wool.wool.config.loadAll": "§e[Wool]§r Loading configs",
+  "command.wool.wool.config.resetToDefaultAll": "§e[Wool]§r Resetting to default configs",
+  "command.wool.wool.accessory.get": "§e[Wool]§r ",
+  "command.wool.wool.accessory.set": "§e[Wool]§r "
 }
