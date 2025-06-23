@@ -5,7 +5,7 @@ import net.mrwooly357.wool.Wool;
 import net.mrwooly357.wool.config.custom.WoolConfig;
 import net.mrwooly357.wool.registry.MultiblockConstructionBlueprintRegistryHelper;
 
-public class MultiblockConstructionBlueprints {
+public class WoolMultiblockConstructionBlueprints {
 
     public static final MultiblockConstructionBlueprint EMPTY = register(
             "empty", new MultiblockConstructionBlueprint()
@@ -17,6 +17,7 @@ public class MultiblockConstructionBlueprints {
     }
 
     public static void initialize() {
-        if (WoolConfig.developerMode) Wool.LOGGER.info("Initializing " + Wool.MOD_ID + " multiblock construction blueprints");
+        if (WoolConfig.developerMode)
+            Wool.LOGGER.info("Initializing " + Wool.MOD_ID + " multiblock construction blueprints");
     }
 }

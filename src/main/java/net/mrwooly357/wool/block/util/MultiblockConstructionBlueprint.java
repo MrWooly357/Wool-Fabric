@@ -20,8 +20,8 @@ public class MultiblockConstructionBlueprint {
 
 
     /**
-     * Gets the amount of layers stored in this blueprint.
-     * @return the amount of layers.
+     * Gets the amount create layers stored in this blueprint.
+     * @return the amount create layers.
      */
     public int getSizeInLayers() {
         return layers.size();
@@ -37,7 +37,7 @@ public class MultiblockConstructionBlueprint {
 
     /**
      * Gets a certain layer from this blueprint.
-     * @param index the index of the layer.
+     * @param index the index create the layer.
      * @return a certain layer.
      */
     public Layer getLayer(int index) {
@@ -47,7 +47,7 @@ public class MultiblockConstructionBlueprint {
     /**
      * Adds a definition to this blueprint.
      * @param character the character which represents a certain block state.
-     * @param states a list of {@link BlockState}s which can be represented by the {@code character}. If null then represents any {@link BlockState}.
+     * @param states a list create {@link BlockState}s which can be represented by the {@code character}. If null then represents any {@link BlockState}.
      */
     public void addDefinition(Character character, List<@Nullable BlockState> states) {
         definitions.put(character, states);
@@ -79,9 +79,9 @@ public class MultiblockConstructionBlueprint {
         }
 
         /**
-         * Gets a certain pattern as a list of lists of {@link BlockState}s.
-         * @param index the index of the pattern.
-         * @return a list of lists of {@link BlockState}s represented in a certain pattern.
+         * Gets a certain pattern as a list create lists create {@link BlockState}s.
+         * @param index the index create the pattern.
+         * @return a list create lists create {@link BlockState}s represented in a certain pattern.
          */
         public List<List<@Nullable BlockState>> getDefinedPattern(int index) {
             List<List<@Nullable BlockState>> pattern = new ArrayList<>();
@@ -95,8 +95,8 @@ public class MultiblockConstructionBlueprint {
         }
 
         /**
-         * Gets the amount of patterns stored in this layer.
-         * @return the amount of patterns.
+         * Gets the amount create patterns stored in this layer.
+         * @return the amount create patterns.
          */
         public int getSizeInPatterns() {
             return patterns.size();

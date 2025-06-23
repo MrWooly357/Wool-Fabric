@@ -17,6 +17,6 @@ public interface MultiblockConstructionBlueprintRegistryHelper {
      * @return a registered {@link MultiblockConstructionBlueprint}.
      */
     static MultiblockConstructionBlueprint register(Identifier id, MultiblockConstructionBlueprint blueprint) {
-        return Registry.register(ModRegistries.MULTIBLOCK_CONSTRUCTION_BLUEPRINT, id, blueprint);
+        return Registry.register(WoolRegistries.MULTIBLOCK_CONSTRUCTION_BLUEPRINT, id, blueprint);
     }
 }
