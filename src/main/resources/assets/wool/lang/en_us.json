@@ -1,11 +1,15 @@
 {
   "chat.wool.clickToInsertCommand": "Click to insert command",
+  "chat.wool.configInfo": "[Config: %s]",
+  "chat.wool.itemStackInfo": "[Item: %s, Count: %s]",
+  "chat.wool.entityInfo": "[EntityType: %s, UUID: %s]",
+  "chat.wool.accessoryInventoryUnitInfo": "[AccessoryInventoryUnit: %s]",
   "command.wool.wool.wool": "Wool",
   "command.wool.wool.config.invalid_id": "%s No config with id \"%s\"",
-  "command.wool.wool.config.load": "%s Loading %s",
-  "command.wool.wool.config.resetToDefault": "%s Resetting to default %s",
+  "command.wool.wool.config.load": "%s Loading config %s",
+  "command.wool.wool.config.resetToDefault": "%s Resetting to default config %s",
   "command.wool.wool.config.loadAll": "%s Loading all configs",
   "command.wool.wool.config.resetToDefaultAll": "%s Resetting to default all configs",
-  "command.wool.wool.accessory.get": "%s Entity %s [EntityType: %s, UUID: %s] has stack %s in accessory slot %s",
-  "command.wool.wool.accessory.set": "%s Set stack %s in accessory slot %s for entity %s [EntityType: %s, UUID: %s]"
+  "command.wool.wool.accessory.get": "%s Entity %s %s has stack %s in accessory slot %s",
+  "command.wool.wool.accessory.set": "%s Set stack %s in accessory slot %s for entity %s"
 }

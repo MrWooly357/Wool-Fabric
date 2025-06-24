@@ -9,7 +9,7 @@ import net.mrwooly357.wool.config.custom.WoolConfig;
 
 public class WoolItemTags {
 
-    public static final TagKey<Item> HEAD_ACCESSORIES = create("head_accessories");
+    public static final TagKey<Item> GLASSES_ACCESSORIES = create("glasses_accessories");
 
 
     public static TagKey<Item> create(String name) {

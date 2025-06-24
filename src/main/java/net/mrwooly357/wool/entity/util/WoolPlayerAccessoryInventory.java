@@ -13,9 +13,9 @@ public class WoolPlayerAccessoryInventory {
                     WoolAccessorySlotTypes.EMPTY
             )
     );
-    public static final AccessoryInventoryUnit HEAD = register(
-            "head", new AccessoryInventoryUnit(
-                    WoolAccessorySlotTypes.HEAD
+    public static final AccessoryInventoryUnit GLASSES = register(
+            "glasses", new AccessoryInventoryUnit(
+                    WoolAccessorySlotTypes.GLASSES
             )
     );
 

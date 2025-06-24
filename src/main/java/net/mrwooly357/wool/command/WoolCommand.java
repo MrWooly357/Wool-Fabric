@@ -9,6 +9,7 @@ import net.minecraft.command.CommandRegistryAccess;
 import net.minecraft.command.argument.*;
 import net.minecraft.entity.Entity;
 import net.minecraft.item.ItemStack;
+import net.minecraft.registry.Registries;
 import net.minecraft.registry.entry.RegistryEntry;
 import net.minecraft.server.command.CommandManager;
 import net.minecraft.server.command.ServerCommandSource;
@@ -82,19 +83,19 @@ public class WoolCommand {
                                         .then(
                                                 CommandManager.argument("targets", EntityArgumentType.entities())
                                                         .then(
-                                                                CommandManager.argument("slot", IdentifierArgumentType.identifier())
+                                                                CommandManager.argument("unit", IdentifierArgumentType.identifier())
                                                                         .then(
                                                                                 CommandManager.literal("get")
-                                                                                        .executes(context -> AccessoryCommand.executeGet(context.getSource(), EntityArgumentType.getEntities(context, "targets"), IdentifierArgumentType.getIdentifier(context, "slot")))
+                                                                                        .executes(context -> AccessoryCommand.executeGet(context.getSource(), EntityArgumentType.getEntities(context, "targets"), IdentifierArgumentType.getIdentifier(context, "unit")))
                                                                         )
                                                                         .then(
                                                                                 CommandManager.literal("set")
                                                                                         .then(
                                                                                                 CommandManager.argument("item", ItemStackArgumentType.itemStack(access))
-                                                                                                        .executes(context -> AccessoryCommand.executeSet(context.getSource(), EntityArgumentType.getEntities(context, "targets"), IdentifierArgumentType.getIdentifier(context, "slot"), ItemStackArgumentType.getItemStackArgument(context, "item"), 1))
+                                                                                                        .executes(context -> AccessoryCommand.executeSet(context.getSource(), EntityArgumentType.getEntities(context, "targets"), IdentifierArgumentType.getIdentifier(context, "unit"), ItemStackArgumentType.getItemStackArgument(context, "item"), 1))
                                                                                                         .then(
                                                                                                                 CommandManager.argument("count", IntegerArgumentType.integer(1, 64))
-                                                                                                                        .executes(context -> AccessoryCommand.executeSet(context.getSource(), EntityArgumentType.getEntities(context, "targets"), IdentifierArgumentType.getIdentifier(context, "slot"), ItemStackArgumentType.getItemStackArgument(context, "item"), IntegerArgumentType.getInteger(context, "count")))
+                                                                                                                        .executes(context -> AccessoryCommand.executeSet(context.getSource(), EntityArgumentType.getEntities(context, "targets"), IdentifierArgumentType.getIdentifier(context, "unit"), ItemStackArgumentType.getItemStackArgument(context, "item"), IntegerArgumentType.getInteger(context, "count")))
                                                                                                         )
                                                                                         )
 
@@ -120,19 +121,23 @@ public class WoolCommand {
         }
 
         private static int executeLoad(ServerCommandSource source, Identifier id) {
-            String idAsString = id.toString();
+            Config config = ConfigManager.getIdToConfig().get(id);
 
-            ConfigManager.getIdToConfig().get(id).load();
-            source.sendFeedback(() -> Text.translatable("command." + Wool.MOD_ID + ".wool.config.load", WOOL, idAsString), true);
+            if (config != null) {
+                config.load();
+                source.sendFeedback(() -> Text.translatable("command." + Wool.MOD_ID + ".wool.config.load", WOOL, Text.translatable("chat." + Wool.MOD_ID + ".configInfo", id.toString()).formatted(Formatting.GREEN)), true);
+            }
 
             return 1;
         }
 
         private static int executeResetToDefault(ServerCommandSource source, Identifier id) {
-            String idAsString = id.toString();
+            Config config = ConfigManager.getIdToConfig().get(id);
 
-            ConfigManager.getIdToConfig().get(id).resetToDefault();
-            source.sendFeedback(() -> Text.translatable("command." + Wool.MOD_ID + ".wool.config.resetToDefault", WOOL, idAsString), true);
+            if (config != null) {
+                config.resetToDefault();
+                source.sendFeedback(() -> Text.translatable("command." + Wool.MOD_ID + ".wool.config.resetToDefault", WOOL, Text.translatable("chat." + Wool.MOD_ID + ".configInfo", id.toString()).formatted(Formatting.GREEN)), true);
+            }
 
             return 1;
         }
@@ -156,12 +161,14 @@ public class WoolCommand {
     private static class AccessoryCommand {
 
 
-        private static int executeGet(ServerCommandSource source, Collection<? extends Entity> targets, Identifier slot) {
+        private static int executeGet(ServerCommandSource source, Collection<? extends Entity> targets, Identifier unit) {
             List<Entity> valid = new ArrayList<>();
 
             for (Entity entity : targets) {
 
-                if (entity instanceof AccessoryInventoryHolder holder && holder.isValid() && holder.getRegistry() != null && holder.getId() != null && holder.getAccessoryInventory() != null && !slot.toString().equals("wool:empty") && EntityTypeAccessoryInventoryManager.getEntityTypeToRegistry().containsKey(entity.getType())) {
+                if (entity instanceof AccessoryInventoryHolder holder && holder.isValid() && holder.getRegistry() != null && holder.getId() != null && holder.getAccessoryInventory() != null && !unit.toString().equals("wool:empty") && EntityTypeAccessoryInventoryManager.getEntityTypeToRegistry().containsKey(entity.getType())) {
+                    ItemStack stack = holder.getAccessoryInventory().get(unit).getStack();
+
                     valid.add(entity);
                     source.sendFeedback(() -> Text.translatable("command." + Wool.MOD_ID + ".wool.accessory.get", WOOL, Texts.bracketed(entity.getName()).styled(
                             style -> style
@@ -176,25 +183,25 @@ public class WoolCommand {
                                                     HoverEvent.Action.SHOW_TEXT, Text.translatable("chat.coordinates.tooltip")
                                             )
                                     )
-                    ), entity.getType().toString(), entity.getUuidAsString(), holder.getAccessoryInventory().get(slot).getStack().toHoverableText(), slot.toString()), true);
+                    ), Text.translatable("chat." + Wool.MOD_ID + ".entityInfo", entity.getType().toString(), entity.getUuidAsString()).formatted(Formatting.DARK_GREEN), Text.translatable("chat." + Wool.MOD_ID + ".itemStackInfo", Registries.ITEM.getId(stack.getItem()).toString(), stack.getCount()).formatted(Formatting.AQUA), Text.translatable("chat." + Wool.MOD_ID + ".accessoryInventoryUnitInfo", unit.toString()).formatted(Formatting.DARK_AQUA)), true);
                 }
             }
 
             return valid.size();
         }
 
-        private static int executeSet(ServerCommandSource source, Collection<? extends Entity> targets, Identifier slot, ItemStackArgument item, int count) {
+        private static int executeSet(ServerCommandSource source, Collection<? extends Entity> targets, Identifier unit, ItemStackArgument item, int count) {
             List<Entity> valid = new ArrayList<>();
 
             for (Entity entity : targets) {
 
-                if (entity instanceof AccessoryInventoryHolder holder && holder.isValid() && holder.getRegistry() != null && holder.getId() != null && holder.getAccessoryInventory() != null && !slot.toString().equals("wool:empty") && EntityTypeAccessoryInventoryManager.getEntityTypeToRegistry().containsKey(entity.getType())) {
+                if (entity instanceof AccessoryInventoryHolder holder && holder.isValid() && holder.getRegistry() != null && holder.getId() != null && holder.getAccessoryInventory() != null && !unit.toString().equals("wool:empty") && EntityTypeAccessoryInventoryManager.getEntityTypeToRegistry().containsKey(entity.getType())) {
                     ItemStack stack = new ItemStack(item.getItem(), count);
 
                     valid.add(entity);
-                    holder.getAccessoryInventory().get(slot).setStack(stack);
+                    holder.getAccessoryInventory().get(unit).setStack(stack);
                     source.sendFeedback(() -> Text.translatable(
-                            "command." + Wool.MOD_ID + ".wool.accessory.set", WOOL, stack.toHoverableText(), slot.toString(), Texts.bracketed(entity.getName()).styled(
+                            "command." + Wool.MOD_ID + ".wool.accessory.set", WOOL, Text.translatable("chat." + Wool.MOD_ID + ".itemStackInfo", Registries.ITEM.getId(stack.getItem()).toString(), stack.getCount()).formatted(Formatting.AQUA), Text.translatable("chat." + Wool.MOD_ID + ".accessoryInventoryUnitInfo", unit.toString()).formatted(Formatting.DARK_AQUA), Texts.bracketed(entity.getName()).styled(
                                     style -> style
                                             .withColor(Formatting.GREEN)
                                             .withClickEvent(
@@ -207,7 +214,7 @@ public class WoolCommand {
                                                             HoverEvent.Action.SHOW_TEXT, Text.translatable("chat.coordinates.tooltip")
                                                     )
                                             )
-                            ), entity.getType().toString(), entity.getUuidAsString()
+                            ), Text.translatable("chat." + Wool.MOD_ID + ".entityInfo", entity.getType().toString(), entity.getUuidAsString()).formatted(Formatting.DARK_GREEN)
                     ), true);
                 }
             }

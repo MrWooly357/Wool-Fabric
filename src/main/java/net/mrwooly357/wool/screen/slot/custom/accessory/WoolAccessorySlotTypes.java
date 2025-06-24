@@ -14,9 +14,9 @@ public class WoolAccessorySlotTypes {
                     Text.empty(), null, null
             )
     );
-    public static final AccessorySlotType HEAD = register(
-            "head", new AccessorySlotType(
-                    Text.translatable("accessory_slot_type." + Wool.MOD_ID + ".head"), Identifier.of(Wool.MOD_ID, "textures/gui/accessory_slot/head"), WoolItemTags.HEAD_ACCESSORIES
+    public static final AccessorySlotType GLASSES = register(
+            "glasses", new AccessorySlotType(
+                    Text.translatable("accessory_slot_type." + Wool.MOD_ID + ".glasses"), Identifier.of(Wool.MOD_ID, "textures/gui/accessory_slot/glasses"), WoolItemTags.GLASSES_ACCESSORIES
             )
     );
 
