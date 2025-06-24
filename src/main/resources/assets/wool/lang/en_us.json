@@ -6,6 +6,6 @@
   "command.wool.wool.config.resetToDefault": "%s Resetting to default %s",
   "command.wool.wool.config.loadAll": "%s Loading all configs",
   "command.wool.wool.config.resetToDefaultAll": "%s Resetting to default all configs",
-  "command.wool.wool.accessory.get": "%s Entity %s (EntityType: %s, UUID: %s) has stack %s in slot %s",
-  "command.wool.wool.accessory.set": "%s Set stack %s in slot %s for entity %s (EntityType: %s, UUID: %s)"
+  "command.wool.wool.accessory.get": "%s Entity %s [EntityType: %s, UUID: %s] has stack %s in accessory slot %s",
+  "command.wool.wool.accessory.set": "%s Set stack %s in accessory slot %s for entity %s [EntityType: %s, UUID: %s]"
 }
