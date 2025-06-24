@@ -35,7 +35,7 @@ public class Wool implements ModInitializer, WoolEntrypoint {
 		WoolRegistryKeys.initialize();
 		WoolItemTags.initialize();
 		WoolMultiblockConstructionBlueprints.initialize();
-		CommandRegistrationCallback.EVENT.register(WoolCommand::register);
+		CommandRegistrationCallback.EVENT.register((dispatcher, access, environment) -> WoolCommand.register(dispatcher, access));
 		WoolAccessorySlotTypes.initialize();
 		EntityTypeAccessoryInventoryManager.initialize();
 		EntityTypeAccessoryInventoryManager.addToEntityTypeToRegistry(EntityType.PLAYER, WoolRegistries.PLAYER_ACCESSORY_INVENTORY);

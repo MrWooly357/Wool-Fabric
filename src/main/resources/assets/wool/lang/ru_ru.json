@@ -1,8 +1,0 @@
-{
-  "command.wool.wool.config.load": "§e[Wool]§r Загрузка ",
-  "command.wool.wool.config.resetToDefault": "§e[Wool]§r Сброс до значений по умолчанию ",
-  "command.wool.wool.config.loadAll": "§e[Wool]§r Loading configs",
-  "command.wool.wool.config.resetToDefaultAll": "§e[Wool]§r Resetting to default configs",
-  "command.wool.wool.accessory.get": "§e[Wool]§r ",
-  "command.wool.wool.accessory.set": "§e[Wool]§r "
-}

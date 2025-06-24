@@ -1,8 +1,11 @@
 {
-  "command.wool.wool.config.load": "§e[Wool]§r Loading ",
-  "command.wool.wool.config.resetToDefault": "§e[Wool]§r Resetting to default ",
-  "command.wool.wool.config.loadAll": "§e[Wool]§r Loading configs",
-  "command.wool.wool.config.resetToDefaultAll": "§e[Wool]§r Resetting to default configs",
-  "command.wool.wool.accessory.get": "§e[Wool]§r ",
-  "command.wool.wool.accessory.set": "§e[Wool]§r "
+  "chat.wool.clickToInsertCommand": "Click to insert command",
+  "command.wool.wool.wool": "Wool",
+  "command.wool.wool.config.invalid_id": "%s No config with id \"%s\"",
+  "command.wool.wool.config.load": "%s Loading %s",
+  "command.wool.wool.config.resetToDefault": "%s Resetting to default %s",
+  "command.wool.wool.config.loadAll": "%s Loading all configs",
+  "command.wool.wool.config.resetToDefaultAll": "%s Resetting to default all configs",
+  "command.wool.wool.accessory.get": "%s Entity %s (EntityType: %s, UUID: %s) has stack %s in slot %s",
+  "command.wool.wool.accessory.set": "%s Set stack %s in slot %s for entity %s (EntityType: %s, UUID: %s)"
 }

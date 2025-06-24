@@ -12,6 +12,7 @@ import net.minecraft.util.Identifier;
 import net.minecraft.world.GameRules;
 import net.minecraft.world.World;
 import net.mrwooly357.wool.Wool;
+import net.mrwooly357.wool.config.custom.WoolConfig;
 import net.mrwooly357.wool.entity.util.AccessoryInventoryHolder;
 import net.mrwooly357.wool.entity.util.AccessoryInventoryUnit;
 import net.mrwooly357.wool.entity.util.EntityTypeAccessoryInventoryManager;
@@ -59,16 +60,16 @@ public abstract class EntityAccessoriesMixin implements AccessoryInventoryHolder
 
     @Override
     public boolean isValid() {
-        return AccessoryInventoryHolder.super.isValid() && getRegistry() != null && getId() != null && EntityTypeAccessoryInventoryManager.getEntityTypeToRegistry().containsKey(getType()) && EntityTypeAccessoryInventoryManager.getRegistryToId().containsKey(getRegistry());
+        return AccessoryInventoryHolder.super.isValid() && EntityTypeAccessoryInventoryManager.getEntityTypeToRegistry().containsKey(getType()) && EntityTypeAccessoryInventoryManager.getRegistryToId().containsKey(getRegistry());
     }
 
     @Override
     @Nullable
     public Map<Identifier, AccessoryInventoryUnit> getAccessoryInventory() {
-        if (isValid()) {
+        if (isValid() && getRegistry() != null && getId() != null) {
 
             if (accessoryInventory == null)
-                createAccessoryInventory();
+                tryCreateAccessoryInventory();
 
             return accessoryInventory;
         }
@@ -77,8 +78,8 @@ public abstract class EntityAccessoriesMixin implements AccessoryInventoryHolder
     }
 
     @Unique
-    private void createAccessoryInventory() {
-        if (accessoryInventory == null && isValid()) {
+    private void tryCreateAccessoryInventory() {
+        if (accessoryInventory == null && isValid() && getRegistry() != null && getId() != null) {
             accessoryInventory = new HashMap<>();
 
             for (byte a = 0; a < getRegistry().getKeys().size(); a++) {
@@ -87,6 +88,7 @@ public abstract class EntityAccessoriesMixin implements AccessoryInventoryHolder
                 if (template != null) {
                     AccessoryInventoryUnit unit = new AccessoryInventoryUnit(template.getType(), template.getStack());
                     Optional<RegistryKey<AccessoryInventoryUnit>> keyTemplate = getRegistry().getKey(template);
+
                     keyTemplate.ifPresent(key -> accessoryInventory.put(key.getValue(), unit));
                 }
             }
@@ -95,41 +97,53 @@ public abstract class EntityAccessoriesMixin implements AccessoryInventoryHolder
 
     @Inject(method = "<init>", at = @At("TAIL"))
     private void injectInit(EntityType<?> type, World world, CallbackInfo info) {
-        createAccessoryInventory();
+        tryCreateAccessoryInventory();
     }
 
     @Inject(method = "writeNbt", at = @At("HEAD"))
     private void injectWriteNbt(NbtCompound nbt, CallbackInfoReturnable<NbtCompound> info) {
-        if (isValid()) {
+        if (isValid() && getRegistry() != null && getId() != null) {
             NbtCompound compound = new NbtCompound();
 
-            createAccessoryInventory();
+            tryCreateAccessoryInventory();
 
             for (Map.Entry<Identifier, AccessoryInventoryUnit> entry : accessoryInventory.entrySet()) {
                 compound.put(entry.getKey().toString(), AccessoryInventoryUnit.toNbt(world, entry.getValue()));
-                System.out.println("keyToString" + entry.getKey().toString());
-                System.out.println("toNbt: " + AccessoryInventoryUnit.toNbt(world, entry.getValue()));
             }
 
-            nbt.put("entity.nbt." + Wool.MOD_ID + ".custom_data", compound);
-            System.out.println("nbt: " + nbt);
+            nbt.put("entity.nbt." + Wool.MOD_ID + ".accessory_inventory_data", compound);
         }
     }
 
     @Inject(method = "readNbt", at = @At("HEAD"))
     private void injectReadNbt(NbtCompound nbt, CallbackInfo info) {
-        if (isValid()) {
-            NbtCompound compound = nbt.getCompound("entity.nbt." + Wool.MOD_ID + ".custom_data");
+        if (isValid() && getRegistry() != null && getId() != null) {
+            NbtCompound compound = nbt.getCompound("entity.nbt." + Wool.MOD_ID + ".accessory_inventory_data");
+            String idAsString = getId().getNamespace() + ":empty";
+            Identifier id = Identifier.of(idAsString);
 
-            createAccessoryInventory();
+            tryCreateAccessoryInventory();
+
+            if (!accessoryInventory.containsKey(id)) {
+                AccessoryInventoryUnit emptyTemplate = getRegistry().get(id);
+
+                if (emptyTemplate != null) {
+                    AccessoryInventoryUnit emptyUnit = new AccessoryInventoryUnit(emptyTemplate.getType(), emptyTemplate.getStack());
+                    Optional<RegistryKey<AccessoryInventoryUnit>> emptyKeyTemplate = getRegistry().getKey(emptyTemplate);
+
+                    emptyKeyTemplate.ifPresent(key1 -> accessoryInventory.put(key1.getValue(), emptyUnit));
+                } else if (WoolConfig.developerMode)
+                    Wool.LOGGER.error("Entity type accessory inventory registry {} doesn't contain an empty accessory inventory unit!", getRegistry());
+            }
 
             for (String key : compound.getKeys()) {
 
-                if (!Objects.equals(key, "wool:empty")) {
+                if (!Objects.equals(key, idAsString)) {
                     NbtCompound compound1 = compound.getCompound(key);
-                    System.out.println(compound1);
+                    AccessoryInventoryUnit unit = accessoryInventory.get(Identifier.of(key));
 
-                    accessoryInventory.get(Identifier.of(key)).setStack(AccessoryInventoryUnit.fromNbt(compound1, world));
+                    if (!unit.getStack().isEmpty())
+                        unit.setStack(AccessoryInventoryUnit.fromNbt(compound1, world));
                 }
             }
         }
@@ -137,7 +151,7 @@ public abstract class EntityAccessoriesMixin implements AccessoryInventoryHolder
 
     @Inject(method = "tick", at = @At("TAIL"))
     private void injectTick(CallbackInfo info) {
-        if (isValid() && accessoryInventory != null) {
+        if (isValid() && getRegistry() != null && getId() != null && accessoryInventory != null) {
 
             for (Map.Entry<Identifier, AccessoryInventoryUnit> entry : accessoryInventory.entrySet()) {
                 AccessoryInventoryUnit unit = entry.getValue();
@@ -151,7 +165,7 @@ public abstract class EntityAccessoriesMixin implements AccessoryInventoryHolder
 
     @Inject(method = "remove", at = @At("HEAD"))
     private void injectRemove(Entity.RemovalReason reason, CallbackInfo info) {
-        if (reason == Entity.RemovalReason.KILLED && isValid() && accessoryInventory != null) {
+        if (reason == Entity.RemovalReason.KILLED && isValid() && getRegistry() != null && getId() != null && accessoryInventory != null) {
 
             for (Map.Entry<Identifier, AccessoryInventoryUnit> entry : accessoryInventory.entrySet()) {
                 AccessoryInventoryUnit unit = entry.getValue();
