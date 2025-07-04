@@ -2,36 +2,25 @@ package net.mrwooly357.wool.screen.slot.custom.accessory;
 
 import net.minecraft.item.Item;
 import net.minecraft.registry.tag.TagKey;
-import net.minecraft.text.Text;
 import net.minecraft.util.Identifier;
 import org.jetbrains.annotations.Nullable;
 
 public class AccessorySlotType {
 
-    private final Text name;
     @Nullable
     private final Identifier icon;
     @Nullable
     private final TagKey<Item> tag;
 
-    public AccessorySlotType(Text name, Identifier icon) {
-        this(name, icon, null);
-    }
+    private AccessorySlotType(@Nullable Identifier icon, @Nullable TagKey<Item> tag) {
+        if (icon != null) {
+            this.icon = Identifier.of(icon.getNamespace(), "textures/gui/sprites/accessory/slot_overlay/" + icon.getPath() + ".png");
+        } else
+            this.icon = null;
 
-    public AccessorySlotType(Text name, TagKey<Item> tag) {
-        this(name, null, tag);
-    }
-
-    public AccessorySlotType(Text name, @Nullable Identifier icon, @Nullable TagKey<Item> tag) {
-        this.name = name;
-        this.icon = icon;
         this.tag = tag;
     }
 
-
-    public Text getName() {
-        return name;
-    }
 
     public @Nullable Identifier getIcon() {
         return icon;
@@ -39,5 +28,36 @@ public class AccessorySlotType {
 
     public @Nullable TagKey<Item> getTag() {
         return tag;
+    }
+
+    public static Builder builder() {
+        return new Builder();
+    }
+
+
+    public static class Builder {
+
+        public Builder() {}
+
+        @Nullable
+        private Identifier icon;
+        @Nullable
+        private TagKey<Item> tag;
+
+        public AccessorySlotType build() {
+            return new AccessorySlotType(icon, tag);
+        }
+
+        public Builder icon(Identifier icon) {
+            this.icon = icon;
+
+            return this;
+        }
+
+        public Builder tag(TagKey<Item> tag) {
+            this.tag = tag;
+
+            return this;
+        }
     }
 }

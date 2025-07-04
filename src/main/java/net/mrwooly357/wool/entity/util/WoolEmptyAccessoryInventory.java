@@ -10,7 +10,7 @@ public class WoolEmptyAccessoryInventory {
 
     public static final AccessoryInventoryUnit EMPTY = register(
             "empty", new AccessoryInventoryUnit(
-                    WoolAccessorySlotTypes.EMPTY
+                    WoolAccessorySlotTypes.EMPTY, false
             )
     );
 

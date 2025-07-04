@@ -17,6 +17,9 @@ public interface AccessoryInventoryHolder {
     Registry<AccessoryInventoryUnit> getRegistry();
 
     @Nullable
+    Map<Identifier, AccessoryInventoryUnit> getFullAccessoryInventory();
+
+    @Nullable
     Map<Identifier, AccessoryInventoryUnit> getAccessoryInventory();
 
     default boolean isValid() {

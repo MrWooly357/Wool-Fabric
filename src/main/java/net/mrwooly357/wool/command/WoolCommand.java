@@ -166,8 +166,8 @@ public class WoolCommand {
 
             for (Entity entity : targets) {
 
-                if (entity instanceof AccessoryInventoryHolder holder && holder.isValid() && holder.getRegistry() != null && holder.getId() != null && holder.getAccessoryInventory() != null && !unit.toString().equals("wool:empty") && EntityTypeAccessoryInventoryManager.getEntityTypeToRegistry().containsKey(entity.getType())) {
-                    ItemStack stack = holder.getAccessoryInventory().get(unit).getStack();
+                if (entity instanceof AccessoryInventoryHolder holder && holder.isValid() && holder.getRegistry() != null && holder.getId() != null && holder.getFullAccessoryInventory() != null && !unit.toString().equals("wool:empty") && EntityTypeAccessoryInventoryManager.getEntityTypeToRegistry().containsKey(entity.getType())) {
+                    ItemStack stack = holder.getFullAccessoryInventory().get(unit).getStack();
 
                     valid.add(entity);
                     source.sendFeedback(() -> Text.translatable("command." + Wool.MOD_ID + ".wool.accessory.get", WOOL, Texts.bracketed(entity.getName()).styled(
@@ -195,11 +195,11 @@ public class WoolCommand {
 
             for (Entity entity : targets) {
 
-                if (entity instanceof AccessoryInventoryHolder holder && holder.isValid() && holder.getRegistry() != null && holder.getId() != null && holder.getAccessoryInventory() != null && !unit.toString().equals("wool:empty") && EntityTypeAccessoryInventoryManager.getEntityTypeToRegistry().containsKey(entity.getType())) {
+                if (entity instanceof AccessoryInventoryHolder holder && holder.isValid() && holder.getRegistry() != null && holder.getId() != null && holder.getFullAccessoryInventory() != null && !unit.toString().equals("wool:empty") && EntityTypeAccessoryInventoryManager.getEntityTypeToRegistry().containsKey(entity.getType())) {
                     ItemStack stack = new ItemStack(item.getItem(), count);
 
                     valid.add(entity);
-                    holder.getAccessoryInventory().get(unit).setStack(stack);
+                    holder.getFullAccessoryInventory().get(unit).setStack(stack);
                     source.sendFeedback(() -> Text.translatable(
                             "command." + Wool.MOD_ID + ".wool.accessory.set", WOOL, Text.translatable("chat." + Wool.MOD_ID + ".itemStackInfo", Registries.ITEM.getId(stack.getItem()).toString(), stack.getCount()).formatted(Formatting.AQUA), Text.translatable("chat." + Wool.MOD_ID + ".accessoryInventoryUnitInfo", unit.toString()).formatted(Formatting.DARK_AQUA), Texts.bracketed(entity.getName()).styled(
                                     style -> style

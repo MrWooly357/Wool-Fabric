@@ -26,16 +26,17 @@ import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Objects;
-import java.util.Optional;
+import java.util.*;
 
 @Mixin(Entity.class)
 public abstract class EntityAccessoriesMixin implements AccessoryInventoryHolder {
 
     @Shadow
     private World world;
+    @Nullable
+    @Unique
+    private Map<Identifier, AccessoryInventoryUnit> fullAccessoryInventory;
+    @Nullable
     @Unique
     private Map<Identifier, AccessoryInventoryUnit> accessoryInventory;
 
@@ -59,79 +60,93 @@ public abstract class EntityAccessoriesMixin implements AccessoryInventoryHolder
     }
 
     @Override
-    public boolean isValid() {
-        return AccessoryInventoryHolder.super.isValid() && EntityTypeAccessoryInventoryManager.getEntityTypeToRegistry().containsKey(getType()) && EntityTypeAccessoryInventoryManager.getRegistryToId().containsKey(getRegistry());
-    }
-
-    @Override
     @Nullable
-    public Map<Identifier, AccessoryInventoryUnit> getAccessoryInventory() {
+    public Map<Identifier, AccessoryInventoryUnit> getFullAccessoryInventory() {
         if (isValid() && getRegistry() != null && getId() != null) {
 
-            if (accessoryInventory == null)
+            if (fullAccessoryInventory == null)
                 tryCreateAccessoryInventory();
 
-            return accessoryInventory;
+            return fullAccessoryInventory;
         }
 
         return null;
     }
 
+    @Override
+    public @Nullable Map<Identifier, AccessoryInventoryUnit> getAccessoryInventory() {
+        return accessoryInventory;
+    }
+
+    @Override
+    public boolean isValid() {
+        return AccessoryInventoryHolder.super.isValid() && EntityTypeAccessoryInventoryManager.getEntityTypeToRegistry().containsKey(getType()) && EntityTypeAccessoryInventoryManager.getRegistryToId().containsKey(getRegistry());
+    }
+
     @Unique
     private void tryCreateAccessoryInventory() {
-        if (accessoryInventory == null && isValid() && getRegistry() != null && getId() != null) {
-            accessoryInventory = new HashMap<>();
+        if (fullAccessoryInventory == null && isValid() && getRegistry() != null && getId() != null) {
+            List<Identifier> order = EntityTypeAccessoryInventoryManager.getUnitOrder().get(getRegistry());
+            fullAccessoryInventory = new LinkedHashMap<>();
+            accessoryInventory = new LinkedHashMap<>();
 
-            for (byte a = 0; a < getRegistry().getKeys().size(); a++) {
-                AccessoryInventoryUnit template = getRegistry().get(a);
+            for (Identifier id : order) {
+                AccessoryInventoryUnit template = getRegistry().get(id);
 
                 if (template != null) {
-                    AccessoryInventoryUnit unit = new AccessoryInventoryUnit(template.getType(), template.getStack());
-                    Optional<RegistryKey<AccessoryInventoryUnit>> keyTemplate = getRegistry().getKey(template);
+                    AccessoryInventoryUnit unit = new AccessoryInventoryUnit(template.getType(), template.getStack(), template.isAvailable());
 
-                    keyTemplate.ifPresent(key -> accessoryInventory.put(key.getValue(), unit));
+                    fullAccessoryInventory.put(id, unit);
+
+                    if (unit.isAvailable())
+                       accessoryInventory.put(id, unit);
                 }
             }
         }
     }
 
     @Inject(method = "<init>", at = @At("TAIL"))
-    private void injectInit(EntityType<?> type, World world, CallbackInfo info) {
+    private void injectConstructor(EntityType<?> type, World world, CallbackInfo info) {
         tryCreateAccessoryInventory();
     }
 
-    @Inject(method = "writeNbt", at = @At("HEAD"))
+    @Inject(method = "writeNbt", at = @At("TAIL"))
     private void injectWriteNbt(NbtCompound nbt, CallbackInfoReturnable<NbtCompound> info) {
         if (isValid() && getRegistry() != null && getId() != null) {
             NbtCompound compound = new NbtCompound();
+            NbtCompound compound1 = new NbtCompound();
 
             tryCreateAccessoryInventory();
 
-            for (Map.Entry<Identifier, AccessoryInventoryUnit> entry : accessoryInventory.entrySet()) {
+            for (Map.Entry<Identifier, AccessoryInventoryUnit> entry : fullAccessoryInventory.entrySet())
                 compound.put(entry.getKey().toString(), AccessoryInventoryUnit.toNbt(world, entry.getValue()));
-            }
 
-            nbt.put("entity.nbt." + Wool.MOD_ID + ".accessory_inventory_data", compound);
+            for (Map.Entry<Identifier, AccessoryInventoryUnit> entry : accessoryInventory.entrySet())
+                compound1.put(entry.getKey().toString(), AccessoryInventoryUnit.toNbt(world, entry.getValue()));
+
+            nbt.put(Wool.MOD_ID + ".FullAccessoryInventory", compound);
+            nbt.put(Wool.MOD_ID + ".AccessoryInventory", compound1);
         }
     }
 
-    @Inject(method = "readNbt", at = @At("HEAD"))
+    @Inject(method = "readNbt", at = @At("TAIL"))
     private void injectReadNbt(NbtCompound nbt, CallbackInfo info) {
         if (isValid() && getRegistry() != null && getId() != null) {
-            NbtCompound compound = nbt.getCompound("entity.nbt." + Wool.MOD_ID + ".accessory_inventory_data");
+            NbtCompound compound = nbt.getCompound(Wool.MOD_ID + ".FullAccessoryInventory");
+            NbtCompound compound1 = nbt.getCompound(Wool.MOD_ID + ".AccessoryInventory");
             String idAsString = getId().getNamespace() + ":empty";
             Identifier id = Identifier.of(idAsString);
 
             tryCreateAccessoryInventory();
 
-            if (!accessoryInventory.containsKey(id)) {
+            if (!fullAccessoryInventory.containsKey(id)) {
                 AccessoryInventoryUnit emptyTemplate = getRegistry().get(id);
 
                 if (emptyTemplate != null) {
-                    AccessoryInventoryUnit emptyUnit = new AccessoryInventoryUnit(emptyTemplate.getType(), emptyTemplate.getStack());
+                    AccessoryInventoryUnit emptyUnit = new AccessoryInventoryUnit(emptyTemplate.getType(), emptyTemplate.getStack(), emptyTemplate.isAvailable());
                     Optional<RegistryKey<AccessoryInventoryUnit>> emptyKeyTemplate = getRegistry().getKey(emptyTemplate);
 
-                    emptyKeyTemplate.ifPresent(key1 -> accessoryInventory.put(key1.getValue(), emptyUnit));
+                    emptyKeyTemplate.ifPresent(key1 -> fullAccessoryInventory.put(key1.getValue(), emptyUnit));
                 } else if (WoolConfig.developerMode)
                     Wool.LOGGER.error("Entity type accessory inventory registry {} doesn't contain an empty accessory inventory unit!", getRegistry());
             }
@@ -139,12 +154,16 @@ public abstract class EntityAccessoriesMixin implements AccessoryInventoryHolder
             for (String key : compound.getKeys()) {
 
                 if (!Objects.equals(key, idAsString)) {
-                    NbtCompound compound1 = compound.getCompound(key);
-                    AccessoryInventoryUnit unit = accessoryInventory.get(Identifier.of(key));
+                    NbtCompound compound2 = compound.getCompound(key);
 
-                    if (!unit.getStack().isEmpty())
-                        unit.setStack(AccessoryInventoryUnit.fromNbt(compound1, world));
+                    fullAccessoryInventory.get(Identifier.of(key)).setStack(AccessoryInventoryUnit.fromNbt(compound2, world));
                 }
+            }
+
+            for (String key : compound1.getKeys()) {
+                NbtCompound compound2 = compound1.getCompound(key);
+
+                accessoryInventory.get(Identifier.of(key)).setStack(AccessoryInventoryUnit.fromNbt(compound2, world));
             }
         }
     }
@@ -157,13 +176,13 @@ public abstract class EntityAccessoriesMixin implements AccessoryInventoryHolder
                 AccessoryInventoryUnit unit = entry.getValue();
                 ItemStack stack = unit.getStack();
 
-                if (!Objects.equals(entry.getKey().toString(), "wool:empty") && !stack.isEmpty() && stack.getItem() instanceof Accessory accessory)
-                    accessory.tick(((Entity) ((Object) this)), stack, unit);
+                if (!stack.isEmpty() && stack.getItem() instanceof Accessory accessory && !world.isClient())
+                    accessory.tick(((Entity) (Object) this), stack, unit);
             }
         }
     }
 
-    @Inject(method = "remove", at = @At("HEAD"))
+    @Inject(method = "remove", at = @At("TAIL"))
     private void injectRemove(Entity.RemovalReason reason, CallbackInfo info) {
         if (reason == Entity.RemovalReason.KILLED && isValid() && getRegistry() != null && getId() != null && accessoryInventory != null) {
 
@@ -171,12 +190,12 @@ public abstract class EntityAccessoriesMixin implements AccessoryInventoryHolder
                 AccessoryInventoryUnit unit = entry.getValue();
                 ItemStack stack = unit.getStack();
 
-                if (!Objects.equals(entry.getKey().toString(), "wool:empty") && !stack.isEmpty() && stack.getItem() instanceof Accessory accessory) {
-                    accessory.onDeath(((Entity) ((Object) this)), stack, unit);
+                if (!stack.isEmpty() && stack.getItem() instanceof Accessory accessory) {
+                    accessory.onDeath(((Entity) (Object) this), stack, unit);
 
                     if (getType() == EntityType.PLAYER) {
 
-                        if (!accessory.keepOnDeath(((PlayerEntity) ((Object) this)), stack, unit) && !world.getGameRules().getBoolean(GameRules.KEEP_INVENTORY)) {
+                        if (!accessory.keepOnDeath(((PlayerEntity) (Object) this), stack, unit) && !world.getGameRules().getBoolean(GameRules.KEEP_INVENTORY)) {
                             dropStack(stack);
                             unit.setStack(ItemStack.EMPTY);
                         }

@@ -12,32 +12,43 @@ import net.mrwooly357.wool.item.accessory.Accessory;
 
 public class AccessorySlot extends Slot {
 
+    private final AccessoryInventoryUnit unit;
     private final AccessorySlotType type;
     private final Entity entity;
-    private final AccessoryInventoryUnit unit;
 
-    public AccessorySlot(Inventory inventory, int index, int x, int y, AccessorySlotType type, Entity entity, AccessoryInventoryUnit unit) {
+    public AccessorySlot(Inventory inventory, AccessoryInventoryUnit unit, int index, int x, int y, Entity entity) {
         super(inventory, index, x, y);
 
-        this.type = type;
-        this.entity = entity;
         this.unit = unit;
+        this.type = unit.getType();
+        this.entity = entity;
     }
 
 
     @Override
     public boolean canInsert(ItemStack stack) {
         TagKey<Item> tag = type.getTag();
+        boolean bl = true;
 
-        return tag == null || stack.isIn(tag);
+        if (stack.getItem() instanceof Accessory accessory)
+            bl = accessory.canEquip(entity, stack, unit);
+
+        return (tag == null || stack.isIn(tag)) && bl;
     }
 
     @Override
-    public void setStack(ItemStack stack, ItemStack previousStack) {
-        super.setStack(stack, previousStack);
+    public boolean canTakeItems(PlayerEntity player) {
+        ItemStack stack = unit.getStack();
 
-        if (stack.getItem() instanceof Accessory accessory)
-            accessory.onEquip(entity, stack, unit);
+        return stack.getItem() instanceof Accessory accessory ? accessory.canUnequip(entity, stack, unit) : super.canTakeItems(player);
+    }
+
+    @Override
+    public ItemStack insertStack(ItemStack stack) {
+        if (stack.getItem() instanceof Accessory accessory && !unit.getStack().isEmpty())
+            accessory.onEquip(stack.getHolder(), stack, unit);
+
+        return super.insertStack(stack);
     }
 
     @Override

@@ -11,5 +11,6 @@
   "command.wool.wool.config.loadAll": "%s Loading all configs",
   "command.wool.wool.config.resetToDefaultAll": "%s Resetting to default all configs",
   "command.wool.wool.accessory.get": "%s Entity %s %s has stack %s in accessory slot %s",
-  "command.wool.wool.accessory.set": "%s Set stack %s in accessory slot %s for entity %s"
+  "command.wool.wool.accessory.set": "%s Set stack %s in accessory slot %s for entity %s",
+  "gui.wool.player_accessory_inventory": "Accessories"
 }

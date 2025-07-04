@@ -10,12 +10,22 @@ public class WoolPlayerAccessoryInventory {
 
     public static final AccessoryInventoryUnit EMPTY = register(
             "empty", new AccessoryInventoryUnit(
-                    WoolAccessorySlotTypes.EMPTY
+                    WoolAccessorySlotTypes.EMPTY, false
             )
     );
-    public static final AccessoryInventoryUnit GLASSES = register(
-            "glasses", new AccessoryInventoryUnit(
-                    WoolAccessorySlotTypes.GLASSES
+    public static final AccessoryInventoryUnit NECKLACE = register(
+            "necklace", new AccessoryInventoryUnit(
+                    WoolAccessorySlotTypes.NECKLACE, true
+            )
+    );
+    public static final AccessoryInventoryUnit RING = register(
+            "ring", new AccessoryInventoryUnit(
+                    WoolAccessorySlotTypes.RING, true
+            )
+    );
+    public static final AccessoryInventoryUnit BELT = register(
+            "belt", new AccessoryInventoryUnit(
+                    WoolAccessorySlotTypes.BELT, true
             )
     );
 

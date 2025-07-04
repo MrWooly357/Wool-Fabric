@@ -3,6 +3,7 @@ package net.mrwooly357.wool.registry;
 import net.minecraft.registry.Registry;
 import net.minecraft.util.Identifier;
 import net.mrwooly357.wool.entity.util.AccessoryInventoryUnit;
+import net.mrwooly357.wool.entity.util.EntityTypeAccessoryInventoryManager;
 
 /**
  * A helper used for registering custom player {@link AccessoryInventoryUnit}s.
@@ -17,6 +18,8 @@ public interface PlayerAccessoryInventoryRegistryHelper {
      * @return a registered player {@link AccessoryInventoryUnit}.
      */
     static AccessoryInventoryUnit register(Identifier id, AccessoryInventoryUnit unit) {
+        EntityTypeAccessoryInventoryManager.getUnitOrder().get(WoolRegistries.PLAYER_ACCESSORY_INVENTORY).add(id);
+
         return Registry.register(WoolRegistries.PLAYER_ACCESSORY_INVENTORY, id, unit);
     }
 }
