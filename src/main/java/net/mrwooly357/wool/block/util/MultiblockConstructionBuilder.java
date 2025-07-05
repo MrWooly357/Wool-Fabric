@@ -35,16 +35,16 @@ public class MultiblockConstructionBuilder {
                 for (List<@Nullable BlockState> states : pattern) {
                     boolean shouldReturn = false;
 
-                    if (previousPos == null) setPreviousPos(startPos);
+                    if (previousPos == null)
+                        previousPos = startPos;
 
                     BlockPos posToCheck = calculatePosToCheck(startPos, a, direction, first, toNextPattern);
                     toNextPattern = false;
                     BlockState stateToCheck = world.getBlockState(posToCheck);
 
                     if (first) {
-                        setFirstPatternPos(posToCheck);
-                        setLastPatternPos(calculateLastPatternPos(firstPatternPos, pattern, direction));
-
+                        firstPatternPos = posToCheck;
+                        lastPatternPos = calculateLastPatternPos(firstPatternPos, pattern, direction);
                         first = false;
                     }
 
@@ -57,41 +57,26 @@ public class MultiblockConstructionBuilder {
                             if (posToCheck.getX() == lastPatternPos.getX() && posToCheck.getY() == lastPatternPos.getY() && posToCheck.getZ() == lastPatternPos.getZ()) {
 
                                 if (posToCheck.getX() == endPos.getX() && posToCheck.getZ() == endPos.getZ()) {
-                                    setPreviousPos(new BlockPos(startPos.getX(), firstPatternPos.getY(), startPos.getZ()));
-                                } else {
-                                    setPreviousPos(firstPatternPos);
-                                }
+                                    previousPos = new BlockPos(startPos.getX(), firstPatternPos.getY(), startPos.getZ());
+                                } else
+                                    previousPos = firstPatternPos;
 
                                 first = true;
                                 shouldReturn = true;
-                            } else {
-                                setPreviousPos(posToCheck);
-                            }
+                            } else
+                                previousPos = posToCheck;
 
                             break;
                         }
                     }
 
-                    if (posToCheck.getX() == endPos.getX() && posToCheck.getY() == endPos.getY() && posToCheck.getZ() == endPos.getZ() && shouldReturn) {
+                    if (posToCheck.getX() == endPos.getX() && posToCheck.getY() == endPos.getY() && posToCheck.getZ() == endPos.getZ() && shouldReturn)
                         return true;
-                    }
                 }
             }
         }
 
         return false;
-    }
-
-    private void setPreviousPos(BlockPos previousPos) {
-        this.previousPos = previousPos;
-    }
-
-    private void setFirstPatternPos(BlockPos firstPatternPos) {
-        this.firstPatternPos = firstPatternPos;
-    }
-
-    private void setLastPatternPos(BlockPos lastPatternPos) {
-        this.lastPatternPos = lastPatternPos;
     }
 
     private @NotNull BlockPos calculatePosToCheck(BlockPos startPos, int a, Direction direction, boolean first, boolean toNextPattern) {

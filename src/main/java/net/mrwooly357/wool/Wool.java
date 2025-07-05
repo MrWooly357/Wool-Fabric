@@ -50,7 +50,6 @@ public class Wool implements ModInitializer, WoolEntrypoint {
 		WoolServerPlayNetworking.initialize();
 		WoolScreenHandlerTypes.initialize();
 		WoolEntrypoint.invokeEntrypoint();
-		onWoolInitialized();
 	}
 
 	@Override

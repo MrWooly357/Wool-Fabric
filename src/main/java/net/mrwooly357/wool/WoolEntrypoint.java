@@ -7,13 +7,13 @@ import net.mrwooly357.wool.config.custom.WoolConfig;
 import java.util.List;
 
 /**
- * This interface is used for mod initializer classes create mods that use Wool. You should implement it in your mod initializer class.
+ * This interface is used for mod initializer classes of mods that use Wool. You should implement it in your mod initializer class.
  */
 public interface WoolEntrypoint {
 
 
     /**
-     * Called when Wool is initializing.
+     * Called when Wool is initialized.
      */
     void onWoolInitialized();
 

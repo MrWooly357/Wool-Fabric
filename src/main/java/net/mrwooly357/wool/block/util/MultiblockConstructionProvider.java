@@ -7,6 +7,12 @@ import net.minecraft.world.World;
 public interface MultiblockConstructionProvider {
 
 
+    void onSuccess();
+
+    void onFail();
+
+    MultiblockConstructionBlueprint getBlueprint();
+
     default void tryBuild(World world, BlockPos startPos, BlockPos endPos, Direction direction) {
         MultiblockConstructionBuilder builder = new MultiblockConstructionBuilder(getBlueprint(), world);
 
@@ -15,10 +21,4 @@ public interface MultiblockConstructionProvider {
         } else
             onFail();
     }
-
-    void onSuccess();
-
-    void onFail();
-
-    MultiblockConstructionBlueprint getBlueprint();
 }
