@@ -28,6 +28,7 @@ public abstract class ClientWorldEntityAnimationUpdaterMixin {
 
                     player.play(action, animation);
                     player.tick();
+                    clientAnimatable.applyAnimation(entity);
                 }
             }
         }
