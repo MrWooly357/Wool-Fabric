@@ -56,32 +56,38 @@ public interface Animatable {
 
             Map<String, ModelPart> getModelParts();
 
-            default void applyAnimation(Entity entity, Animation.Player player) {
-                for (Map.Entry<String, Animation.Transform> bone : player.getCurrentVariant().getInterpolatedKeyframe(player.getElapsedTicks()).bones().entrySet()) {
+            Map<Identifier, Animation> getAnimations();
 
-                    for (Map.Entry<String, ModelPart> partEntry : getModelParts().entrySet()) {
+            default void applyAnimation(Entity entity) {
+                Animation.Player player = Animation.PlayerStorage.get(entity);
+                Animation.Variant variant = player.getCurrentVariant();
 
-                        if (Objects.equals(bone.getKey(), partEntry.getKey())) {
-                            ModelPart part = partEntry.getValue();
-                            Animation.Transform transform = bone.getValue();
+                if (variant != null) {
 
-                            part.pivotX = -transform.x();
-                            part.pivotY = -transform.y();
-                            part.pivotZ = -transform.z();
-                            part.pitch = -transform.pitch();
-                            part.yaw = -transform.yaw();
-                            part.roll = -transform.roll();
-                            part.xScale = -transform.xScale();
-                            part.yScale = -transform.yScale();
-                            part.zScale = -transform.zScale();
+                    for (Map.Entry<String, Animation.Transform> bone : variant.getInterpolatedKeyframe(player.getElapsedTicks()).bones().entrySet()) {
 
-                            break;
+                        for (Map.Entry<String, ModelPart> partEntry : getModelParts().entrySet()) {
+
+                            if (Objects.equals(bone.getKey(), partEntry.getKey())) {
+                                ModelPart part = partEntry.getValue();
+                                Animation.Transform transform = bone.getValue();
+
+                                part.pivotX = -transform.x();
+                                part.pivotY = -transform.y();
+                                part.pivotZ = -transform.z();
+                                part.pitch = -transform.pitch();
+                                part.yaw = -transform.yaw();
+                                part.roll = -transform.roll();
+                                part.xScale = -transform.xScale();
+                                part.yScale = -transform.yScale();
+                                part.zScale = -transform.zScale();
+
+                                break;
+                            }
                         }
                     }
                 }
             }
-
-            Map<Identifier, Animation> getAnimations();
 
             static Map<Identifier, Animation> createAnimations(EntityType<? extends Animatable.Server> type) {
                 return new HashMap<>(WoolClient.ANIMATION_LOADER.getTemplates().get(type));

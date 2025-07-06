@@ -142,7 +142,6 @@ public record Animation(Identifier entityType, Identifier actionId, boolean loop
             }
         }
 
-
         public void tick() {
             if (currentVariant != null) {
 
