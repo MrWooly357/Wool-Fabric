@@ -171,11 +171,11 @@ public record Animation(Identifier entityType, Identifier actionId, boolean loop
 
     public static class PlayerStorage {
 
-        private static final Map<Entity, Player> PLAYERS = new WeakHashMap<>();
+        private static final Map<Integer, Player> PLAYERS = new LinkedHashMap<>();
 
 
         public static Player get(Entity entity, EntityModel<? extends Animatable.Server> model) {
-            return PLAYERS.computeIfAbsent(entity, entity1 -> new Player(entity1, model));
+            return PLAYERS.computeIfAbsent(entity.getId(), integer -> new Player(entity, model));
         }
     }
 
