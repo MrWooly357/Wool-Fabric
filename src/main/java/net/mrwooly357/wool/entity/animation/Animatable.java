@@ -70,7 +70,6 @@ public interface Animatable {
                             if (Objects.equals(bone.getKey(), partEntry.getKey())) {
                                 ModelPart part = partEntry.getValue();
                                 Animation.Transform transform = bone.getValue();
-
                                 part.pivotX = -transform.x();
                                 part.pivotY = -transform.y();
                                 part.pivotZ = -transform.z();
