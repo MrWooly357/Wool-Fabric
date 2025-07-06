@@ -235,7 +235,7 @@ public record Animation(Identifier entityType, Identifier actionId, boolean loop
                         float[] rotation = parseFloatArray3(boneObject, "rotation", true);
                         float[] scale = parseFloatArray3(boneObject, "scale", false);
 
-                        bones.put(boneObject.get("name").getAsString(), new Transform(translation[0], translation[1], translation[2], rotation[0], rotation[1], rotation[3], scale[0], scale[1], scale[3]));
+                        bones.put(boneObject.get("name").getAsString(), new Transform(translation[0], translation[1], translation[2], rotation[0], rotation[1], rotation[2], scale[0], scale[1], scale[2]));
                     }
 
                     keyframes.add(new Keyframe(progress, bones));
