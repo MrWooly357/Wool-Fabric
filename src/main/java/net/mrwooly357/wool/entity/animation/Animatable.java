@@ -59,12 +59,11 @@ public interface Animatable {
             Map<Identifier, Animation> getAnimations();
 
             default void applyAnimation(Entity entity) {
-                Animation.Player player = Animation.PlayerStorage.get(entity);
-                Animation.Variant variant = player.getCurrentVariant();
+                Animation.Variant variant = Animation.PlayerStorage.get(entity).getCurrentVariant();
 
                 if (variant != null) {
 
-                    for (Map.Entry<String, Animation.Transform> bone : variant.getInterpolatedKeyframe(player.getElapsedTicks()).bones().entrySet()) {
+                    for (Map.Entry<String, Animation.Transform> bone : variant.getInterpolatedKeyframe(((Server) entity).getElapsedAnimationTicks()).bones().entrySet()) {
 
                         for (Map.Entry<String, ModelPart> partEntry : getModelParts().entrySet()) {
 
@@ -89,7 +88,7 @@ public interface Animatable {
                 }
             }
 
-            static Map<Identifier, Animation> createAnimations(EntityType<? extends Animatable.Server> type) {
+            static Map<Identifier, Animation> createAnimations(EntityType<? extends Server> type) {
                 return new HashMap<>(WoolClient.ANIMATION_LOADER.getTemplates().get(type));
             }
         }
