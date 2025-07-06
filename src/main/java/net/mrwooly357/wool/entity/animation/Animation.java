@@ -157,13 +157,7 @@ public record Animation(Identifier entityType, Identifier actionId, boolean loop
         public void tick() {
             if (currentVariant != null) {
 
-                if (elapsedTicks > currentVariant.duration()) {
-
-                    if (currentAnimation.loop()) {
-                        currentVariant = currentAnimation.chooseVariant(Random.create());
-                        elapsedTicks = 0;
-                    }
-                } else
+                if (elapsedTicks <= currentVariant.duration())
                     elapsedTicks++;
             }
         }
