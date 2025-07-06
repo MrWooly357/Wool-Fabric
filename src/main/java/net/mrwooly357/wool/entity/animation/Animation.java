@@ -139,11 +139,10 @@ public record Animation(Identifier entityType, Identifier actionId, boolean loop
                 currentAnimation = animation;
                 currentVariant = animation.chooseVariant(Random.create());
                 elapsedTicks = 0;
+
+                serverAnimatable.setCurrentAction(currentAction);
+                serverAnimatable.setElapsedAnimationTicks(elapsedTicks);
             }
-
-
-            serverAnimatable.setCurrentAction(currentAction);
-            serverAnimatable.setElapsedAnimationTicks(elapsedTicks);
         }
 
         public void tick() {
