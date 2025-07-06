@@ -19,7 +19,7 @@ public interface ActionHolder {
         return getIdsToActions().get(Identifier.of(tracker.get(ACTION)));
     }
 
-    void setCurrentAction();
+    void setCurrentAction(Action action);
 
     default void setCurrentAction(DataTracker tracker, Action action) {
         tracker.set(ACTION, action.getId().toString());
