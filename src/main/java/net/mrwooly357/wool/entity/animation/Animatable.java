@@ -1,6 +1,7 @@
 package net.mrwooly357.wool.entity.animation;
 
 import net.minecraft.client.model.ModelPart;
+import net.minecraft.client.render.entity.model.EntityModel;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.data.DataTracked;
 import net.minecraft.entity.data.DataTracker;
@@ -43,8 +44,8 @@ public interface Animatable {
     interface Client {
 
 
-        default void applyAnimation(Entity entity, Animation.Player player) {
-            player.play(((Server) entity).getCurrentAction());
+        default void applyAnimation(Entity entity, Animation.Player player, EntityModel<? extends Server> model) {
+            player.play(((Server) entity).getCurrentAction(), model);
 
             for (Map.Entry<String, Animation.Transform> bone : player.getCurrentVariant().getInterpolatedKeyframe(player.getElapsedTicks()).bones().entrySet()) {
 

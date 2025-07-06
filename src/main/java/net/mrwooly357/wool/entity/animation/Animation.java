@@ -109,22 +109,17 @@ public record Animation(Identifier entityType, Identifier actionId, boolean loop
     public static class Player {
 
         private Animatable.Server serverAnimatable;
-        private Animatable.Client clientAnimatable;
         @Nullable
         private Action currentAction;
         @Nullable
         private Variant currentVariant;
         private int elapsedTicks;
 
-        public Player(Entity entity, EntityModel<? extends Animatable.Server> model) {
+        public Player(Entity entity) {
             if (entity instanceof Animatable.Server server)
                 serverAnimatable = server;
 
-            if (model instanceof Animatable.Client clientModel)
-                clientAnimatable = clientModel;
-
             elapsedTicks = serverAnimatable.getElapsedAnimationTicks();
-            System.out.println(elapsedTicks);
         }
 
 
@@ -137,8 +132,8 @@ public record Animation(Identifier entityType, Identifier actionId, boolean loop
             return elapsedTicks;
         }
 
-        public void play(Action action) {
-            play(clientAnimatable.getAnimations().get(action.getId()));
+        public void play(Action action, EntityModel<? extends Animatable.Server> model) {
+            play(((Animatable.Client) model).getAnimations().get(action.getId()));
         }
 
         public void play(@Nullable Animation animation) {
@@ -174,8 +169,8 @@ public record Animation(Identifier entityType, Identifier actionId, boolean loop
         private static final Map<Integer, Player> PLAYERS = new HashMap<>();
 
 
-        public static Player get(Entity entity, EntityModel<? extends Animatable.Server> model) {
-            return PLAYERS.computeIfAbsent(entity.getId(), integer -> new Player(entity, model));
+        public static Player get(Entity entity) {
+            return PLAYERS.computeIfAbsent(entity.getId(), integer -> new Player(entity));
         }
     }
 
