@@ -203,7 +203,7 @@ public record Animation(Identifier entityType, Identifier actionId, boolean loop
         private void loadResources(ResourceManager manager) {
             templates.clear();
 
-            Map<Identifier, Resource> resources = manager.findResources("animation/entity", path -> path.getPath().endsWith(".json"));
+            Map<Identifier, Resource> resources = manager.findResources("animations/entity", path -> path.getPath().endsWith(".json"));
 
             for (Map.Entry<Identifier, Resource> entry : resources.entrySet()) {
 
