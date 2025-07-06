@@ -1,6 +1,6 @@
 package net.mrwooly357.wool.entity.action;
 
-import net.minecraft.entity.Entity;
+import net.minecraft.entity.data.DataTracked;
 import net.minecraft.entity.data.DataTracker;
 import net.minecraft.entity.data.TrackedData;
 import net.minecraft.entity.data.TrackedDataHandlerRegistry;
@@ -10,19 +10,23 @@ import java.util.Map;
 
 public interface ActionHolder {
 
-    TrackedData<String> ACTION = DataTracker.registerData(Entity.class, TrackedDataHandlerRegistry.STRING);
 
+    TrackedData<String> getCurrentActionTrackedData();
+
+    static TrackedData<String> createCurrentActionTrackedData(Class<? extends DataTracked> entityClass) {
+        return DataTracker.registerData(entityClass, TrackedDataHandlerRegistry.STRING);
+    }
 
     Action getCurrentAction();
 
     default Action getCurrentAction(DataTracker tracker) {
-        return getIdsToActions().get(Identifier.of(tracker.get(ACTION)));
+        return getIdsToActions().get(Identifier.of(tracker.get(getCurrentActionTrackedData())));
     }
 
     void setCurrentAction(Action action);
 
     default void setCurrentAction(DataTracker tracker, Action action) {
-        tracker.set(ACTION, action.getId().toString());
+        tracker.set(getCurrentActionTrackedData(), action.getId().toString());
     }
 
     Map<Identifier, Action> getIdsToActions();
