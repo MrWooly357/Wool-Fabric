@@ -23,7 +23,7 @@ public interface Animatable {
 
         TrackedData<Integer> getElapsedAnimationTicksTrackedData();
 
-        static TrackedData<Integer> createlapsedAnimationTicksTrackedData(Class<? extends DataTracked> entityClass) {
+        static TrackedData<Integer> creatElapsedAnimationTicksTrackedData(Class<? extends DataTracked> entityClass) {
             return DataTracker.registerData(entityClass, TrackedDataHandlerRegistry.INTEGER);
         }
 
