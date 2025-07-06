@@ -170,10 +170,13 @@ public record Animation(Identifier entityType, Identifier actionId, boolean loop
 
 
         public static Player get(Entity entity) {
-            if (PLAYERS.isEmpty())
-                PLAYERS.put(Integer.MIN_VALUE, new Player(entity));
+            int id = entity.getId();
 
-            return PLAYERS.computeIfAbsent(entity.getId(), integer -> new Player(entity));
+            if (!PLAYERS.containsKey(id))
+                PLAYERS.put(id, new Player(entity));
+
+
+            return PLAYERS.get(id);
         }
     }
 
