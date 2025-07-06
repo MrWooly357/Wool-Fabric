@@ -124,6 +124,7 @@ public record Animation(Identifier entityType, Identifier actionId, boolean loop
                 clientAnimatableModel = clientModel;
 
             elapsedTicks = serverAnimatable.getElapsedAnimationTicks();
+            System.out.println(elapsedTicks);
         }
 
 
@@ -161,9 +162,10 @@ public record Animation(Identifier entityType, Identifier actionId, boolean loop
                             return;
                     }
                 }
-
-                serverAnimatable.setElapsedAnimationTicks(elapsedTicks);
             }
+
+            serverAnimatable.setElapsedAnimationTicks(elapsedTicks);
+            System.out.println(elapsedTicks);
         }
     }
 
