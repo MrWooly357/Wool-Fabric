@@ -141,9 +141,8 @@ public record Animation(Identifier entityType, Identifier actionId, boolean loop
 
         public void play(Action action, @Nullable Animation animation) {
             Action syncedCurrentAction = serverAnimatable.getCurrentAction();
-            int syncedElapsedTicks = serverAnimatable.getElapsedAnimationTicks();
 
-            if (syncedCurrentAction != null && animation != null && (currentAction != null && !syncedCurrentAction.equals(currentAction))) {
+            if (syncedCurrentAction != null && animation != null && (currentAction == null || !syncedCurrentAction.equals(currentAction))) {
                 currentAction = action;
                 currentAnimation = animation;
                 currentVariant = animation.chooseVariant(Random.create());
