@@ -44,44 +44,53 @@ public interface Animatable {
     interface Client {
 
 
-        default void applyAnimation(Entity entity) {
-            getAnimationPlayer().play(((Server) entity).getCurrentAction());
+        interface Model {
 
-            for (Map.Entry<String, Animation.Transform> bone : getAnimationPlayer().getCurrentVariant().getInterpolatedKeyframe(getAnimationPlayer().getElapsedTicks()).bones().entrySet()) {
 
-                for (Map.Entry<String, ModelPart> partEntry : getModelParts().entrySet()) {
+            default void applyAnimation(Entity entity, Animation.Player player) {
+                player.play(((Server) entity).getCurrentAction());
 
-                    if (Objects.equals(bone.getKey(), partEntry.getKey())) {
-                        Animation.Transform transform = bone.getValue();
-                        ModelPart part = partEntry.getValue();
+                for (Map.Entry<String, Animation.Transform> bone : player.getCurrentVariant().getInterpolatedKeyframe(player.getElapsedTicks()).bones().entrySet()) {
 
-                        part.setTransform(ModelTransform.of(transform.x(), transform.y(), transform.z(), transform.pitch(), transform.yaw(), transform.roll()));
-                        part.xScale = transform.xScale();
-                        part.yScale = transform.yScale();
-                        part.zScale = transform.zScale();
+                    for (Map.Entry<String, ModelPart> partEntry : getModelParts().entrySet()) {
 
-                        break;
+                        if (Objects.equals(bone.getKey(), partEntry.getKey())) {
+                            Animation.Transform transform = bone.getValue();
+                            ModelPart part = partEntry.getValue();
+
+                            part.setTransform(ModelTransform.of(transform.x(), transform.y(), transform.z(), transform.pitch(), transform.yaw(), transform.roll()));
+                            part.xScale = transform.xScale();
+                            part.yScale = transform.yScale();
+                            part.zScale = transform.zScale();
+
+                            break;
+                        }
                     }
                 }
             }
-        }
 
-        Map<String, ModelPart> getModelParts();
+            Map<String, ModelPart> getModelParts();
 
-        Map<Identifier, Animation> getAnimations();
+            Map<Identifier, Animation> getAnimations();
 
-        static Map<Identifier, Animation> createAnimations(Entity entity) {
-            Map<Identifier, Animation> map = new HashMap<>();
+            static Map<Identifier, Animation> createAnimations(Entity entity) {
+                Map<Identifier, Animation> map = new HashMap<>();
 
-            for (Map.Entry<Identifier, Animation> entry : WoolClient.ANIMATION_LOADER.getTemplates().get(entity.getType()).entrySet()) {
-                Animation template = entry.getValue();
+                for (Map.Entry<Identifier, Animation> entry : WoolClient.ANIMATION_LOADER.getTemplates().get(entity.getType()).entrySet()) {
+                    Animation template = entry.getValue();
 
-                map.put(Identifier.of(entry.getKey().toString()), new Animation(template.entityType(), template.actionId(), template.loop(), template.variants()));
+                    map.put(Identifier.of(entry.getKey().toString()), new Animation(template.entityType(), template.actionId(), template.loop(), template.variants()));
+                }
+
+                return map;
             }
-
-            return map;
         }
 
-        Animation.Player getAnimationPlayer();
+
+        interface Renderer {
+
+
+            Animation.Player getAnimationPlayer();
+        }
     }
 }

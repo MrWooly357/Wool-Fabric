@@ -106,10 +106,10 @@ public record Animation(Identifier entityType, Identifier actionId, boolean loop
     }
 
 
-    public static abstract class Player {
+    public static class Player {
 
         private Animatable.Server serverAnimatable;
-        private Animatable.Client clientAnimatable;
+        private Animatable.Client.Model clientAnimatableModel;
         @Nullable
         private Action currentAction;
         private Variant currentVariant;
@@ -119,8 +119,8 @@ public record Animation(Identifier entityType, Identifier actionId, boolean loop
             if (entity instanceof Animatable.Server server)
                 serverAnimatable = server;
 
-            if (model instanceof Animatable.Client client)
-                clientAnimatable = client;
+            if (model instanceof Animatable.Client.Model clientModel)
+                clientAnimatableModel = clientModel;
 
             elapsedTicks = serverAnimatable.getElapsedAnimationTicks();
         }
@@ -135,7 +135,7 @@ public record Animation(Identifier entityType, Identifier actionId, boolean loop
         }
 
         public void play(Action action) {
-            play(clientAnimatable.getAnimations().get(action.getId()));
+            play(clientAnimatableModel.getAnimations().get(action.getId()));
         }
 
         public void play(@Nullable Animation animation) {
