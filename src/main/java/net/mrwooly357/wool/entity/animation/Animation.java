@@ -4,6 +4,7 @@ import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
+import net.fabricmc.fabric.api.client.networking.v1.ClientPlayNetworking;
 import net.fabricmc.fabric.api.resource.IdentifiableResourceReloadListener;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
@@ -18,6 +19,8 @@ import net.mrwooly357.wool.Wool;
 import net.mrwooly357.wool.config.custom.WoolConfig;
 import net.mrwooly357.wool.entity.action.Action;
 import net.mrwooly357.wool.entity.animation.interpolation.Interpolation;
+import net.mrwooly357.wool.network.packet.c2s.CurrentActionSyncC2SPacket;
+import net.mrwooly357.wool.network.packet.c2s.ElapsedAnimationTicksSyncC2SPacket;
 import net.mrwooly357.wool.registry.WoolRegistries;
 import org.jetbrains.annotations.Nullable;
 
@@ -107,6 +110,7 @@ public record Animation(Identifier entityType, Identifier actionId, boolean loop
 
     public static class Player {
 
+        private final Entity entity;
         private Animatable.Server serverAnimatable;
         @Nullable
         private Action currentAction;
@@ -117,6 +121,8 @@ public record Animation(Identifier entityType, Identifier actionId, boolean loop
         private int elapsedTicks;
 
         public Player(Entity entity) {
+            this.entity = entity;
+
             if (entity instanceof Animatable.Server server)
                 serverAnimatable = server;
 
@@ -129,19 +135,16 @@ public record Animation(Identifier entityType, Identifier actionId, boolean loop
             return currentVariant;
         }
 
-        public int getElapsedTicks() {
-            return elapsedTicks;
-        }
-
         public void play(Action action, @Nullable Animation animation) {
             if (action != null && animation != null && (currentAction == null || !action.equals(currentAction))) {
                 currentAction = action;
                 currentAnimation = animation;
                 currentVariant = animation.chooseVariant(Random.create());
                 elapsedTicks = 0;
+                int entityId = entity.getId();
 
-                serverAnimatable.setCurrentAction(currentAction);
-                serverAnimatable.setElapsedAnimationTicks(elapsedTicks);
+                ClientPlayNetworking.send(new CurrentActionSyncC2SPacket(entityId, currentAction.getId().toString()));
+                ClientPlayNetworking.send(new ElapsedAnimationTicksSyncC2SPacket(entityId, elapsedTicks));
             }
         }
 
@@ -158,7 +161,7 @@ public record Animation(Identifier entityType, Identifier actionId, boolean loop
                     elapsedTicks++;
             }
 
-            serverAnimatable.setElapsedAnimationTicks(elapsedTicks);
+            ClientPlayNetworking.send(new ElapsedAnimationTicksSyncC2SPacket(entity.getId(), elapsedTicks));
         }
     }
 
