@@ -115,7 +115,7 @@ public record Animation(Identifier entityType, Identifier actionId, boolean loop
         private Variant currentVariant;
         private int elapsedTicks;
 
-        public Player(Entity entity, EntityModel<? extends Animatable.Server> model) {
+        public Player(Entity entity, EntityModel<? extends Animatable.Client.Model> model) {
             if (entity instanceof Animatable.Server server)
                 serverAnimatable = server;
 
