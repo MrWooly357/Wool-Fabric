@@ -134,7 +134,7 @@ public record Animation(Identifier entityType, Identifier actionId, boolean loop
         }
 
         public void play(Action action, @Nullable Animation animation) {
-            if (action != null && animation != null && !action.equals(currentAction)) {
+            if (action != null && currentAction != null && animation != null && !action.equals(currentAction)) {
                 currentAction = action;
                 currentAnimation = animation;
                 currentVariant = animation.chooseVariant(Random.create());
