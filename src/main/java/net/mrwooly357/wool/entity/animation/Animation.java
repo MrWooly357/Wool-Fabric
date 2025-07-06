@@ -135,8 +135,15 @@ public record Animation(Identifier entityType, Identifier actionId, boolean loop
             return currentVariant;
         }
 
+        public int getElapsedTicks() {
+            return elapsedTicks;
+        }
+
         public void play(Action action, @Nullable Animation animation) {
-            if (action != null && animation != null && (currentAction == null || !action.equals(currentAction))) {
+            Action syncedCurrentAction = serverAnimatable.getCurrentAction();
+            int syncedElapsedTicks = serverAnimatable.getElapsedAnimationTicks();
+
+            if (syncedCurrentAction != null && animation != null &&(!syncedCurrentAction.equals(currentAction) || syncedElapsedTicks != elapsedTicks)) {
                 currentAction = action;
                 currentAnimation = animation;
                 currentVariant = animation.chooseVariant(Random.create());
@@ -160,8 +167,6 @@ public record Animation(Identifier entityType, Identifier actionId, boolean loop
                 } else
                     elapsedTicks++;
             }
-
-            ClientPlayNetworking.send(new ElapsedAnimationTicksSyncC2SPacket(entity.getId(), elapsedTicks));
         }
     }
 
