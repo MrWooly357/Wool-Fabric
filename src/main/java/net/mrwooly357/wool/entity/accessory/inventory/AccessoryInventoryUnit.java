@@ -12,6 +12,7 @@ import net.mrwooly357.wool.screen.slot.custom.accessory.AccessorySlotType;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
+import java.util.Optional;
 
 public class AccessoryInventoryUnit {
 
@@ -56,10 +57,7 @@ public class AccessoryInventoryUnit {
     }
 
     public static ItemStack fromNbt(NbtCompound nbt, World world) {
-        RegistryWrapper.WrapperLookup lookup = world.getRegistryManager();
-        NbtCompound compound = nbt.getCompound("Stack");
-
-        return ItemStack.fromNbt(lookup, compound).isPresent() ? ItemStack.fromNbt(lookup, compound).get() : ItemStack.EMPTY;
+        return ItemStack.fromNbt(world.getRegistryManager(), nbt.getCompound("Stack")).orElse(ItemStack.EMPTY);
     }
 
     public boolean isAvailable() {

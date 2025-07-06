@@ -5,7 +5,6 @@ import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import net.fabricmc.fabric.api.resource.IdentifiableResourceReloadListener;
-import net.minecraft.client.render.entity.model.EntityModel;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
 import net.minecraft.registry.Registries;
@@ -112,6 +111,8 @@ public record Animation(Identifier entityType, Identifier actionId, boolean loop
         @Nullable
         private Action currentAction;
         @Nullable
+        Animation currentAnimation;
+        @Nullable
         private Variant currentVariant;
         private int elapsedTicks;
 
@@ -132,31 +133,27 @@ public record Animation(Identifier entityType, Identifier actionId, boolean loop
             return elapsedTicks;
         }
 
-        public void play(Action action, EntityModel<? extends Animatable.Server> model) {
-            play(((Animatable.Client) model).getAnimations().get(action.getId()));
+        public void play(Action action, @Nullable Animation animation) {
+            if (action != null && animation != null && !action.equals(currentAction)) {
+                currentAction = action;
+                currentAnimation = animation;
+                currentVariant = animation.chooseVariant(Random.create());
+                elapsedTicks = 0;
+            }
         }
 
-        public void play(@Nullable Animation animation) {
-            if (animation != null) {
-                Action action = serverAnimatable.getIdsToActions().get(animation.actionId());
-                Random random = Random.create();
 
-                if (currentAction == null || !action.equals(currentAction)) {
-                    currentAction = action;
-                    currentVariant = animation.chooseVariant(random);
-                    elapsedTicks = 0;
-                } else {
-                    elapsedTicks++;
+        public void tick() {
+            if (currentVariant != null) {
 
-                    if (currentVariant != null && elapsedTicks > currentVariant.duration()) {
+                if (elapsedTicks > currentVariant.duration()) {
 
-                        if (animation.loop()) {
-                            currentVariant = animation.chooseVariant(random);
-                            elapsedTicks = 0;
-                        } else
-                            return;
+                    if (currentAnimation.loop()) {
+                        currentVariant = currentAnimation.chooseVariant(Random.create());
+                        elapsedTicks = 0;
                     }
-                }
+                } else
+                    elapsedTicks++;
             }
 
             serverAnimatable.setElapsedAnimationTicks(elapsedTicks);

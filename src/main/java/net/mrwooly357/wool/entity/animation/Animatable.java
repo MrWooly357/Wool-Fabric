@@ -1,8 +1,8 @@
 package net.mrwooly357.wool.entity.animation;
 
 import net.minecraft.client.model.ModelPart;
-import net.minecraft.client.render.entity.model.EntityModel;
 import net.minecraft.entity.Entity;
+import net.minecraft.entity.EntityType;
 import net.minecraft.entity.data.DataTracked;
 import net.minecraft.entity.data.DataTracker;
 import net.minecraft.entity.data.TrackedData;
@@ -44,47 +44,48 @@ public interface Animatable {
     interface Client {
 
 
-        default void applyAnimation(Entity entity, Animation.Player player, EntityModel<? extends Server> model) {
-            player.play(((Server) entity).getCurrentAction(), model);
+        interface Model {
 
-            for (Map.Entry<String, Animation.Transform> bone : player.getCurrentVariant().getInterpolatedKeyframe(player.getElapsedTicks()).bones().entrySet()) {
 
-                for (Map.Entry<String, ModelPart> partEntry : getModelParts().entrySet()) {
+            Map<String, ModelPart> getModelParts();
+        }
 
-                    if (Objects.equals(bone.getKey(), partEntry.getKey())) {
-                        ModelPart part = partEntry.getValue();
-                        Animation.Transform transform = bone.getValue();
 
-                        part.pivotX = -transform.x();
-                        part.pivotY = -transform.y();
-                        part.pivotZ = -transform.z();
-                        part.pitch = -transform.pitch();
-                        part.yaw = -transform.yaw();
-                        part.roll = -transform.roll();
-                        part.xScale = -transform.xScale();
-                        part.yScale = -transform.yScale();
-                        part.zScale = -transform.zScale();
+        interface Renderer {
 
-                        break;
+
+            Map<String, ModelPart> getModelParts();
+
+            default void applyAnimation(Entity entity, Animation.Player player) {
+                for (Map.Entry<String, Animation.Transform> bone : player.getCurrentVariant().getInterpolatedKeyframe(player.getElapsedTicks()).bones().entrySet()) {
+
+                    for (Map.Entry<String, ModelPart> partEntry : getModelParts().entrySet()) {
+
+                        if (Objects.equals(bone.getKey(), partEntry.getKey())) {
+                            ModelPart part = partEntry.getValue();
+                            Animation.Transform transform = bone.getValue();
+
+                            part.pivotX = -transform.x();
+                            part.pivotY = -transform.y();
+                            part.pivotZ = -transform.z();
+                            part.pitch = -transform.pitch();
+                            part.yaw = -transform.yaw();
+                            part.roll = -transform.roll();
+                            part.xScale = -transform.xScale();
+                            part.yScale = -transform.yScale();
+                            part.zScale = -transform.zScale();
+
+                            break;
+                        }
                     }
                 }
             }
-        }
 
-        Map<String, ModelPart> getModelParts();
+            Map<Identifier, Animation> getAnimations();
 
-        Map<Identifier, Animation> getAnimations();
-
-        static Map<Identifier, Animation> createAnimations(Entity entity) {
-            Map<Identifier, Animation> map = new HashMap<>();
-
-            for (Map.Entry<Identifier, Animation> entry : WoolClient.ANIMATION_LOADER.getTemplates().get(entity.getType()).entrySet()) {
-                Animation template = entry.getValue();
-
-                map.put(Identifier.of(entry.getKey().toString()), new Animation(template.entityType(), template.actionId(), template.loop(), template.variants()));
+            static Map<Identifier, Animation> createAnimations(EntityType<? extends Animatable.Server> type) {
+                return new HashMap<>(WoolClient.ANIMATION_LOADER.getTemplates().get(type));
             }
-
-            return map;
         }
     }
 }

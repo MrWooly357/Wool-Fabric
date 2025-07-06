@@ -5,7 +5,8 @@
   "mixins": [
     "EntityAccessoriesSaverMixin",
     "EntitySimpleDataSaverMixin",
-    "InventoryScreenAccessorySlotsMixin"
+    "InventoryScreenAccessorySlotsMixin",
+    "ClientWorldEntityAnimationTickerMixin"
   ],
   "injectors": {
     "defaultRequire": 1
