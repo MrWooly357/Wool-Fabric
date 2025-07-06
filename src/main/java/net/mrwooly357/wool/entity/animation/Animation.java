@@ -112,6 +112,7 @@ public record Animation(Identifier entityType, Identifier actionId, boolean loop
         private Animatable.Client.Model clientAnimatableModel;
         @Nullable
         private Action currentAction;
+        @Nullable
         private Variant currentVariant;
         private int elapsedTicks;
 
@@ -126,6 +127,7 @@ public record Animation(Identifier entityType, Identifier actionId, boolean loop
         }
 
 
+        @Nullable
         public Variant getCurrentVariant() {
             return currentVariant;
         }
@@ -150,13 +152,13 @@ public record Animation(Identifier entityType, Identifier actionId, boolean loop
                 } else {
                     elapsedTicks++;
 
-                    if (currentVariant != null && elapsedTicks >= currentVariant.duration()) {
+                    if (currentVariant != null && elapsedTicks > currentVariant.duration()) {
 
                         if (animation.loop()) {
                             currentVariant = animation.chooseVariant(random);
                             elapsedTicks = 0;
                         } else
-                            elapsedTicks = currentVariant.duration();
+                            return;
                     }
                 }
 
