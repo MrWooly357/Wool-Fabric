@@ -8,10 +8,12 @@ import net.mrwooly357.wool.block.util.MultiblockConstructionBlueprint;
 import net.mrwooly357.wool.block.util.WoolMultiblockConstructionBlueprints;
 import net.mrwooly357.wool.config.Config;
 import net.mrwooly357.wool.config.custom.WoolConfig;
-import net.mrwooly357.wool.entity.util.AccessoryInventoryUnit;
-import net.mrwooly357.wool.entity.util.WoolEmptyAccessoryInventory;
-import net.mrwooly357.wool.entity.util.WoolEntityAccessoryInventories;
-import net.mrwooly357.wool.entity.util.WoolPlayerAccessoryInventory;
+import net.mrwooly357.wool.entity.accessory.inventory.AccessoryInventoryUnit;
+import net.mrwooly357.wool.entity.accessory.inventory.custom.WoolEmptyAccessoryInventory;
+import net.mrwooly357.wool.entity.accessory.inventory.WoolEntityAccessoryInventories;
+import net.mrwooly357.wool.entity.accessory.inventory.custom.WoolPlayerAccessoryInventory;
+import net.mrwooly357.wool.entity.animation.interpolation.Interpolation;
+import net.mrwooly357.wool.entity.animation.interpolation.WoolInterpolations;
 import net.mrwooly357.wool.screen.slot.custom.accessory.AccessorySlotType;
 import net.mrwooly357.wool.screen.slot.custom.accessory.WoolAccessorySlotTypes;
 
@@ -34,6 +36,9 @@ public class WoolRegistries {
     );
     public static final Registry<AccessoryInventoryUnit> PLAYER_ACCESSORY_INVENTORY = create(
             WoolRegistryKeys.PLAYER_ACCESSORY_INVENTORY, registry -> WoolPlayerAccessoryInventory.EMPTY
+    );
+    public static final Registry<Interpolation> INTERPOLATION = create(
+            WoolRegistryKeys.INTERPOLATION, registry -> WoolInterpolations.LINEAR
     );
 
 

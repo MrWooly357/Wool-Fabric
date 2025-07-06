@@ -1,8 +1,9 @@
-package net.mrwooly357.wool.registry;
+package net.mrwooly357.wool.registry.helper;
 
 import net.minecraft.registry.Registry;
 import net.minecraft.util.Identifier;
 import net.mrwooly357.wool.block.util.MultiblockConstructionBlueprint;
+import net.mrwooly357.wool.registry.WoolRegistries;
 
 /**
  * A helper used for registering custom {@link MultiblockConstructionBlueprint}s.

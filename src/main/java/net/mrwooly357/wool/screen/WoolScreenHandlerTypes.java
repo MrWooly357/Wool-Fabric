@@ -6,7 +6,7 @@ import net.minecraft.screen.ScreenHandlerType;
 import net.minecraft.util.Identifier;
 import net.mrwooly357.wool.Wool;
 import net.mrwooly357.wool.config.custom.WoolConfig;
-import net.mrwooly357.wool.registry.ScreenHandlerTypeRegistryHelper;
+import net.mrwooly357.wool.registry.helper.ScreenHandlerTypeRegistryHelper;
 import net.mrwooly357.wool.screen.custom.accessory.PlayerAccessoryInventoryScreenHandler;
 
 public class WoolScreenHandlerTypes {

@@ -13,9 +13,9 @@ import net.minecraft.world.GameRules;
 import net.minecraft.world.World;
 import net.mrwooly357.wool.Wool;
 import net.mrwooly357.wool.config.custom.WoolConfig;
-import net.mrwooly357.wool.entity.util.AccessoryInventoryHolder;
-import net.mrwooly357.wool.entity.util.AccessoryInventoryUnit;
-import net.mrwooly357.wool.entity.util.EntityTypeAccessoryInventoryManager;
+import net.mrwooly357.wool.entity.accessory.inventory.AccessoryInventoryHolder;
+import net.mrwooly357.wool.entity.accessory.inventory.AccessoryInventoryUnit;
+import net.mrwooly357.wool.entity.accessory.inventory.EntityTypeAccessoryInventoryManager;
 import net.mrwooly357.wool.item.accessory.Accessory;
 import org.jetbrains.annotations.Nullable;
 import org.spongepowered.asm.mixin.Mixin;
@@ -29,7 +29,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 import java.util.*;
 
 @Mixin(Entity.class)
-public abstract class EntityAccessoriesMixin implements AccessoryInventoryHolder {
+public abstract class EntityAccessoriesSaverMixin implements AccessoryInventoryHolder {
 
     @Shadow
     private World world;

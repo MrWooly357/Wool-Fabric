@@ -3,7 +3,7 @@ package net.mrwooly357.wool.item.accessory;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
-import net.mrwooly357.wool.entity.util.AccessoryInventoryUnit;
+import net.mrwooly357.wool.entity.accessory.inventory.AccessoryInventoryUnit;
 
 public interface Accessory {
 

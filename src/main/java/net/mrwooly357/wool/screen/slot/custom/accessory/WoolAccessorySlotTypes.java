@@ -3,7 +3,7 @@ package net.mrwooly357.wool.screen.slot.custom.accessory;
 import net.minecraft.util.Identifier;
 import net.mrwooly357.wool.Wool;
 import net.mrwooly357.wool.config.custom.WoolConfig;
-import net.mrwooly357.wool.registry.AccessorySlotTypeRegistryHelper;
+import net.mrwooly357.wool.registry.helper.AccessorySlotTypeRegistryHelper;
 import net.mrwooly357.wool.util.WoolItemTags;
 
 public class WoolAccessorySlotTypes {

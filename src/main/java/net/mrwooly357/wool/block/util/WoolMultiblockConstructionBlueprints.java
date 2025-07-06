@@ -3,7 +3,7 @@ package net.mrwooly357.wool.block.util;
 import net.minecraft.util.Identifier;
 import net.mrwooly357.wool.Wool;
 import net.mrwooly357.wool.config.custom.WoolConfig;
-import net.mrwooly357.wool.registry.MultiblockConstructionBlueprintRegistryHelper;
+import net.mrwooly357.wool.registry.helper.MultiblockConstructionBlueprintRegistryHelper;
 
 public class WoolMultiblockConstructionBlueprints {
 

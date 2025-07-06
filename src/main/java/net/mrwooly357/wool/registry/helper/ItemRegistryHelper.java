@@ -1,4 +1,4 @@
-package net.mrwooly357.wool.registry;
+package net.mrwooly357.wool.registry.helper;
 
 import net.minecraft.item.Item;
 import net.minecraft.registry.Registries;

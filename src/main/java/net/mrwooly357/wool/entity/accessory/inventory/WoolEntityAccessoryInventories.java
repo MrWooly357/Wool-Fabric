@@ -1,10 +1,10 @@
-package net.mrwooly357.wool.entity.util;
+package net.mrwooly357.wool.entity.accessory.inventory;
 
 import net.minecraft.registry.Registry;
 import net.minecraft.util.Identifier;
 import net.mrwooly357.wool.Wool;
 import net.mrwooly357.wool.config.custom.WoolConfig;
-import net.mrwooly357.wool.registry.EntityAccessoryInventoryRegistryHelper;
+import net.mrwooly357.wool.registry.helper.EntityAccessoryInventoryRegistryHelper;
 import net.mrwooly357.wool.registry.WoolRegistries;
 
 public class WoolEntityAccessoryInventories {

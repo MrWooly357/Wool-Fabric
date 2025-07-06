@@ -22,8 +22,8 @@ import net.minecraft.util.Identifier;
 import net.mrwooly357.wool.Wool;
 import net.mrwooly357.wool.config.Config;
 import net.mrwooly357.wool.config.ConfigManager;
-import net.mrwooly357.wool.entity.util.AccessoryInventoryHolder;
-import net.mrwooly357.wool.entity.util.EntityTypeAccessoryInventoryManager;
+import net.mrwooly357.wool.entity.accessory.inventory.AccessoryInventoryHolder;
+import net.mrwooly357.wool.entity.accessory.inventory.EntityTypeAccessoryInventoryManager;
 import net.mrwooly357.wool.registry.WoolRegistries;
 import net.mrwooly357.wool.registry.WoolRegistryKeys;
 

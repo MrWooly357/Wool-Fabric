@@ -1,4 +1,4 @@
-package net.mrwooly357.wool.entity.util;
+package net.mrwooly357.wool.entity.accessory.inventory;
 
 import net.minecraft.entity.EntityType;
 import net.minecraft.registry.Registry;
@@ -6,7 +6,6 @@ import net.minecraft.util.Identifier;
 import net.mrwooly357.wool.Wool;
 import net.mrwooly357.wool.config.custom.WoolConfig;
 
-import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;

@@ -7,8 +7,8 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.screen.ScreenHandler;
 import net.minecraft.screen.slot.Slot;
 import net.minecraft.util.Identifier;
-import net.mrwooly357.wool.entity.util.AccessoryInventoryHolder;
-import net.mrwooly357.wool.entity.util.AccessoryInventoryUnit;
+import net.mrwooly357.wool.entity.accessory.inventory.AccessoryInventoryHolder;
+import net.mrwooly357.wool.entity.accessory.inventory.AccessoryInventoryUnit;
 import net.mrwooly357.wool.screen.WoolScreenHandlerTypes;
 import net.mrwooly357.wool.screen.slot.custom.accessory.AccessorySlot;
 

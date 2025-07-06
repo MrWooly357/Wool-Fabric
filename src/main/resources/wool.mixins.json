@@ -3,8 +3,8 @@
   "package": "net.mrwooly357.wool.mixin",
   "compatibilityLevel": "JAVA_21",
   "mixins": [
+    "EntityAccessoriesSaverMixin",
     "EntitySimpleDataSaverMixin",
-    "EntityAccessoriesMixin",
     "InventoryScreenAccessorySlotsMixin"
   ],
   "injectors": {

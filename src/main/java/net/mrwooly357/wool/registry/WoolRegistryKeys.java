@@ -7,7 +7,8 @@ import net.mrwooly357.wool.Wool;
 import net.mrwooly357.wool.block.util.MultiblockConstructionBlueprint;
 import net.mrwooly357.wool.config.Config;
 import net.mrwooly357.wool.config.custom.WoolConfig;
-import net.mrwooly357.wool.entity.util.AccessoryInventoryUnit;
+import net.mrwooly357.wool.entity.accessory.inventory.AccessoryInventoryUnit;
+import net.mrwooly357.wool.entity.animation.interpolation.Interpolation;
 import net.mrwooly357.wool.screen.slot.custom.accessory.AccessorySlotType;
 
 public class WoolRegistryKeys {
@@ -29,6 +30,9 @@ public class WoolRegistryKeys {
     );
     public static final RegistryKey<Registry<AccessoryInventoryUnit>> PLAYER_ACCESSORY_INVENTORY = create(
             "player_accessory_inventory"
+    );
+    public static final RegistryKey<Registry<Interpolation>> INTERPOLATION = create(
+            "interpolation"
     );
 
 

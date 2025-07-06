@@ -9,8 +9,8 @@ import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.text.Text;
 import net.minecraft.util.Identifier;
 import net.mrwooly357.wool.Wool;
-import net.mrwooly357.wool.entity.util.AccessoryInventoryHolder;
-import net.mrwooly357.wool.entity.util.AccessoryInventoryUnit;
+import net.mrwooly357.wool.entity.accessory.inventory.AccessoryInventoryHolder;
+import net.mrwooly357.wool.entity.accessory.inventory.AccessoryInventoryUnit;
 
 import java.util.Map;
 

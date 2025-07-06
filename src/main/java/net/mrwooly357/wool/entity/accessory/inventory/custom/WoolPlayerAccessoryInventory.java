@@ -1,9 +1,10 @@
-package net.mrwooly357.wool.entity.util;
+package net.mrwooly357.wool.entity.accessory.inventory.custom;
 
 import net.minecraft.util.Identifier;
 import net.mrwooly357.wool.Wool;
 import net.mrwooly357.wool.config.custom.WoolConfig;
-import net.mrwooly357.wool.registry.PlayerAccessoryInventoryRegistryHelper;
+import net.mrwooly357.wool.entity.accessory.inventory.AccessoryInventoryUnit;
+import net.mrwooly357.wool.registry.helper.PlayerAccessoryInventoryRegistryHelper;
 import net.mrwooly357.wool.screen.slot.custom.accessory.WoolAccessorySlotTypes;
 
 public class WoolPlayerAccessoryInventory {

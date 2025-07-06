@@ -7,7 +7,7 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.registry.tag.TagKey;
 import net.minecraft.screen.slot.Slot;
-import net.mrwooly357.wool.entity.util.AccessoryInventoryUnit;
+import net.mrwooly357.wool.entity.accessory.inventory.AccessoryInventoryUnit;
 import net.mrwooly357.wool.item.accessory.Accessory;
 
 public class AccessorySlot extends Slot {
