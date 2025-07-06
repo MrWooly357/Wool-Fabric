@@ -54,15 +54,15 @@ public interface Animatable {
                         ModelPart part = partEntry.getValue();
                         Animation.Transform transform = bone.getValue();
 
-                        part.pivotX -= transform.x();
-                        part.pivotY -= transform.y();
-                        part.pivotZ -= transform.z();
-                        part.pitch -= transform.pitch();
-                        part.yaw -= transform.yaw();
-                        part.roll -= transform.roll();
-                        part.xScale -= transform.xScale();
-                        part.yScale -= transform.yScale();
-                        part.zScale -= transform.zScale();
+                        part.pivotX = -transform.x();
+                        part.pivotY = -transform.y();
+                        part.pivotZ = -transform.z();
+                        part.pitch = -transform.pitch();
+                        part.yaw = -transform.yaw();
+                        part.roll = -transform.roll();
+                        part.xScale = -transform.xScale();
+                        part.yScale = -transform.yScale();
+                        part.zScale = -transform.zScale();
 
                         break;
                     }
