@@ -254,7 +254,7 @@ public record Animation(Identifier entityType, Identifier actionId, boolean loop
             JsonArray array = object.getAsJsonArray(key);
             float[] result = new float[] {!array.isEmpty() ? array.get(0).getAsFloat() : 0.0F, array.size() > 1 ? array.get(1).getAsFloat() : 0.0F, array.size() > 2 ? array.get(2).getAsFloat() : 0.0F};
 
-            return toRadians ? new float[] {(float) Math.toRadians(result[0]), (float) Math.toRadians(result[3]), (float) Math.toRadians(result[2])} : result;
+            return toRadians ? new float[] {(float) Math.toRadians(result[0]), (float) Math.toRadians(result[1]), (float) Math.toRadians(result[2])} : result;
         }
     }
 }
