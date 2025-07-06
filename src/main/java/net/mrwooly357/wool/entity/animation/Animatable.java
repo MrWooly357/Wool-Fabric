@@ -1,7 +1,6 @@
 package net.mrwooly357.wool.entity.animation;
 
 import net.minecraft.client.model.ModelPart;
-import net.minecraft.client.model.ModelTransform;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.data.DataTracked;
 import net.minecraft.entity.data.DataTracker;
@@ -55,10 +54,15 @@ public interface Animatable {
                     for (Map.Entry<String, ModelPart> partEntry : getModelParts().entrySet()) {
 
                         if (Objects.equals(bone.getKey(), partEntry.getKey())) {
-                            Animation.Transform transform = bone.getValue();
                             ModelPart part = partEntry.getValue();
+                            Animation.Transform transform = bone.getValue();
 
-                            part.setTransform(ModelTransform.of(transform.x(), transform.y(), transform.z(), transform.pitch(), transform.yaw(), transform.roll()));
+                            part.pivotX = transform.x();
+                            part.pivotY = transform.y();
+                            part.pivotZ = transform.z();
+                            part.pitch = transform.pitch();
+                            part.yaw = transform.yaw();
+                            part.roll = transform.roll();
                             part.xScale = transform.xScale();
                             part.yScale = transform.yScale();
                             part.zScale = transform.zScale();
@@ -84,13 +88,6 @@ public interface Animatable {
 
                 return map;
             }
-        }
-
-
-        interface Renderer {
-
-
-            Animation.Player getAnimationPlayer();
         }
     }
 }

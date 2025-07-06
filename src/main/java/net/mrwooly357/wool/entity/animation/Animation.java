@@ -166,6 +166,17 @@ public record Animation(Identifier entityType, Identifier actionId, boolean loop
     }
 
 
+    public static class PlayerStorage {
+
+        private static final Map<Entity, Player> PLAYERS = new WeakHashMap<>();
+
+
+        public static Player get(Entity entity, EntityModel<? extends Animatable.Server> model) {
+            return PLAYERS.computeIfAbsent(entity, entity1 -> new Player(entity1, model));
+        }
+    }
+
+
     public static class Loader implements IdentifiableResourceReloadListener {
 
         private final Map<EntityType<?>, Map<Identifier, Animation>> templates = new HashMap<>();
