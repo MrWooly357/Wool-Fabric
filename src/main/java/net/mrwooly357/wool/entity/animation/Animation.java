@@ -229,13 +229,13 @@ public record Animation(Identifier entityType, Identifier actionId, boolean loop
                     float progress = keyframeObject.get("progress").getAsFloat();
                     Map<String, Transform> bones = new LinkedHashMap<>();
 
-                    for (Map.Entry<String, JsonElement> boneEntry : keyframeObject.getAsJsonObject("bones").entrySet()) {
-                        JsonObject boneObject = boneEntry.getValue().getAsJsonObject();
+                    for (JsonElement boneElement : keyframeObject.getAsJsonArray("bones")) {
+                        JsonObject boneObject = boneElement.getAsJsonObject();
                         float[] translation = parseFloatArray3(boneObject, "translation", false);
                         float[] rotation = parseFloatArray3(boneObject, "rotation", true);
                         float[] scale = parseFloatArray3(boneObject, "scale", false);
 
-                        bones.put(boneEntry.getKey(), new Transform(translation[0], translation[1], translation[2], rotation[0], rotation[1], rotation[3], scale[0], scale[1], scale[3]));
+                        bones.put(boneObject.get("name").getAsString(), new Transform(translation[0], translation[1], translation[2], rotation[0], rotation[1], rotation[3], scale[0], scale[1], scale[3]));
                     }
 
                     keyframes.add(new Keyframe(progress, bones));
