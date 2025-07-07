@@ -1,6 +1,7 @@
 package net.mrwooly357.wool.entity.animation;
 
 import net.minecraft.client.model.ModelPart;
+import net.minecraft.client.model.ModelTransform;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.data.DataTracked;
@@ -92,15 +93,12 @@ public interface Animatable {
 
                         if (part != null) {
                             Animation.Transformation transformation = bone.getValue();
-                            part.pivotX -= transformation.x() - part.pivotX;
-                            part.pivotY -= transformation.y() - part.pivotY;
-                            part.pivotZ -= transformation.z() - part.pivotZ;
-                            part.pitch -= transformation.pitch() - part.pitch;
-                            part.yaw -= transformation.yaw() - part.yaw;
-                            part.roll -= transformation.roll() - part.roll;
-                            part.xScale -= transformation.xScale() - part.xScale;
-                            part.yScale -= transformation.yScale() - part.yScale;
-                            part.zScale -= transformation.zScale() - part.zScale;
+
+                            part.setDefaultTransform(ModelTransform.of(transformation.x(), transformation.y(), transformation.z(), transformation.pitch(), transformation.yaw(), transformation.roll()));
+
+                            part.xScale = transformation.xScale();
+                            part.yScale = transformation.yScale();
+                            part.zScale = transformation.zScale();
                         }
                     }
                 }
