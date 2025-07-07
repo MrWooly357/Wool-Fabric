@@ -84,8 +84,7 @@ public record Animation(Identifier entityType, Identifier actionId, boolean loop
                     Keyframe next = keyframes.get(i);
 
                     if (progress < next.progress) {
-                        float interval = next.progress - previous.progress;
-                        float t = (progress - previous.progress / interval);
+                        float t = (progress - previous.progress / (next.progress - previous.progress));
                         int iBefore = i - 2;
                         Keyframe before = iBefore >= 0 ? keyframes.get(iBefore) : previous;
                         int iAfter = i + 1;
