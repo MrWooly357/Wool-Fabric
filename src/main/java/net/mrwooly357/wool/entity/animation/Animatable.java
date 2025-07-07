@@ -21,6 +21,29 @@ public interface Animatable {
     interface Server extends ActionHolder {
 
 
+        default void tickAnimation() {
+            if (canTickAnimation())
+                setElapsedAnimationTicks(getElapsedAnimationTicks() + 1);
+        }
+
+        TrackedData<Boolean> getCanTickAnimationTrackedData();
+
+        static TrackedData<Boolean> createCanTickAnimationTrackedData(Class<? extends DataTracked> entityClass) {
+            return DataTracker.registerData(entityClass, TrackedDataHandlerRegistry.BOOLEAN);
+        }
+
+        boolean canTickAnimation();
+
+        default boolean canTickAnimation(DataTracker tracker) {
+            return tracker.get(getCanTickAnimationTrackedData());
+        }
+
+        void setCanTickAnimation(boolean canTickAnimation);
+
+        default void setCanTickAnimation(DataTracker tracker, boolean canTickAnimation) {
+            tracker.set(getCanTickAnimationTrackedData(), canTickAnimation);
+        }
+
         TrackedData<Integer> getElapsedAnimationTicksTrackedData();
 
         static TrackedData<Integer> createElapsedAnimationTicksTrackedData(Class<? extends DataTracked> entityClass) {

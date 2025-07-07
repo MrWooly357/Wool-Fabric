@@ -4,11 +4,14 @@
   "compatibilityLevel": "JAVA_21",
   "mixins": [
     "EntityAccessoriesSaverMixin",
+    "EntityAnimationTickerMixin",
     "EntitySimpleDataSaverMixin",
-    "InventoryScreenAccessorySlotsMixin",
-    "ClientWorldEntityAnimationUpdaterMixin"
+    "InventoryScreenAccessorySlotsMixin"
   ],
   "injectors": {
     "defaultRequire": 1
-  }
+  },
+  "client": [
+    "ClientWorldEntityAnimationPlayerUpdater"
+  ]
 }

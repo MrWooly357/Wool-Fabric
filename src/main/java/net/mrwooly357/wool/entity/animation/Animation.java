@@ -6,6 +6,7 @@ import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import net.fabricmc.fabric.api.client.networking.v1.ClientPlayNetworking;
 import net.fabricmc.fabric.api.resource.IdentifiableResourceReloadListener;
+import net.minecraft.client.MinecraftClient;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
 import net.minecraft.registry.Registries;
@@ -139,7 +140,8 @@ public record Animation(Identifier entityType, Identifier actionId, boolean loop
             return elapsedTicks;
         }
 
-        public void play(Action action, @Nullable Animation animation) {
+        public void play(Action action) {
+            Animation animation = ((Animatable.Client.Renderer) MinecraftClient.getInstance().getEntityRenderDispatcher().getRenderer(entity)).getAnimations().get(action.getId());
             Action syncedCurrentAction = serverAnimatable.getCurrentAction();
 
             if (syncedCurrentAction != null && animation != null && (currentAction == null || !syncedCurrentAction.equals(currentAction)) && (currentVariant == null || elapsedTicks > currentVariant.duration())) {
@@ -155,11 +157,7 @@ public record Animation(Identifier entityType, Identifier actionId, boolean loop
         }
 
         public void tick() {
-            if (currentVariant != null) {
-
-                if (elapsedTicks <= currentVariant.duration())
-                    elapsedTicks++;
-            }
+            elapsedTicks = serverAnimatable.getElapsedAnimationTicks();
         }
     }
 
