@@ -86,14 +86,22 @@ public interface Animatable {
                 Animation.Variant variant = player.getCurrentVariant();
 
                 if (variant != null) {
-                    float elapsedTicks = player.getElapsedTicks();
 
-                    for (Map.Entry<String, Animation.Transformation> bone : variant.getInterpolatedKeyframe(elapsedTicks + tickDelta).bones().entrySet()) {
+                    for (Map.Entry<String, Animation.Transformation> bone : variant.getInterpolatedKeyframe(player.getElapsedTicks() + tickDelta).bones().entrySet()) {
                         ModelPart part = getModelParts().get(bone.getKey());
 
                         if (part != null) {
                             Animation.Transformation transformation = bone.getValue();
-                            System.out.println(transformation);
+
+                            part.pivotX = transformation.x();
+                            part.pivotY = transformation.y();
+                            part.pivotZ = transformation.z();
+                            part.pitch = transformation.pitch();
+                            part.yaw = transformation.yaw();
+                            part.roll = transformation.roll();
+                            part.xScale = transformation.xScale();
+                            part.yScale = transformation.yScale();
+                            part.zScale = transformation.zScale();
                         }
                     }
                 }
