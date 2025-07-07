@@ -61,52 +61,50 @@ public record Animation(Identifier entityType, Identifier actionId, boolean loop
     }
 
 
-    public record Transform(float x, float y, float z, float pitch, float yaw, float roll, float xScale, float yScale, float zScale) {
+    public record Transformation(float x, float y, float z, float pitch, float yaw, float roll, float xScale, float yScale, float zScale) {}
 
 
-        public static Transform lerp(Transform a, Transform b, float t) {
-            return new Transform(MathHelper.lerp(t, a.x, b.x), MathHelper.lerp(t, a.y, b.y), MathHelper.lerp(t, a.z, b.z), MathHelper.lerp(t, a.pitch, b.pitch), MathHelper.lerp(t, a.yaw, b.yaw), MathHelper.lerp(t, a.roll, b.roll), MathHelper.lerp(t, a.xScale, b.xScale), MathHelper.lerp(t, a.yScale, b.yScale), MathHelper.lerp(t, a.zScale, b.zScale));
-        }
-    }
-
-
-    public record Keyframe(float progress, Map<String, Transform> bones) {
-
-
-        public static Keyframe interpolate(Keyframe previous, Keyframe next, float t) {
-            Map<String, Transform> result = new LinkedHashMap<>();
-
-            for (String bone : previous.bones.keySet()) {
-                Transform tPrevious = previous.bones.get(bone);
-                Transform tNext = next.bones.getOrDefault(bone, tPrevious);
-
-                result.put(bone, Transform.lerp(tPrevious, tNext, t));
-            }
-
-            return new Keyframe(MathHelper.lerp(t, previous.progress, next.progress), result);
-        }
-    }
+    public record Keyframe(float progress, Map<String, Transformation> bones) {}
 
 
     public record Variant(int weight, int duration, List<Keyframe> keyframes, Interpolation interpolation) {
 
 
         public Keyframe getInterpolatedKeyframe(float progress) {
+            int size = keyframes.size();
+
             if (keyframes.isEmpty()) {
                 return new Keyframe(progress, Map.of());
-            } else if (keyframes.size() == 1) {
+            } else if (size == 1) {
                 return keyframes.getFirst();
             } else {
                 Keyframe previous = keyframes.getFirst();
 
-                for (int i = 1; i < keyframes.size(); i++) {
+                for (int i = 1; i < size; i++) {
                     Keyframe next = keyframes.get(i);
 
-                    if (progress < next.progress()) {
-                        float progress1 = (progress - previous.progress()) / (next.progress() - previous.progress());
-                        float t = interpolation.apply(progress1);
+                    if (progress < next.progress) {
+                        float interval = next.progress - previous.progress;
+                        float t = (progress - previous.progress / interval);
+                        int iBefore = i - 2;
+                        Keyframe before = iBefore >= 0 ? keyframes.get(iBefore) : previous;
+                        int iAfter = i + 1;
+                        Keyframe after = iAfter < keyframes.size() ? keyframes.get(iAfter) : next;
+                        Map<String, Transformation> previousBones = previous.bones;
+                        Map<String, Transformation> result = new LinkedHashMap<>();
 
-                        return Keyframe.interpolate(previous, next, t);
+                        for (String bone : previousBones.keySet()) {
+                            Transformation a = previousBones.get(bone);
+                            Transformation b = next.bones.getOrDefault(bone, a);
+                            Transformation p0 = before.bones.getOrDefault(bone, a);
+                            Transformation p3 = after.bones.getOrDefault(bone, b);
+
+                            result.put(bone, new Transformation(interpolation.apply(t, a.x, b.x, p0.x, p3.x), interpolation.apply(t, a.y, b.y, p0.y, p3.y), interpolation.apply(t, a.z, b.z, p0.z, p3.z),
+                                    interpolation.apply(t, a.pitch, b.pitch, p0.pitch, p3.pitch), interpolation.apply(t, a.yaw, b.yaw, p0.yaw, p3.yaw), interpolation.apply(t, a.roll, b.roll, p0.roll, p3.roll),
+                                    interpolation.apply(t, a.xScale, b.xScale, p0.xScale, p3.xScale), interpolation.apply(t, a.xScale, b.xScale, p0.xScale, p3.xScale), interpolation.apply(t, a.xScale, b.xScale, p0.xScale, p3.xScale)));
+                        }
+
+                        return new Keyframe(progress, result);
                     }
 
                     previous = next;
@@ -267,15 +265,15 @@ public record Animation(Identifier entityType, Identifier actionId, boolean loop
                 for (JsonElement keyframeElement : variantObject.getAsJsonArray("keyframes")) {
                     JsonObject keyframeObject = keyframeElement.getAsJsonObject();
                     float progress = keyframeObject.get("progress").getAsFloat();
-                    Map<String, Transform> bones = new LinkedHashMap<>();
+                    Map<String, Transformation> bones = new LinkedHashMap<>();
 
                     for (JsonElement boneElement : keyframeObject.getAsJsonArray("bones")) {
                         JsonObject boneObject = boneElement.getAsJsonObject();
-                        float[] translation = parseFloatArray3(boneObject, "translation", false);
-                        float[] rotation = parseFloatArray3(boneObject, "rotation", true);
-                        float[] scale = parseFloatArray3(boneObject, "scale", false);
+                        float[] translation = parseFloatArray3(boneObject, "translation");
+                        float[] rotation = parseFloatArray3(boneObject, "rotation");
+                        float[] scale = parseFloatArray3(boneObject, "scale");
 
-                        bones.put(boneObject.get("name").getAsString(), new Transform(translation[0], translation[1], translation[2], rotation[0], rotation[1], rotation[2], scale[0], scale[1], scale[2]));
+                        bones.put(boneObject.get("name").getAsString(), new Transformation(translation[0], translation[1], translation[2], rotation[0], rotation[1], rotation[2], scale[0], scale[1], scale[2]));
                     }
 
                     keyframes.add(new Keyframe(progress, bones));
@@ -287,14 +285,13 @@ public record Animation(Identifier entityType, Identifier actionId, boolean loop
             return new Animation(Identifier.of(json.get("entity_type").getAsString()), Identifier.of(json.get("action").getAsString()), json.get("loop").getAsBoolean(), new Randomizer(randomizer.get("min").getAsFloat(), randomizer.get("max").getAsFloat(), randomizer.get("threshold").getAsFloat()), variants);
         }
 
-        private float[] parseFloatArray3(JsonObject object, String key, boolean toRadians) {
+        private float[] parseFloatArray3(JsonObject object, String key) {
             if (!object.has(key))
                 return new float[] {0, 0, 0};
 
             JsonArray array = object.getAsJsonArray(key);
-            float[] result = new float[] {!array.isEmpty() ? array.get(0).getAsFloat() : 0.0F, array.size() > 1 ? array.get(1).getAsFloat() : 0.0F, array.size() > 2 ? array.get(2).getAsFloat() : 0.0F};
 
-            return toRadians ? new float[] {(float) Math.toRadians(result[0]), (float) Math.toRadians(result[1]), (float) Math.toRadians(result[2])} : result;
+            return new float[] {!array.isEmpty() ? array.get(0).getAsFloat() : 0.0F, array.size() > 1 ? array.get(1).getAsFloat() : 0.0F, array.size() > 2 ? array.get(2).getAsFloat() : 0.0F};
         }
     }
 }

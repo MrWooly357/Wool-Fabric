@@ -13,7 +13,6 @@ import net.mrwooly357.wool.entity.action.ActionHolder;
 
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Objects;
 
 public interface Animatable {
 
@@ -81,32 +80,29 @@ public interface Animatable {
 
             Map<Identifier, Animation> getAnimations();
 
-            default void applyAnimation(Entity entity) {
+            default void applyAnimation(Entity entity, float tickDelta) {
                 Animation.Player player = Animation.PlayerStorage.get(entity);
                 Animation.Variant variant = player.getCurrentVariant();
 
                 if (variant != null) {
+                    int elapsedTicks = player.getElapsedTicks();
 
-                    for (Map.Entry<String, Animation.Transform> bone : variant.getInterpolatedKeyframe(player.getElapsedTicks()).bones().entrySet()) {
+                    for (Map.Entry<String, Animation.Transformation> bone : variant.getInterpolatedKeyframe(elapsedTicks).bones().entrySet()) {
+                        String key = bone.getKey();
+                        ModelPart part = getModelParts().get(key);
 
-                        for (Map.Entry<String, ModelPart> partEntry : getModelParts().entrySet()) {
-
-                            if (Objects.equals(bone.getKey(), partEntry.getKey())) {
-                                ModelPart part = partEntry.getValue();
-                                OriginalDataTrackedModelPart originalPart = ((OriginalDataTrackedModelPart) part);
-                                Animation.Transform transform = bone.getValue();
-                                part.pivotX = originalPart.getOriginalPivotX() - transform.x();
-                                part.pivotY = originalPart.getOriginalPivotY() - transform.y();
-                                part.pivotZ = originalPart.getOriginalPivotZ() - transform.z();
-                                part.pitch = originalPart.getOriginalPitch() - transform.pitch();
-                                part.yaw = originalPart.getOriginalYaw() - transform.yaw();
-                                part.roll = originalPart.getOriginalRoll() - transform.roll();
-                                part.xScale = originalPart.getOriginalXScale() - transform.xScale();
-                                part.yScale = originalPart.getOriginalYScale() - transform.yScale();
-                                part.zScale = originalPart.getOriginalZScale() - transform.zScale();
-
-                                break;
-                            }
+                        if (part != null) {
+                            Animation.Transformation transformation = bone.getValue();
+                            Animation.Transformation nextTransformation = variant.getInterpolatedKeyframe(elapsedTicks + 1).bones().get(key);
+                            part.pivotX -= (nextTransformation.x() - transformation.x()) * tickDelta;
+                            part.pivotY -= (nextTransformation.y() - transformation.y()) * tickDelta;
+                            part.pivotZ -= (nextTransformation.z() - transformation.z()) * tickDelta;
+                            part.pitch -= (nextTransformation.pitch() - transformation.pitch()) * tickDelta;
+                            part.yaw -= (nextTransformation.yaw() - transformation.yaw()) * tickDelta;
+                            part.roll -= (nextTransformation.roll() - transformation.roll()) * tickDelta;
+                            part.xScale -= (nextTransformation.xScale() - transformation.xScale()) * tickDelta;
+                            part.yScale -= (nextTransformation.yScale() - transformation.yScale()) * tickDelta;
+                            part.zScale -= (nextTransformation.zScale() - transformation.zScale()) * tickDelta;
                         }
                     }
                 }

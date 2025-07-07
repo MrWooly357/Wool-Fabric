@@ -4,5 +4,5 @@ package net.mrwooly357.wool.entity.animation.interpolation;
 public interface Interpolation {
 
 
-    float apply(float progress);
+    float apply(float... arguments);
 }

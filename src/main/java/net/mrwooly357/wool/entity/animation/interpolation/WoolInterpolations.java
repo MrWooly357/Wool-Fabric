@@ -8,7 +8,10 @@ import net.mrwooly357.wool.registry.helper.InterpolationRegistryHelper;
 public class WoolInterpolations {
 
     public static final Interpolation LINEAR = register(
-            "linear", progress -> progress
+            "linear", (SimpleInterpolation) (t, a, b) -> a + (b - a) * t
+    );
+    public static final Interpolation CATMULL_ROM = register(
+            "catmull_rom", (AdvancedInterpolation) (t, a, b, previous, next) -> 0.5F * (2 * a + (b - previous) * t + (2 * previous - 5 * a + 4 * b - next) * t * t + (next - previous + 3 * (a - b)) * t * t * t)
     );
 
 
