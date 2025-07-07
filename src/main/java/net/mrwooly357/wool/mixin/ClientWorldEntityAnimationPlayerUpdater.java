@@ -15,9 +15,9 @@ public class ClientWorldEntityAnimationPlayerUpdater {
 
     @Inject(method = "tickEntity", at = @At("HEAD"))
     private void injectTickEntity(Entity entity, CallbackInfo info) {
-        Animation.Player player = Animation.PlayerStorage.get(entity);
-
         if (entity instanceof Animatable.Server serverAnimatable) {
+            Animation.Player player = Animation.PlayerStorage.get(entity);
+
             player.play(serverAnimatable.getCurrentAction());
             player.tick();
         }

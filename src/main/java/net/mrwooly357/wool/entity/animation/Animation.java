@@ -112,7 +112,7 @@ public record Animation(Identifier entityType, Identifier actionId, boolean loop
     public static class Player {
 
         private final Entity entity;
-        private Animatable.Server serverAnimatable;
+        private final Animatable.Server serverAnimatable;
         @Nullable
         private Action currentAction;
         @Nullable
@@ -123,10 +123,7 @@ public record Animation(Identifier entityType, Identifier actionId, boolean loop
 
         public Player(Entity entity) {
             this.entity = entity;
-
-            if (entity instanceof Animatable.Server server)
-                serverAnimatable = server;
-
+            serverAnimatable = ((Animatable.Server) entity);
             elapsedTicks = 0;
         }
 
@@ -158,7 +155,7 @@ public record Animation(Identifier entityType, Identifier actionId, boolean loop
                         sendCanTickAnimationUpdatePacket(false);
                         sendElapsedAnimationTicksSyncC2SPacket(0);
                     }
-                } else if (!synced.equals(currentAction)) {
+                } else if (currentAction == null || !synced.equals(currentAction)) {
                     currentAction = synced;
                     currentAnimation = animation;
                     currentVariant = animation.chooseVariant(Random.create());
