@@ -126,7 +126,7 @@ public record Animation(Identifier entityType, Identifier actionId, boolean loop
             if (entity instanceof Animatable.Server server)
                 serverAnimatable = server;
 
-            elapsedTicks = serverAnimatable.getElapsedAnimationTicks();
+            elapsedTicks = 0;
         }
 
 

@@ -20,8 +20,8 @@ public abstract class ClientWorldEntityAnimationUpdaterMixin {
         if (entity instanceof Animatable.Server serverAnimatable) {
             Action action = serverAnimatable.getCurrentAction();
 
-            if (action != null && MinecraftClient.getInstance().getEntityRenderDispatcher().getRenderer(entity) instanceof Animatable.Client.Renderer clientAnimatable) {
-                Animation animation = clientAnimatable.getAnimations().get(action.getId());
+            if (action != null && MinecraftClient.getInstance().getEntityRenderDispatcher().getRenderer(entity) instanceof Animatable.Client.Renderer clientAnimatableRenderer) {
+                Animation animation = clientAnimatableRenderer.getAnimations().get(action.getId());
 
                 if (animation != null) {
                     Animation.Player player = Animation.PlayerStorage.get(entity);
