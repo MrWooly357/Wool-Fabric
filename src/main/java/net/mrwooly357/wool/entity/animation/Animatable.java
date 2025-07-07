@@ -93,12 +93,7 @@ public interface Animatable {
 
                         if (part != null) {
                             Animation.Transformation transformation = bone.getValue();
-
-                            part.setDefaultTransform(ModelTransform.of(transformation.x(), transformation.y(), transformation.z(), transformation.pitch(), transformation.yaw(), transformation.roll()));
-
-                            part.xScale = transformation.xScale();
-                            part.yScale = transformation.yScale();
-                            part.zScale = transformation.zScale();
+                            System.out.println(transformation);
                         }
                     }
                 }
