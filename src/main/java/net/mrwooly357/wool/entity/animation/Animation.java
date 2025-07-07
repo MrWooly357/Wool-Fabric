@@ -197,7 +197,7 @@ public record Animation(Identifier entityType, Identifier actionId, boolean loop
 
     public static class PlayerStorage {
 
-        private static final Map<Integer, Player> PLAYERS = new WeakHashMap<>();
+        private static final Map<Integer, Player> PLAYERS = new HashMap<>();
 
 
         public static Player get(Entity entity) {
