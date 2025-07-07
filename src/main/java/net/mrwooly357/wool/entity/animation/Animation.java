@@ -140,44 +140,48 @@ public record Animation(Identifier entityType, Identifier actionId, boolean loop
             return elapsedTicks;
         }
 
-        public void play(Action action) {
+        public void play(@Nullable Action action) {
             Action synced = serverAnimatable.getCurrentAction();
-            Animation animation = ((Animatable.Client.Renderer) MinecraftClient.getInstance().getEntityRenderDispatcher().getRenderer(entity)).getAnimations().get(action.getId());
+            Identifier actionId = action == null ? synced == null ? null : synced.getId() : action.getId();
 
-            if (synced == null || animation == null) {
+            if (actionId != null) {
+                Animation animation = ((Animatable.Client.Renderer) MinecraftClient.getInstance().getEntityRenderDispatcher().getRenderer(entity)).getAnimations().get(actionId);
 
-                if (currentAction != null) {
-                    currentAction = null;
-                    currentAnimation = null;
-                    currentVariant = null;
+                if (synced == null || animation == null) {
+
+                    if (currentAction != null) {
+                        currentAction = null;
+                        currentAnimation = null;
+                        currentVariant = null;
+                        elapsedTicks = 0;
+
+                        sendCanTickAnimationUpdatePacket(false);
+                        sendElapsedAnimationTicksSyncC2SPacket(0);
+                    }
+                } else if (!synced.equals(currentAction)) {
+                    currentAction = synced;
+                    currentAnimation = animation;
+                    currentVariant = animation.chooseVariant(Random.create());
                     elapsedTicks = 0;
 
-                    sendCanTickAnimationUpdatePacket(false);
+                    sendCanTickAnimationUpdatePacket(true);
                     sendElapsedAnimationTicksSyncC2SPacket(0);
-                }
-            } else if (!synced.equals(currentAction)) {
-                currentAction = synced;
-                currentAnimation = animation;
-                currentVariant = animation.chooseVariant(Random.create());
-                elapsedTicks = 0;
+                } else if (currentVariant != null && elapsedTicks > currentVariant.duration) {
 
-                sendCanTickAnimationUpdatePacket(true);
-                sendElapsedAnimationTicksSyncC2SPacket(0);
-            } else if (currentVariant != null && elapsedTicks > currentVariant.duration) {
+                    if (currentAnimation.loop) {
+                        currentVariant = currentAnimation.chooseVariant(Random.create());
+                        elapsedTicks = 0;
 
-                if (currentAnimation.loop) {
-                    currentVariant = currentAnimation.chooseVariant(Random.create());
-                    elapsedTicks = 0;
+                        sendElapsedAnimationTicksSyncC2SPacket(0);
+                    } else {
+                        currentAction = null;
+                        currentAnimation = null;
+                        currentVariant = null;
+                        elapsedTicks = 0;
 
-                    sendElapsedAnimationTicksSyncC2SPacket(0);
-                } else {
-                    currentAction = null;
-                    currentAnimation = null;
-                    currentVariant = null;
-                    elapsedTicks = 0;
-
-                    sendCanTickAnimationUpdatePacket(false);
-                    sendElapsedAnimationTicksSyncC2SPacket(0);
+                        sendCanTickAnimationUpdatePacket(false);
+                        sendElapsedAnimationTicksSyncC2SPacket(0);
+                    }
                 }
             }
         }
