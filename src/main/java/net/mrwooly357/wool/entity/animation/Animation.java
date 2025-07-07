@@ -131,7 +131,7 @@ public record Animation(Identifier entityType, Identifier actionId, boolean loop
         public Player(Entity entity) {
             this.entity = entity;
             serverAnimatable = ((Animatable.Server) entity);
-            elapsedTicks = 0;
+            elapsedTicks = serverAnimatable.getElapsedAnimationTicks();
         }
 
 
@@ -150,14 +150,13 @@ public record Animation(Identifier entityType, Identifier actionId, boolean loop
 
                 if (animation != null) {
 
-                    if (currentAnimation == null) {
+                    if (currentAnimation == null && getElapsedTicks() == 0) {
 
                         if (!animation.randomizer.playRandom())
                             return;
 
                         currentAnimation = animation;
                         currentVariant = animation.chooseVariant(Random.create());
-                        elapsedTicks = 0;
 
                         sendCanTickAnimationUpdatePacket(true);
                         sendElapsedAnimationTicksSyncC2SPacket(0);
@@ -183,9 +182,6 @@ public record Animation(Identifier entityType, Identifier actionId, boolean loop
 
         public void tick() {
             elapsedTicks = serverAnimatable.getElapsedAnimationTicks();
-
-            if (!entity.isAlive() && serverAnimatable.getCurrentAction() != Action.DYING && elapsedTicks == 0)
-                Animation.PlayerStorage.remove(entity);
         }
 
         private void sendCanTickAnimationUpdatePacket(boolean canTickAnimation) {
@@ -205,10 +201,6 @@ public record Animation(Identifier entityType, Identifier actionId, boolean loop
 
         public static Player get(Entity entity) {
             return PLAYERS.computeIfAbsent(entity.getId(), integer -> new Player(entity));
-        }
-
-        public static void remove(Entity entity) {
-            PLAYERS.remove(entity.getId());
         }
     }
 
