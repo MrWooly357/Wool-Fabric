@@ -30,7 +30,7 @@ import java.util.*;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.Executor;
 
-public record Animation(Identifier entityType, Identifier actionId, boolean loop, List<Variant> variants) {
+public record Animation(Identifier entityType, Identifier actionId, boolean loop, Randomizer randomizer, List<Variant> variants) {
 
 
     @Nullable
@@ -49,6 +49,15 @@ public record Animation(Identifier entityType, Identifier actionId, boolean loop
             return variants.getFirst();
         } else
             return null;
+    }
+
+
+    public record Randomizer(float min, float max, float threshold) {
+
+
+        public boolean playRandom() {
+            return MathHelper.nextFloat(Random.create(), min, max) <= threshold;
+        }
     }
 
 
@@ -114,8 +123,6 @@ public record Animation(Identifier entityType, Identifier actionId, boolean loop
         private final Entity entity;
         private final Animatable.Server serverAnimatable;
         @Nullable
-        private Action currentAction;
-        @Nullable
         Animation currentAnimation;
         @Nullable
         private Variant currentVariant;
@@ -138,46 +145,37 @@ public record Animation(Identifier entityType, Identifier actionId, boolean loop
         }
 
         public void play(@Nullable Action action) {
-            Action synced = serverAnimatable.getCurrentAction();
-            Identifier actionId = action == null ? synced == null ? null : synced.getId() : action.getId();
+            if (action != null) {
+                Animation animation = ((Animatable.Client.Renderer) MinecraftClient.getInstance().getEntityRenderDispatcher().getRenderer(entity)).getAnimations().get(action.getId());
 
-            if (actionId != null) {
-                Animation animation = ((Animatable.Client.Renderer) MinecraftClient.getInstance().getEntityRenderDispatcher().getRenderer(entity)).getAnimations().get(actionId);
+                if (animation != null) {
 
-                if (synced == null || animation == null) {
+                    if (currentAnimation == null) {
 
-                    if (currentAction != null) {
-                        currentAction = null;
-                        currentAnimation = null;
-                        currentVariant = null;
+                        if (!animation.randomizer.playRandom())
+                            return;
+
+                        currentAnimation = animation;
+                        currentVariant = animation.chooseVariant(Random.create());
                         elapsedTicks = 0;
 
-                        sendCanTickAnimationUpdatePacket(false);
+                        sendCanTickAnimationUpdatePacket(true);
                         sendElapsedAnimationTicksSyncC2SPacket(0);
-                    }
-                } else if (currentAction == null || !synced.equals(currentAction)) {
-                    currentAction = synced;
-                    currentAnimation = animation;
-                    currentVariant = animation.chooseVariant(Random.create());
-                    elapsedTicks = 0;
+                    } else if (currentVariant != null && elapsedTicks > currentVariant.duration) {
 
-                    sendCanTickAnimationUpdatePacket(true);
-                    sendElapsedAnimationTicksSyncC2SPacket(0);
-                } else if (currentVariant != null && elapsedTicks > currentVariant.duration) {
+                        if (currentAnimation.loop) {
+                            currentVariant = animation.chooseVariant(Random.create());
+                            elapsedTicks = 0;
 
-                    if (currentAnimation.loop) {
-                        currentVariant = currentAnimation.chooseVariant(Random.create());
-                        elapsedTicks = 0;
+                            sendElapsedAnimationTicksSyncC2SPacket(0);
+                        } else {
+                            currentAnimation = null;
+                            currentVariant = null;
+                            elapsedTicks = 0;
 
-                        sendElapsedAnimationTicksSyncC2SPacket(0);
-                    } else {
-                        currentAction = null;
-                        currentAnimation = null;
-                        currentVariant = null;
-                        elapsedTicks = 0;
-
-                        sendCanTickAnimationUpdatePacket(false);
-                        sendElapsedAnimationTicksSyncC2SPacket(0);
+                            sendCanTickAnimationUpdatePacket(false);
+                            sendElapsedAnimationTicksSyncC2SPacket(0);
+                        }
                     }
                 }
             }
@@ -260,6 +258,7 @@ public record Animation(Identifier entityType, Identifier actionId, boolean loop
 
         private Animation parseAnimation(JsonObject json) {
             List<Variant> variants = new ArrayList<>();
+            JsonObject randomizer = json.getAsJsonObject("randomizer");
 
             for (JsonElement variantElement : json.getAsJsonArray("variants")) {
                 JsonObject variantObject = variantElement.getAsJsonObject();
@@ -286,7 +285,7 @@ public record Animation(Identifier entityType, Identifier actionId, boolean loop
                 variants.add(new Variant(weight, variantObject.get("duration").getAsInt(), keyframes, WoolRegistries.INTERPOLATION.get(Identifier.of(variantObject.get("interpolation").getAsString()))));
             }
 
-            return new Animation(Identifier.of(json.get("entity_type").getAsString()), Identifier.of(json.get("action").getAsString()), json.get("loop").getAsBoolean(), variants);
+            return new Animation(Identifier.of(json.get("entity_type").getAsString()), Identifier.of(json.get("action").getAsString()), json.get("loop").getAsBoolean(), new Randomizer(randomizer.get("min").getAsFloat(), randomizer.get("max").getAsFloat(), randomizer.get("threshold").getAsFloat()), variants);
         }
 
         private float[] parseFloatArray3(JsonObject object, String key, boolean toRadians) {
