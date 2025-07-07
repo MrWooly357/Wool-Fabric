@@ -85,23 +85,26 @@ public interface Animatable {
                 Animation.Variant variant = player.getCurrentVariant();
 
                 if (variant != null) {
-                    int elapsedTicks = player.getElapsedTicks();
+                    float elapsedTicks = player.getElapsedTicks();
 
-                    for (Map.Entry<String, Animation.Transformation> bone : variant.getInterpolatedKeyframe(elapsedTicks + tickDelta).bones().entrySet()) {
+                    for (Map.Entry<String, Animation.Transformation> bone : variant.getInterpolatedKeyframe(elapsedTicks).bones().entrySet()) {
                         String key = bone.getKey();
                         ModelPart part = getModelParts().get(key);
+                        Animation.Keyframe nextKeyframe = variant.getInterpolatedKeyframe(elapsedTicks + tickDelta);
+                        Map<String, Animation.Transformation> bones = nextKeyframe.bones();
 
-                        if (part != null) {
+                        if (part != null && bones.containsKey(key)) {
                             Animation.Transformation transformation = bone.getValue();
-                            part.pivotX -= transformation.x();
-                            part.pivotY -= transformation.y();
-                            part.pivotZ -= transformation.z();
-                            part.pitch -= transformation.pitch();
-                            part.yaw -= transformation.yaw();
-                            part.roll -= transformation.roll();
-                            part.xScale -= transformation.xScale();
-                            part.yScale -= transformation.yScale();
-                            part.zScale -= transformation.zScale();
+                            Animation.Transformation nextTransformation = bones.get(key);
+                            part.pivotX -= transformation.x() - nextTransformation.x();
+                            part.pivotY -= transformation.y() - nextTransformation.y();
+                            part.pivotZ -= transformation.z() - nextTransformation.z();
+                            part.pitch -= transformation.pitch() - nextTransformation.pitch();
+                            part.yaw -= transformation.yaw() - nextTransformation.yaw();
+                            part.roll -= transformation.roll() - nextTransformation.roll();
+                            part.xScale -= transformation.xScale() - nextTransformation.xScale();
+                            part.yScale -= transformation.yScale() - nextTransformation.yScale();
+                            part.zScale -= transformation.zScale() - nextTransformation.zScale();
                         }
                     }
                 }
