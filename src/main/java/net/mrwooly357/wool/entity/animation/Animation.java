@@ -150,9 +150,9 @@ public record Animation(Identifier entityType, Identifier actionId, boolean loop
 
                 if (animation != null) {
 
-                    if (currentAnimation == null) {
+                    if (currentAnimation == null || currentAnimation.loop) {
 
-                        if (!animation.randomizer.playRandom())
+                        if ((currentAnimation == null && !animation.randomizer.playRandom()) || (currentAnimation != null && !currentAnimation.loop))
                             return;
 
                         currentAnimation = animation;
@@ -162,20 +162,12 @@ public record Animation(Identifier entityType, Identifier actionId, boolean loop
                         sendCanTickAnimationUpdatePacket(true);
                         sendElapsedAnimationTicksSyncC2SPacket(0);
                     } else if (currentVariant != null && elapsedTicks > currentVariant.duration) {
+                        currentAnimation = null;
+                        currentVariant = null;
+                        elapsedTicks = 0;
 
-                        if (currentAnimation.loop) {
-                            currentVariant = animation.chooseVariant(Random.create());
-                            elapsedTicks = 0;
-
-                            sendElapsedAnimationTicksSyncC2SPacket(0);
-                        } else {
-                            currentAnimation = null;
-                            currentVariant = null;
-                            elapsedTicks = 0;
-
-                            sendCanTickAnimationUpdatePacket(false);
-                            sendElapsedAnimationTicksSyncC2SPacket(0);
-                        }
+                        sendCanTickAnimationUpdatePacket(false);
+                        sendElapsedAnimationTicksSyncC2SPacket(0);
                     }
                 }
             }
