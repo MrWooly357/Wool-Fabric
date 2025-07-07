@@ -150,7 +150,7 @@ public record Animation(Identifier entityType, Identifier actionId, boolean loop
 
                 if (animation != null) {
 
-                    if (currentAnimation == null && getElapsedTicks() == 0) {
+                    if (currentAnimation == null && elapsedTicks == 0) {
 
                         if (!animation.randomizer.playRandom())
                             return;

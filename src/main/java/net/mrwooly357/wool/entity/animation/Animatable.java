@@ -82,29 +82,32 @@ public interface Animatable {
             Map<Identifier, Animation> getAnimations();
 
             default void applyAnimation(Entity entity) {
-                Animation.Player player = Animation.PlayerStorage.get(entity);
-                Animation.Variant variant = player.getCurrentVariant();
+                if (entity.age > 4) {
+                    Animation.Player player = Animation.PlayerStorage.get(entity);
+                    Animation.Variant variant = player.getCurrentVariant();
 
-                if (variant != null) {
+                    if (variant != null) {
 
-                    for (Map.Entry<String, Animation.Transform> bone : variant.getInterpolatedKeyframe(player.getElapsedTicks()).bones().entrySet()) {
+                        for (Map.Entry<String, Animation.Transform> bone : variant.getInterpolatedKeyframe(player.getElapsedTicks()).bones().entrySet()) {
 
-                        for (Map.Entry<String, ModelPart> partEntry : getModelParts().entrySet()) {
+                            for (Map.Entry<String, ModelPart> partEntry : getModelParts().entrySet()) {
 
-                            if (Objects.equals(bone.getKey(), partEntry.getKey())) {
-                                ModelPart part = partEntry.getValue();
-                                Animation.Transform transform = bone.getValue();
-                                part.pivotX = -transform.x();
-                                part.pivotY = -transform.y();
-                                part.pivotZ = -transform.z();
-                                part.pitch = -transform.pitch();
-                                part.yaw = -transform.yaw();
-                                part.roll = -transform.roll();
-                                part.xScale = -transform.xScale();
-                                part.yScale = -transform.yScale();
-                                part.zScale = -transform.zScale();
+                                if (Objects.equals(bone.getKey(), partEntry.getKey())) {
+                                    ModelPart part = partEntry.getValue();
+                                    OriginalDataTrackedModelPart originalPart = ((OriginalDataTrackedModelPart) part);
+                                    Animation.Transform transform = bone.getValue();
+                                    part.pivotX = originalPart.getOriginalPivotX() - transform.x();
+                                    part.pivotY = originalPart.getOriginalPivotY() - transform.y();
+                                    part.pivotZ = originalPart.getOriginalPivotZ() - transform.z();
+                                    part.pitch = originalPart.getOriginalPitch() - transform.pitch();
+                                    part.yaw = originalPart.getOriginalYaw() - transform.yaw();
+                                    part.roll = originalPart.getOriginalRoll() - transform.roll();
+                                    part.xScale = originalPart.getOriginalXScale() - transform.xScale();
+                                    part.yScale = originalPart.getOriginalYScale() - transform.yScale();
+                                    part.zScale = originalPart.getOriginalZScale() - transform.zScale();
 
-                                break;
+                                    break;
+                                }
                             }
                         }
                     }
