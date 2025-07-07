@@ -20,7 +20,7 @@ import net.mrwooly357.wool.Wool;
 import net.mrwooly357.wool.config.custom.WoolConfig;
 import net.mrwooly357.wool.entity.action.Action;
 import net.mrwooly357.wool.entity.animation.interpolation.Interpolation;
-import net.mrwooly357.wool.network.packet.c2s.CurrentActionSyncC2SPacket;
+import net.mrwooly357.wool.network.packet.c2s.CanTickAnimationUpdateC2SPacket;
 import net.mrwooly357.wool.network.packet.c2s.ElapsedAnimationTicksSyncC2SPacket;
 import net.mrwooly357.wool.registry.WoolRegistries;
 import org.jetbrains.annotations.Nullable;
@@ -141,34 +141,57 @@ public record Animation(Identifier entityType, Identifier actionId, boolean loop
         }
 
         public void play(Action action) {
+            Action synced = serverAnimatable.getCurrentAction();
             Animation animation = ((Animatable.Client.Renderer) MinecraftClient.getInstance().getEntityRenderDispatcher().getRenderer(entity)).getAnimations().get(action.getId());
-            Action syncedCurrentAction = serverAnimatable.getCurrentAction();
 
-            if (syncedCurrentAction != null && animation != null && (currentAction == null || !syncedCurrentAction.equals(currentAction))) {
-                serverAnimatable.setCanTickAnimation(true);
+            if (synced == null || animation == null) {
 
-                currentAction = action;
+                if (currentAction != null) {
+                    currentAction = null;
+                    currentAnimation = null;
+                    currentVariant = null;
+                    elapsedTicks = 0;
+
+                    sendCanTickAnimationUpdatePacket(false);
+                    sendElapsedAnimationTicksSyncC2SPacket(0);
+                }
+            } else if (!synced.equals(currentAction)) {
+                currentAction = synced;
                 currentAnimation = animation;
                 currentVariant = animation.chooseVariant(Random.create());
                 elapsedTicks = 0;
-                int entityId = entity.getId();
 
-                ClientPlayNetworking.send(new CurrentActionSyncC2SPacket(entityId, currentAction.getId().toString()));
-                ClientPlayNetworking.send(new ElapsedAnimationTicksSyncC2SPacket(entityId, elapsedTicks));
-            } else if (currentVariant != null && elapsedTicks > currentVariant.duration()) {
-                serverAnimatable.setCanTickAnimation(false);
+                sendCanTickAnimationUpdatePacket(true);
+                sendElapsedAnimationTicksSyncC2SPacket(0);
+            } else if (currentVariant != null && elapsedTicks > currentVariant.duration) {
 
-                currentAction = null;
-                currentAnimation = null;
-                currentVariant = null;
-                elapsedTicks = 0;
+                if (currentAnimation.loop) {
+                    currentVariant = currentAnimation.chooseVariant(Random.create());
+                    elapsedTicks = 0;
 
-                ClientPlayNetworking.send(new ElapsedAnimationTicksSyncC2SPacket(entity.getId(), elapsedTicks));
+                    sendElapsedAnimationTicksSyncC2SPacket(0);
+                } else {
+                    currentAction = null;
+                    currentAnimation = null;
+                    currentVariant = null;
+                    elapsedTicks = 0;
+
+                    sendCanTickAnimationUpdatePacket(false);
+                    sendElapsedAnimationTicksSyncC2SPacket(0);
+                }
             }
         }
 
         public void tick() {
             elapsedTicks = serverAnimatable.getElapsedAnimationTicks();
+        }
+
+        private void sendCanTickAnimationUpdatePacket(boolean canTickAnimation) {
+            ClientPlayNetworking.send(new CanTickAnimationUpdateC2SPacket(entity.getId(), canTickAnimation));
+        }
+
+        private void sendElapsedAnimationTicksSyncC2SPacket(int elapsedTicks) {
+            ClientPlayNetworking.send(new ElapsedAnimationTicksSyncC2SPacket(entity.getId(), elapsedTicks));
         }
     }
 
