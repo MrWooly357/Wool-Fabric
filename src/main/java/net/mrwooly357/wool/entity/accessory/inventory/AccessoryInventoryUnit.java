@@ -5,14 +5,12 @@ import net.minecraft.inventory.Inventory;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NbtCompound;
-import net.minecraft.registry.RegistryWrapper;
 import net.minecraft.util.Identifier;
 import net.minecraft.world.World;
 import net.mrwooly357.wool.screen.slot.custom.accessory.AccessorySlotType;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
-import java.util.Optional;
 
 public class AccessoryInventoryUnit {
 
@@ -44,20 +42,15 @@ public class AccessoryInventoryUnit {
     }
 
     public static NbtCompound toNbt(World world, AccessoryInventoryUnit unit) {
-        ItemStack stack = unit.getStack();
         NbtCompound nbt = new NbtCompound();
 
-        if (!stack.isEmpty()) {
-            RegistryWrapper.WrapperLookup lookup = world.getRegistryManager();
-
-            nbt.put("Stack", unit.getStack().encode(lookup));
-        }
+        nbt.put("Stack", unit.getStack().encodeAllowEmpty(world.getRegistryManager()));
 
         return nbt;
     }
 
     public static ItemStack fromNbt(NbtCompound nbt, World world) {
-        return ItemStack.fromNbt(world.getRegistryManager(), nbt.getCompound("Stack")).orElse(ItemStack.EMPTY);
+        return ItemStack.fromNbtOrEmpty(world.getRegistryManager(), nbt);
     }
 
     public boolean isAvailable() {
