@@ -144,7 +144,9 @@ public record Animation(Identifier entityType, Identifier actionId, boolean loop
             Animation animation = ((Animatable.Client.Renderer) MinecraftClient.getInstance().getEntityRenderDispatcher().getRenderer(entity)).getAnimations().get(action.getId());
             Action syncedCurrentAction = serverAnimatable.getCurrentAction();
 
-            if (syncedCurrentAction != null && animation != null && (currentAction == null || !syncedCurrentAction.equals(currentAction)) && (currentVariant == null || elapsedTicks > currentVariant.duration())) {
+            if (syncedCurrentAction != null && animation != null && (currentAction == null || !syncedCurrentAction.equals(currentAction))) {
+                serverAnimatable.setCanTickAnimation(true);
+
                 currentAction = action;
                 currentAnimation = animation;
                 currentVariant = animation.chooseVariant(Random.create());
@@ -153,6 +155,15 @@ public record Animation(Identifier entityType, Identifier actionId, boolean loop
 
                 ClientPlayNetworking.send(new CurrentActionSyncC2SPacket(entityId, currentAction.getId().toString()));
                 ClientPlayNetworking.send(new ElapsedAnimationTicksSyncC2SPacket(entityId, elapsedTicks));
+            } else if (currentVariant != null && elapsedTicks > currentVariant.duration()) {
+                serverAnimatable.setCanTickAnimation(false);
+
+                currentAction = null;
+                currentAnimation = null;
+                currentVariant = null;
+                elapsedTicks = 0;
+
+                ClientPlayNetworking.send(new ElapsedAnimationTicksSyncC2SPacket(entity.getId(), elapsedTicks));
             }
         }
 
