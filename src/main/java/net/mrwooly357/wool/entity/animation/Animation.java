@@ -183,6 +183,9 @@ public record Animation(Identifier entityType, Identifier actionId, boolean loop
 
         public void tick() {
             elapsedTicks = serverAnimatable.getElapsedAnimationTicks();
+
+            if (!entity.isAlive() && serverAnimatable.getCurrentAction() != Action.DYING && elapsedTicks == 0)
+                Animation.PlayerStorage.remove(entity);
         }
 
         private void sendCanTickAnimationUpdatePacket(boolean canTickAnimation) {
@@ -202,6 +205,10 @@ public record Animation(Identifier entityType, Identifier actionId, boolean loop
 
         public static Player get(Entity entity) {
             return PLAYERS.computeIfAbsent(entity.getId(), integer -> new Player(entity));
+        }
+
+        public static void remove(Entity entity) {
+            PLAYERS.remove(entity.getId());
         }
     }
 

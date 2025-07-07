@@ -2,6 +2,7 @@ package net.mrwooly357.wool.mixin;
 
 import net.minecraft.client.world.ClientWorld;
 import net.minecraft.entity.Entity;
+import net.mrwooly357.wool.entity.action.Action;
 import net.mrwooly357.wool.entity.animation.Animatable;
 import net.mrwooly357.wool.entity.animation.Animation;
 import org.spongepowered.asm.mixin.Mixin;
@@ -17,8 +18,9 @@ public class ClientWorldEntityAnimationPlayerUpdater {
     private void injectTickEntity(Entity entity, CallbackInfo info) {
         if (entity instanceof Animatable.Server serverAnimatable) {
             Animation.Player player = Animation.PlayerStorage.get(entity);
+            Action action = serverAnimatable.getCurrentAction();
 
-            player.play(serverAnimatable.getCurrentAction());
+            player.play(action);
             player.tick();
         }
     }
