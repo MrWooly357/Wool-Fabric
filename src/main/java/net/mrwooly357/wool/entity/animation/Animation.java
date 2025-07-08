@@ -268,9 +268,9 @@ public record Animation(Identifier entityType, Identifier actionId, boolean loop
 
                     for (JsonElement boneElement : keyframeObject.getAsJsonArray("bones")) {
                         JsonObject boneObject = boneElement.getAsJsonObject();
-                        float[] translation = parseFloatArray3(boneObject, "translation");
-                        float[] rotation = parseFloatArray3(boneObject, "rotation");
-                        float[] scale = parseFloatArray3(boneObject, "scale");
+                        float[] translation = parseFloatArray3(boneObject, "translation", false);
+                        float[] rotation = parseFloatArray3(boneObject, "rotation", true);
+                        float[] scale = parseFloatArray3(boneObject, "scale", false);
 
                         bones.put(boneObject.get("name").getAsString(), new Transformation(translation[0], translation[1], translation[2], rotation[0], rotation[1], rotation[2], scale[0], scale[1], scale[2]));
                     }
@@ -284,13 +284,18 @@ public record Animation(Identifier entityType, Identifier actionId, boolean loop
             return new Animation(Identifier.of(json.get("entity_type").getAsString()), Identifier.of(json.get("action").getAsString()), json.get("loop").getAsBoolean(), new Randomizer(randomizer.get("min").getAsFloat(), randomizer.get("max").getAsFloat(), randomizer.get("threshold").getAsFloat()), variants);
         }
 
-        private float[] parseFloatArray3(JsonObject object, String key) {
+        private float[] parseFloatArray3(JsonObject object, String key, boolean toRadians) {
             if (!object.has(key))
                 return new float[] {0, 0, 0};
 
             JsonArray array = object.getAsJsonArray(key);
 
-            return new float[] {!array.isEmpty() ? array.get(0).getAsFloat() : 0.0F, array.size() > 1 ? array.get(1).getAsFloat() : 0.0F, array.size() > 2 ? array.get(2).getAsFloat() : 0.0F};
+            return toRadians ? new float[] {!array.isEmpty() ? (float) Math.toRadians(array.get(0).getAsFloat()) : 0.0F,
+                    array.size() > 1 ? (float) Math.toRadians(array.get(1).getAsFloat()) : 0.0F,
+                    array.size() > 2 ? (float) Math.toRadians(array.get(2).getAsFloat()) : 0.0F}
+                    : new float[] {!array.isEmpty() ? array.get(0).getAsFloat() : 0.0F,
+                    array.size() > 1 ? array.get(1).getAsFloat() : 0.0F,
+                    array.size() > 2 ? array.get(2).getAsFloat() : 0.0F};
         }
     }
 }
