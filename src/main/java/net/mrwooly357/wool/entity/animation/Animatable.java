@@ -12,7 +12,6 @@ import net.mrwooly357.wool.WoolClient;
 import net.mrwooly357.wool.entity.action.ActionHolder;
 
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 public interface Animatable {
@@ -81,7 +80,7 @@ public interface Animatable {
 
             Map<Identifier, Animation> getAnimations();
 
-            default void applyAnimation(Entity entity, float tickDelta,  Map<String, Animation.Transformation> baseTransformations) {
+            default void applyAnimation(Entity entity, float tickDelta) {
                 Animation.Player player = Animation.PlayerStorage.get(entity);
                 Animation.Variant variant = player.getCurrentVariant();
 
@@ -93,16 +92,15 @@ public interface Animatable {
 
                         if (part != null) {
                             Animation.Transformation transformation = bone.getValue();
-                            Animation.Transformation base = baseTransformations.get(key);
-                            part.pivotX = transformation.x() + base.x();
-                            part.pivotY = transformation.y() + base.y();
-                            part.pivotZ = transformation.z() + base.z();
-                            part.pitch = transformation.pitch() + base.pitch();
-                            part.yaw = transformation.yaw() + base.yaw();
-                            part.roll = transformation.roll() + base.roll();
-                            part.xScale = transformation.xScale() + base.xScale();
-                            part.yScale = transformation.yScale() + base.yScale();
-                            part.zScale = transformation.zScale() + base.zScale();
+                            part.pivotX = transformation.x();
+                            part.pivotY = transformation.y();
+                            part.pivotZ = transformation.z();
+                            part.pitch = transformation.pitch();
+                            part.yaw = transformation.yaw();
+                            part.roll = transformation.roll();
+                            part.xScale = transformation.xScale();
+                            part.yScale = transformation.yScale();
+                            part.zScale = transformation.zScale();
                         }
                     }
                 }
