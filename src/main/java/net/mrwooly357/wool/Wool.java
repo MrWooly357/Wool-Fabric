@@ -19,7 +19,7 @@ import net.mrwooly357.wool.screen.slot.custom.accessory.WoolAccessorySlotTypes;
 import net.mrwooly357.wool.registry.helper.ConfigRegistryHelper;
 import net.mrwooly357.wool.registry.WoolRegistries;
 import net.mrwooly357.wool.registry.WoolRegistryKeys;
-import net.mrwooly357.wool.util.WoolItemTags;
+import net.mrwooly357.wool.util.WoolTags;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -37,7 +37,7 @@ public class Wool implements ModInitializer, WoolEntrypoint {
 		ConfigRegistryHelper.register(Identifier.of(MOD_ID, "config"), CONFIG);
 		WoolRegistries.initialize();
 		WoolRegistryKeys.initialize();
-		WoolItemTags.initialize();
+		WoolTags.initialize();
 		WoolMultiblockConstructionBlueprints.initialize();
 		CommandRegistrationCallback.EVENT.register((dispatcher, access, environment) -> WoolCommand.register(dispatcher, access));
 		WoolAccessorySlotTypes.initialize();

@@ -17,9 +17,9 @@ public interface ScreenHandlerTypeRegistryHelper {
      * @param id the {@link Identifier}.
      * @param type the {@link ScreenHandlerType}.
      * @return a registered {@link ScreenHandlerType}.
-     * @param <T> the {@link ScreenHandler}.
+     * @param <H> the {@link ScreenHandler}.
      */
-    static <T extends ScreenHandler> ScreenHandlerType<T> register(Identifier id, ScreenHandlerType<T> type) {
+    static <H extends ScreenHandler> ScreenHandlerType<H> register(Identifier id, ScreenHandlerType<H> type) {
         return Registry.register(Registries.SCREEN_HANDLER, id, type);
     }
 }

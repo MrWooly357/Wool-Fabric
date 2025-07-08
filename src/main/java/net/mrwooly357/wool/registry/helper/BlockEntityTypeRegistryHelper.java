@@ -17,9 +17,9 @@ public interface BlockEntityTypeRegistryHelper {
      * @param id the {@link Identifier}.
      * @param type the {@link BlockEntityType}.
      * @return a registered {@link BlockEntityType}.
-     * @param <T> the {@link BlockEntity}.
+     * @param <E> the {@link BlockEntity}.
      */
-    static <T extends BlockEntity> BlockEntityType<T> register(Identifier id, BlockEntityType<T> type) {
+    static <E extends BlockEntity> BlockEntityType<E> register(Identifier id, BlockEntityType<E> type) {
         return Registry.register(Registries.BLOCK_ENTITY_TYPE, id, type);
     }
 }

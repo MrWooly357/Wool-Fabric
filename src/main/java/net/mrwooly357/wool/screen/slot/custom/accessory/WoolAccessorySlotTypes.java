@@ -4,7 +4,7 @@ import net.minecraft.util.Identifier;
 import net.mrwooly357.wool.Wool;
 import net.mrwooly357.wool.config.custom.WoolConfig;
 import net.mrwooly357.wool.registry.helper.AccessorySlotTypeRegistryHelper;
-import net.mrwooly357.wool.util.WoolItemTags;
+import net.mrwooly357.wool.util.WoolTags;
 
 public class WoolAccessorySlotTypes {
 
@@ -20,7 +20,7 @@ public class WoolAccessorySlotTypes {
                             )
                     )
                     .tag(
-                            WoolItemTags.NECKLACE_ACCESSORIES
+                            WoolTags.Items.NECKLACE_ACCESSORIES
                     )
                     .build()
     );
@@ -32,7 +32,7 @@ public class WoolAccessorySlotTypes {
                             )
                     )
                     .tag(
-                            WoolItemTags.RING_ACCESSORIES
+                            WoolTags.Items.RING_ACCESSORIES
                     )
                     .build()
     );
@@ -44,7 +44,7 @@ public class WoolAccessorySlotTypes {
                             )
                     )
                     .tag(
-                            WoolItemTags.BELT_ACCESSORIES
+                            WoolTags.Items.BELT_ACCESSORIES
                     )
                     .build()
     );
