@@ -91,15 +91,15 @@ public interface Animatable {
 
                         if (part != null) {
                             Animation.Transformation transformation = bone.getValue();
-                            part.pivotX += transformation.x();
-                            part.pivotY += transformation.y();
-                            part.pivotZ += transformation.z();
-                            part.pitch += transformation.pitch();
-                            part.yaw += transformation.yaw();
-                            part.roll += transformation.roll();
-                            part.xScale *= transformation.xScale();
-                            part.yScale *= transformation.yScale();
-                            part.zScale *= transformation.zScale();
+                            part.pivotX = transformation.x();
+                            part.pivotY = transformation.y();
+                            part.pivotZ = transformation.z();
+                            part.pitch = transformation.pitch();
+                            part.yaw = transformation.yaw();
+                            part.roll = transformation.roll();
+                            part.xScale = transformation.xScale();
+                            part.yScale = transformation.yScale();
+                            part.zScale = transformation.zScale();
                         }
                     }
                 }

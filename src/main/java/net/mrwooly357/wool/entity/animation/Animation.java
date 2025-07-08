@@ -206,13 +206,12 @@ public record Animation(Identifier entityType, Identifier actionId, boolean loop
 
         private final Map<EntityType<?>, Map<Identifier, Animation>> templates = new HashMap<>();
 
-
         private static final Identifier ID = Identifier.of(Wool.MOD_ID, "animation_loader");
+
 
         public Map<EntityType<?>, Map<Identifier, Animation>> getTemplates() {
             return templates;
         }
-
 
         @Override
         public Identifier getFabricId() {
