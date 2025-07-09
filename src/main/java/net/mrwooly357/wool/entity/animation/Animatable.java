@@ -10,6 +10,7 @@ import net.minecraft.entity.data.TrackedDataHandlerRegistry;
 import net.minecraft.util.Identifier;
 import net.mrwooly357.wool.WoolClient;
 import net.mrwooly357.wool.entity.action.ActionHolder;
+import org.joml.Vector3f;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -92,15 +93,9 @@ public interface Animatable {
 
                         if (part != null) {
                             Animation.Transformation transformation = bone.getValue();
-                            part.pivotX = transformation.x();
-                            part.pivotY = transformation.y();
-                            part.pivotZ = transformation.z();
-                            part.pitch = transformation.pitch();
-                            part.yaw = transformation.yaw();
-                            part.roll = transformation.roll();
-                            part.xScale = transformation.xScale();
-                            part.yScale = transformation.yScale();
-                            part.zScale = transformation.zScale();
+                            part.translate(new Vector3f(transformation.x(), -transformation.y(), transformation.z()));
+                            part.rotate(new Vector3f(transformation.pitch(), transformation.yaw(), transformation.roll()));
+                            part.scale(new Vector3f(transformation.xScale() - 1.0F, transformation.yScale() - 1.0F, transformation.zScale() - 1.0F));
                         }
                     }
                 }
