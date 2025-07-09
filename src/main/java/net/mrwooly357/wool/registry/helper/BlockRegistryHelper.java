@@ -24,11 +24,12 @@ public interface BlockRegistryHelper {
     }
 
     /**
-     * Registers a custom {@link BlockItem} for the {@code block}.
+     * Registers a custom {@link BlockItem}.
      * @param id the {@link Identifier}.
-     * @param block the {@link Block}.
+     * @param item the {@link BlockItem}.
+     * @return a registered {@link BlockItem}.
      */
-    static void registerBlockItem(Identifier id, Block block) {
-        Registry.register(Registries.ITEM, id, new BlockItem(block, new Item.Settings()));
+    static Item registerBlockItem(Identifier id, BlockItem item) {
+        return Registry.register(Registries.ITEM, id, item);
     }
 }
