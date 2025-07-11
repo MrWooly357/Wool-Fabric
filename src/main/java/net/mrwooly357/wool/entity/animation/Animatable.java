@@ -10,6 +10,7 @@ import net.minecraft.entity.data.TrackedDataHandlerRegistry;
 import net.minecraft.util.Identifier;
 import net.mrwooly357.wool.WoolClient;
 import net.mrwooly357.wool.entity.action.ActionHolder;
+import org.joml.Vector3f;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -69,17 +70,6 @@ public interface Animatable {
         interface Model {
 
 
-            Map<String, ModelPart> getModelParts();
-        }
-
-
-        interface Renderer {
-
-
-            Map<String, ModelPart> getModelParts();
-
-            Map<Identifier, Animation> getAnimations();
-
             default void applyAnimation(Entity entity, float tickDelta) {
                 Animation.Player player = Animation.PlayerStorage.get(entity);
                 Animation.Variant variant = player.getCurrentVariant();
@@ -92,19 +82,22 @@ public interface Animatable {
 
                         if (part != null) {
                             Animation.Transformation transformation = bone.getValue();
-                            part.pivotX = transformation.x();
-                            part.pivotY = -transformation.y();
-                            part.pivotZ = transformation.z();
-                            part.pitch = transformation.pitch();
-                            part.yaw = transformation.yaw();
-                            part.roll = transformation.roll();
-                            part.xScale = transformation.xScale() + 1.0F;
-                            part.yScale = transformation.yScale() + 1.0F;
-                            part.zScale = transformation.zScale() + 1.0F;
+                            part.translate(new Vector3f(transformation.x(), -transformation.y(), transformation.z()));
+                            part.rotate(new Vector3f(transformation.pitch(), transformation.yaw(), transformation.roll()));
+                            part.scale(new Vector3f(transformation.xScale(), transformation.yScale(), transformation.zScale()));
                         }
                     }
                 }
             }
+
+            Map<String, ModelPart> getModelParts();
+        }
+
+
+        interface Renderer {
+
+
+            Map<Identifier, Animation> getAnimations();
 
             static Map<Identifier, Animation> createAnimations(EntityType<? extends Server> type) {
                 return new HashMap<>(WoolClient.ANIMATION_LOADER.getTemplates().get(type));
