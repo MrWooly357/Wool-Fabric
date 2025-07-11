@@ -90,14 +90,18 @@ public interface Animatable {
                     for (Map.Entry<String, Animation.Transformation> bone : variant.getInterpolatedKeyframe(player.getElapsedTicks() + tickDelta).bones().entrySet()) {
                         String key = bone.getKey();
                         ModelPart part = getModelParts().get(key);
-                        System.out.println(key);
 
                         if (part != null) {
-                            System.out.println(":)");
                             Animation.Transformation transformation = bone.getValue();
-                            part.translate(new Vector3f(transformation.x(), -transformation.y(), transformation.z()));
-                            part.rotate(new Vector3f(transformation.pitch(), transformation.yaw(), transformation.roll()));
-                            part.scale(new Vector3f(transformation.xScale(), transformation.yScale(), transformation.zScale()));
+                            part.pivotX = transformation.x();
+                            part.pivotY = -transformation.y();
+                            part.pivotZ = transformation.z();
+                            part.pitch = transformation.pitch();
+                            part.yaw = transformation.yaw();
+                            part.roll = transformation.roll();
+                            part.xScale = transformation.xScale() + 1.0F;
+                            part.yScale = transformation.yScale() + 1.0F;
+                            part.zScale = transformation.zScale() + 1.0F;
                         }
                     }
                 }
