@@ -93,6 +93,15 @@ public interface Animatable {
 
                         if (part != null) {
                             Animation.Transformation transformation = bone.getValue();
+                            System.out.println(transformation.x() + " 1");
+                            System.out.println(-transformation.y() + " 1");
+                            System.out.println(transformation.z() + " 1");
+                            System.out.println(transformation.pitch() + " 1");
+                            System.out.println(transformation.yaw() + " 1");
+                            System.out.println(transformation.roll() + " 1");
+                            System.out.println(transformation.xScale() + 1.0F + " 1");
+                            System.out.println(transformation.yScale() + 1.0F + " 1");
+                            System.out.println(transformation.zScale() + 1.0F + " 1");
                             part.pivotX = transformation.x();
                             part.pivotY = -transformation.y();
                             part.pivotZ = transformation.z();
@@ -102,6 +111,15 @@ public interface Animatable {
                             part.xScale = transformation.xScale() + 1.0F;
                             part.yScale = transformation.yScale() + 1.0F;
                             part.zScale = transformation.zScale() + 1.0F;
+                            System.out.println(transformation.x() + " 2");
+                            System.out.println(-transformation.y() + " 2");
+                            System.out.println(transformation.z() + " 2");
+                            System.out.println(transformation.pitch() + " 2");
+                            System.out.println(transformation.yaw() + " 2");
+                            System.out.println(transformation.roll() + " 2");
+                            System.out.println(transformation.xScale() + 1.0F + " 2");
+                            System.out.println(transformation.yScale() + 1.0F + " 2");
+                            System.out.println(transformation.zScale() + 1.0F + " 2");
                         }
                     }
                 }
