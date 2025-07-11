@@ -3,6 +3,7 @@
   "package": "net.mrwooly357.wool.mixin",
   "compatibilityLevel": "JAVA_21",
   "mixins": [
+    "ClientWorldEntityAnimationPlayerUpdater",
     "EntityAccessoriesSaverMixin",
     "EntityAnimationTickerMixin",
     "EntitySimpleDataSaverMixin",
@@ -10,8 +11,5 @@
   ],
   "injectors": {
     "defaultRequire": 1
-  },
-  "client": [
-    "ClientWorldEntityAnimationPlayerUpdater"
-  ]
+  }
 }
