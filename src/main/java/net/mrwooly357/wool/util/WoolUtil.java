@@ -8,15 +8,6 @@ import net.minecraft.util.math.MathHelper;
 public class WoolUtil {
 
 
-    /** Makes number opposite. For example:
-     double a = 1;
-     double oppositeA = opposite(a);
-     <p> And "oppositeA" will be equal to -1.
-     */
-    public static double opposite(double number) {
-        return number * -1;
-    }
-
     /**
      * Calculates distance between to points. "From" point is the place you start. "To" point is the place you finish.
      * @param fromX is x coordinates of "from" point.
@@ -28,27 +19,9 @@ public class WoolUtil {
      * @return the distance between "from" point and "to" point.
      */
     public static double getDistanceBetween(double fromX, double fromY, double fromZ, double toX, double toY, double toZ) {
-        double rawXDistance = toX - fromX;
-        double rawYDistance = toY - fromY;
-        double rawZDistance = toZ - fromZ;
-        double xDistance;
-        double yDistance;
-        double zDistance;
-
-        if (rawXDistance < 0) {
-            xDistance = opposite(rawXDistance);
-        } else
-            xDistance = rawXDistance;
-
-        if (rawYDistance < 0) {
-            yDistance = opposite(rawYDistance);
-        } else
-            yDistance = rawYDistance;
-
-        if (rawZDistance < 0) {
-            zDistance = opposite(rawZDistance);
-        } else
-            zDistance = rawZDistance;
+        double xDistance = toX - fromX;
+        double yDistance = toY - fromY;
+        double zDistance = toZ - fromZ;
 
         return MathHelper.sqrt((float) (xDistance * xDistance + yDistance * yDistance + zDistance * zDistance));
     }
