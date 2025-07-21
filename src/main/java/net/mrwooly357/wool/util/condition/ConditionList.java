@@ -30,11 +30,12 @@ public final class ConditionList<T> {
      * @return {@code true} if all {@link Condition conditions} were tested successfully, otherwise {@code false}.
      */
     public boolean test(T object) {
-        boolean valid = true;
+        for (Condition<T> condition : conditions) {
 
-        for (Condition<T> condition : conditions)
-            valid = condition.test(object);
+            if (!condition.test(object))
+                return false;
+        }
 
-        return valid;
+        return true;
     }
 }

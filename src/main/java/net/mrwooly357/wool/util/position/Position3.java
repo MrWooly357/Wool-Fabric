@@ -179,21 +179,21 @@ public abstract class Position3<T extends Number> implements Position<T> {
         /**
          * Sets the {@link Position3#x}.
          * @param value the new value.
-         * @return a new {@link Position3.Mutable} with {@link Position3#x} being the new value and {@link Position3#y} and {@link Position3#z} being old ones.
+         * @return this {@link Position3 position} with new {@link Position3#x}.
          */
         Position3.Mutable<T> setX(T value);
 
         /**
          * Sets the {@link Position3#y}.
          * @param value the new value.
-         * @return a new {@link Position3.Mutable} with {@link Position3#y} being the new value and {@link Position3#x} and {@link Position3#z} being old ones.
+         * @return this {@link Position3 position} with new {@link Position3#y}.
          */
         Position3.Mutable<T> setY(T value);
 
         /**
          * Sets the {@link Position3#z}.
          * @param value the new value.
-         * @return a new {@link Position3.Mutable} with {@link Position3#z} being the new value and {@link Position3#x} and {@link Position3#y} being old ones.
+         * @return this {@link Position3 position} with new {@link Position3#z}.
          */
         Position3.Mutable<T> setZ(T value);
     }

@@ -184,7 +184,14 @@ public class Position3D extends Position3<Double> {
     @Override
     public Position<Double> divide(Position<?> position) {
         if (position instanceof Position3<?> position3) {
-            return new Position3D(x / (double) position3.x, y / (double) position3.y, z / (double) position3.z);
+            double x = (double) position3.x;
+            double y = (double) position3.y;
+            double z = (double) position3.z;
+
+            if (x != 0.0 && y != 0.0 && z != 0.0) {
+                return new Position3D(this.x / x, this.y / y, this.z / z);
+            } else
+                throw new IllegalArgumentException("One of components' values is 0.0. Can't divide by 0.0!" + this + ", " + position3);
         } else if (WoolConfig.developerMode) {
             throw createDivisionException(this, position);
         } else
@@ -289,31 +296,37 @@ public class Position3D extends Position3<Double> {
         /**
          * An implementation of {@link Position3.Mutable} which sets the {@link Position3D#x}
          * @param value the new value.
-         * @return a new {@link Position3.Mutable} with {@link Position3#x} being the new value and {@link Position3#y} and {@link Position3#z} being old ones.
+         * @return this {@link Position3D position} with new {@link Position3#x}.
          */
         @Override
         public Position3.Mutable<Double> setX(Double value) {
-            return new Position3D.Mutable(value, y, z);
+            x = value;
+
+            return this;
         }
 
         /**
          * An implementation of {@link Position3.Mutable} which sets the {@link Position3D#y}
          * @param value the new value.
-         * @return a new {@link Position3.Mutable} with {@link Position3#y} being the new value and {@link Position3#x} and {@link Position3#z} being old ones.
+         * @return this {@link Position3D position} with new {@link Position3#y}.
          */
         @Override
         public Position3.Mutable<Double> setY(Double value) {
-            return new Position3D.Mutable(x, value, z);
+            y = value;
+
+            return this;
         }
 
         /**
          * An implementation of {@link Position3.Mutable} which sets the {@link Position3D#z}
          * @param value the new value.
-         * @return a new {@link Position3.Mutable} with {@link Position3#z} being the new value and {@link Position3#x} and {@link Position3#y} being old ones.
+         * @return this {@link Position3D position} with new {@link Position3#z}.
          */
         @Override
         public Position3.Mutable<Double> setZ(Double value) {
-            return new Position3D.Mutable(x, y, value);
+            z = value;
+
+            return this;
         }
     }
 }
