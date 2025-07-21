@@ -153,18 +153,12 @@ public abstract class EntityAccessoriesSaverMixin implements AccessoryInventoryH
 
             for (String key : compound.getKeys()) {
 
-                if (!Objects.equals(key, idAsString)) {
-                    NbtCompound compound2 = compound.getCompound(key);
-
-                    fullAccessoryInventory.get(Identifier.of(key)).setStack(AccessoryInventoryUnit.fromNbt(compound2, world));
-                }
+                if (!Objects.equals(key, idAsString))
+                    fullAccessoryInventory.get(Identifier.of(key)).setStack(AccessoryInventoryUnit.fromNbt(compound.getCompound(key), world));
             }
 
-            for (String key : compound1.getKeys()) {
-                NbtCompound compound2 = compound1.getCompound(key);
-
-                accessoryInventory.get(Identifier.of(key)).setStack(AccessoryInventoryUnit.fromNbt(compound2, world));
-            }
+            for (String key : compound1.getKeys())
+                accessoryInventory.get(Identifier.of(key)).setStack(AccessoryInventoryUnit.fromNbt(compound1.getCompound(key), world));
         }
     }
 

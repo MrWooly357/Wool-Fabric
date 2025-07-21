@@ -50,7 +50,7 @@ public class AccessoryInventoryUnit {
     }
 
     public static ItemStack fromNbt(NbtCompound nbt, World world) {
-        return ItemStack.fromNbtOrEmpty(world.getRegistryManager(), nbt);
+        return ItemStack.fromNbtOrEmpty(world.getRegistryManager(), nbt.getCompound("Stack"));
     }
 
     public boolean isAvailable() {
