@@ -190,6 +190,21 @@ public interface Position<T extends Number> {
     Position<T> randomInRadius(Random random, T radius);
 
     /**
+     * Calculates the distance between this {@link Position position} and another one.
+     * @param position the {@link Position}.
+     * @return the distance between this {@link Position position} and the other one.
+     */
+    T distanceTo(Position<T> position);
+
+    /**
+     * Creates an {@link IllegalArgumentException} to throw whenever a wrong type of {@link Position} is used in {@link Position#distanceTo(Position)}.
+     * @param position the {@link Position}.
+     * @param other the other {@link Position}.
+     * @return an {@link IllegalArgumentException} to use in {@link Position#distanceTo(Position)}.
+     */
+    IllegalArgumentException createDistanceToException(Position<T> position, Position<?> other);
+
+    /**
      * Creates a {@link Mutable mutable} copy of this {@link Position position}.
      * @return a {@link Mutable mutable} copy of this {@link Position position}.
      * @apiNote use {@link Mutable#toImmutable()} to get an {@link Position immutable} copy.

@@ -121,7 +121,7 @@ public class WoolCommand {
         }
 
         private static int executeLoad(ServerCommandSource source, Identifier id) {
-            Config config = ConfigManager.getIdToConfig().get(id);
+            Config config = ConfigManager.getIdsToConfigs().get(id);
 
             if (config != null) {
                 config.load();
@@ -132,7 +132,7 @@ public class WoolCommand {
         }
 
         private static int executeResetToDefault(ServerCommandSource source, Identifier id) {
-            Config config = ConfigManager.getIdToConfig().get(id);
+            Config config = ConfigManager.getIdsToConfigs().get(id);
 
             if (config != null) {
                 config.resetToDefault();

@@ -10,11 +10,11 @@ import java.util.Map;
 public class ConfigManager {
 
     private static final List<Config> configs = WoolRegistries.CONFIG.stream().toList();
-    private static final Map<Identifier, Config> idToConfig = new HashMap<>();
+    private static final Map<Identifier, Config> idsToConfigs = new HashMap<>();
 
 
-    public static Map<Identifier, Config> getIdToConfig() {
-        return idToConfig;
+    public static Map<Identifier, Config> getIdsToConfigs() {
+        return idsToConfigs;
     }
 
     public static void loadAll() {

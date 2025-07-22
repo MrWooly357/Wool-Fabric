@@ -20,7 +20,7 @@ public interface ConfigRegistryHelper {
      */
     static Config register(Identifier id, Config config) {
         config.load();
-        ConfigManager.getIdToConfig().put(id, config);
+        ConfigManager.getIdsToConfigs().put(id, config);
 
         return Registry.register(WoolRegistries.CONFIG, id, config);
     }

@@ -2,8 +2,8 @@ package net.mrwooly357.wool.config.restriction.custom.range;
 
 public class ShortRangeRestriction extends RangeRestriction<Short> {
 
-    public ShortRangeRestriction(short bottom, short top) {
-        super(bottom, top);
+    public ShortRangeRestriction(short min, short max) {
+        super(min, max);
     }
 
 
@@ -11,13 +11,12 @@ public class ShortRangeRestriction extends RangeRestriction<Short> {
     public Short normalize(Short value) {
         short normalized;
 
-        if (value < bottom) {
-            normalized = bottom;
-        } else if (value > top) {
-            normalized = top;
-        } else {
+        if (value < min) {
+            normalized = min;
+        } else if (value > max) {
+            normalized = max;
+        } else
             normalized = value;
-        }
 
         return normalized;
     }

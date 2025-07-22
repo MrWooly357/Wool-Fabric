@@ -7,6 +7,7 @@ import net.minecraft.network.codec.PacketCodec;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.random.Random;
 import net.mrwooly357.wool.config.custom.WoolConfig;
+import net.mrwooly357.wool.util.WoolUtil;
 
 import java.util.Objects;
 
@@ -238,6 +239,21 @@ public class Position3D extends Position3<Double> {
     @Override
     public Position<Double> randomInRadius(Random random, Double radius) {
         return new Position3D(x + MathHelper.nextDouble(random, -radius, radius), y + MathHelper.nextDouble(random, -radius, radius), z + MathHelper.nextDouble(random, -radius, radius));
+    }
+
+    /**
+     * An implementation of {@link Position#distanceTo(Position)} which calculates the distance between this {@link Position3D position} and another one.
+     * @param position the {@link Position}.
+     * @return the distance between this {@link Position3D position} and another one.
+     */
+    @Override
+    public Double distanceTo(Position<Double> position) {
+        if (position instanceof Position3<?> position3) {
+            return WoolUtil.getDistanceBetween(x, y, z, (double) position3.x, (double) position3.y, (double) position3.z);
+        } else if (WoolConfig.developerMode) {
+            throw createDistanceToException(this, position);
+        } else
+            return 0.0;
     }
 
     /**

@@ -2,8 +2,8 @@ package net.mrwooly357.wool.config.restriction.custom.range;
 
 public class ByteRangeRestriction extends RangeRestriction<Byte> {
 
-    public ByteRangeRestriction(byte bottom, byte top) {
-        super(bottom, top);
+    public ByteRangeRestriction(byte min, byte max) {
+        super(min, max);
     }
 
 
@@ -11,13 +11,12 @@ public class ByteRangeRestriction extends RangeRestriction<Byte> {
     public Byte normalize(Byte value) {
         byte normalized;
 
-        if (value < bottom) {
-            normalized = bottom;
-        } else if (value > top) {
-            normalized = top;
-        } else {
+        if (value < min) {
+            normalized = min;
+        } else if (value > max) {
+            normalized = max;
+        } else
             normalized = value;
-        }
 
         return normalized;
     }

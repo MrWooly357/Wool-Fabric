@@ -2,8 +2,8 @@ package net.mrwooly357.wool.config.restriction.custom.range;
 
 public class FloatRangeRestriction extends RangeRestriction<Float> {
 
-    public FloatRangeRestriction(float bottom, float top) {
-        super(bottom, top);
+    public FloatRangeRestriction(float min, float max) {
+        super(min, max);
     }
 
 
@@ -11,13 +11,12 @@ public class FloatRangeRestriction extends RangeRestriction<Float> {
     public Float normalize(Float value) {
         float normalized;
 
-        if (value < bottom) {
-            normalized = bottom;
-        } else if (value > top) {
-            normalized = top;
-        } else {
+        if (value < min) {
+            normalized = min;
+        } else if (value > max) {
+            normalized = max;
+        } else
             normalized = value;
-        }
 
         return normalized;
     }

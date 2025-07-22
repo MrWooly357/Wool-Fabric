@@ -2,8 +2,8 @@ package net.mrwooly357.wool.config.restriction.custom.range;
 
 public class DoubleRangeRestriction extends RangeRestriction<Double> {
 
-    public DoubleRangeRestriction(double bottom, double top) {
-        super(bottom, top);
+    public DoubleRangeRestriction(double min, double max) {
+        super(min, max);
     }
 
 
@@ -11,13 +11,12 @@ public class DoubleRangeRestriction extends RangeRestriction<Double> {
     public Double normalize(Double value) {
         double normalized;
 
-        if (value < bottom) {
-            normalized = bottom;
-        } else if (value > top) {
-            normalized = top;
-        } else {
+        if (value < min) {
+            normalized = min;
+        } else if (value > max) {
+            normalized = max;
+        } else
             normalized = value;
-        }
 
         return normalized;
     }

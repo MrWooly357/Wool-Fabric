@@ -41,6 +41,10 @@ public abstract class Position3<T extends Number> implements Position<T> {
      * The message used in {@link Position3#divide(Position)}.
      */
     String DIVISION_EXCEPTION_MESSAGE = "Can't divide an instance of Position3 by a non instance of Position3! ";
+    /**
+     * The message used in {@link Position3#createDistanceToException(Position, Position)}.
+     */
+    String DISTANCE_TO_EXCEPTION_MESSAGE = "Can't use a non instance of Position3 in distanceTo in Position3! ";
 
     /**
      * Creates a new {@link Position3} using x, y and z components.
@@ -136,6 +140,17 @@ public abstract class Position3<T extends Number> implements Position<T> {
     @Override
     public IllegalArgumentException createDivisionException(Position<T> position, Position<?> other) {
         return new IllegalArgumentException(DIVISION_EXCEPTION_MESSAGE + position + ", " + other);
+    }
+
+    /**
+     * An implementation of {@link Position#createDistanceToException(Position, Position)} which creates an {@link IllegalArgumentException} with the message being {@link Position3#DISTANCE_TO_EXCEPTION_MESSAGE}.
+     * @param position the {@link Position}.
+     * @param other the other {@link Position}.
+     * @return an {@link IllegalArgumentException} with the message being {@link Position3#DISTANCE_TO_EXCEPTION_MESSAGE}.
+     */
+    @Override
+    public IllegalArgumentException createDistanceToException(Position<T> position, Position<?> other) {
+        return new IllegalArgumentException(DISTANCE_TO_EXCEPTION_MESSAGE + position + ", " + other);
     }
 
     /**
