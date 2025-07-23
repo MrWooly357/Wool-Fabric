@@ -160,7 +160,7 @@ public abstract class Position3<T extends Number> implements Position<T> {
      * Use {@link Position3#toBlockPosRounded()} for {@link Position3#x}, {@link Position3#y} and {@link Position3#z} to be rounded.
      */
     public BlockPos toBlockPos() {
-        return new BlockPos((int) x, (int) y, (int) z);
+        return new BlockPos(x.intValue(), y.intValue(), z.intValue());
     }
 
     /**
