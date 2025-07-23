@@ -169,7 +169,7 @@ public abstract class Position3<T extends Number> implements Position<T> {
      * @apiNote {@link Position3#x}, {@link Position3#y} and {@link Position3#z} are rounded when converting. If you want straight up casting to {@link Integer}s, use {@link Position3#toBlockPos()}.
      */
     public BlockPos toBlockPosRounded() {
-        return new BlockPos(Math.round((float) x), Math.round((float) y), Math.round((float) z));
+        return new BlockPos(Math.round(x.floatValue()), Math.round(y.floatValue()), Math.round(z.floatValue()));
     }
 
 
