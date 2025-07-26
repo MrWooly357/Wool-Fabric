@@ -1,7 +1,8 @@
-package net.mrwooly357.wool.util.position;
+package net.mrwooly357.wool.util.position.custom;
 
 import com.google.common.collect.ImmutableList;
 import net.minecraft.util.math.BlockPos;
+import net.mrwooly357.wool.util.position.Position;
 
 /**
  * Represents a position in 3D space with three components.
@@ -174,14 +175,14 @@ public abstract class Position3<T extends Number> implements Position<T> {
 
 
     /**
-     * An extended {@link Position.Mutable}.
+     * An extended {@link Mutable}.
      * @param <T> the type of components.
      */
     public interface Mutable<T extends Number> extends Position.Mutable<T> {
 
 
         /**
-         * An implementation of {@link Position.Mutable#setComponents(Number)}. Sets all components' values to the one in parentheses.
+         * An implementation of {@link Mutable#setComponents(Number)}. Sets all components' values to the one in parentheses.
          * @param value the new value for all components.
          */
         @Override

@@ -1,13 +1,16 @@
-package net.mrwooly357.wool.util.position;
+package net.mrwooly357.wool.util.position.custom;
 
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
+import net.minecraft.entity.Entity;
 import net.minecraft.network.PacketByteBuf;
 import net.minecraft.network.codec.PacketCodec;
+import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.random.Random;
 import net.mrwooly357.wool.config.custom.WoolConfig;
 import net.mrwooly357.wool.util.WoolUtil;
+import net.mrwooly357.wool.util.position.Position;
 
 import java.util.Objects;
 
@@ -60,6 +63,22 @@ public class Position3D extends Position3<Double> {
      */
     public Position3D(double x, double y, double z) {
         super(x, y, z);
+    }
+
+    /**
+     * Creates a new {@link Position3D} using a {@link BlockPos pos}.
+     * @param pos the {@link BlockPos}.
+     */
+    public Position3D(BlockPos pos) {
+        super((double) pos.getX(), (double) pos.getY(), (double) pos.getZ());
+    }
+
+    /**
+     * Creates a new {@link Position3D} using an {@link Entity entity}.
+     * @param entity the {@link Entity}.
+     */
+    public Position3D(Entity entity) {
+        super(entity.getX(), entity.getY(), entity.getZ());
     }
 
 
@@ -343,6 +362,46 @@ public class Position3D extends Position3<Double> {
             z = value;
 
             return this;
+        }
+
+        /**
+         * Same as {@link Position3D#add(Position)} but {@link Position3D.Mutable mutable}.
+         */
+        @Override
+        public Position<Double> add(Position<?> position) {
+            return super.add(position).toMutable();
+        }
+
+        /**
+         * Same as {@link Position3D#subtract(Position)} but {@link Position3D.Mutable mutable}.
+         */
+        @Override
+        public Position<Double> subtract(Position<?> position) {
+            return super.subtract(position).toMutable();
+        }
+
+        /**
+         * Same as {@link Position3D#multiply(Position)} but {@link Position3D.Mutable mutable}.
+         */
+        @Override
+        public Position<Double> multiply(Position<?> position) {
+            return super.multiply(position).toMutable();
+        }
+
+        /**
+         * Same as {@link Position3D#subtract(Position)} but {@link Position3D.Mutable mutable}.
+         */
+        @Override
+        public Position<Double> divide(Position<?> position) {
+            return super.divide(position).toMutable();
+        }
+
+        /**
+         * Same as {@link Position3D#randomInRadius(Random, Double)} but {@link Position3D.Mutable mutable}.
+         */
+        @Override
+        public Position<Double> randomInRadius(Random random, Double radius) {
+            return super.randomInRadius(random, radius).toMutable();
         }
     }
 }

@@ -7,6 +7,7 @@ import net.minecraft.network.codec.PacketCodec;
 import net.minecraft.util.math.random.Random;
 import net.mrwooly357.wool.util.condition.ConditionList;
 import net.mrwooly357.wool.util.condition.custom.PositionCondition;
+import net.mrwooly357.wool.util.position.custom.Position3;
 
 /**
  * Represents a position in space.
