@@ -7,7 +7,7 @@ import net.mrwooly357.wool.util.position.list.PositionList;
 import java.util.ArrayList;
 import java.util.List;
 
-public final class Position3DList implements Position3List<Position3D> {
+public class Position3DList implements Position3List<Position3D> {
 
     private final List<Position3D> positions;
 

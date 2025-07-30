@@ -2,33 +2,36 @@ package net.mrwooly357.wool.config.custom;
 
 import net.mrwooly357.wool.Wool;
 import net.mrwooly357.wool.config.Config;
-import net.mrwooly357.wool.config.ConfigEntry;
+import net.mrwooly357.wool.config.field_type.WoolFieldTypes;
 
 public class WoolConfig extends Config {
 
-    protected static final ConfigEntry.Category general = new ConfigEntry.Category("general");
-    public ConfigEntry<Boolean> enableRestrictionsEntry;
-    public ConfigEntry<Boolean> developerModeEntry;
+    public static boolean enableDeveloperMode;
     public static boolean enableRestrictions;
-    public static boolean developerMode;
+
+    protected static final Entry.Category GENERAL = Entry.Category.builder()
+            .build("General");
+    private static final Entry<Boolean> ENABLE_DEVELOPER_MODE = Entry.<Boolean>builder()
+            .category(GENERAL)
+            .build("enableDeveloperMode", WoolFieldTypes.BOOLEAN, false);
+    private static final Entry<Boolean> ENABLE_RESTRICTIONS_ENTRY = Entry.<Boolean>builder()
+            .category(GENERAL)
+            .build("enableRestrictions", WoolFieldTypes.BOOLEAN, true);
 
     public WoolConfig() {
         super(Wool.MOD_ID);
 
-        addComment("General");
-        addEmptyLine();
-
-        enableRestrictionsEntry = booleanField("Enables config entry restrictions. Not recommended to disable!", general, "enableRestrictions", true);
-
-        addEmptyLine();
-
-        developerModeEntry = booleanField("If this is true, the game will log additional information.", general, "developerMode", false);
+        comment(GENERAL.getName());
+        emptyLine();
+        entry(ENABLE_DEVELOPER_MODE, "For developers! Logs additional information and enables certain debug functions.");
+        emptyLine();
+        entry(ENABLE_RESTRICTIONS_ENTRY, "Enables config entry restrictions. Not recommended to disable!");
     }
 
 
     @Override
     public void onUpdate() {
-        enableRestrictions = enableRestrictionsEntry.getValue();
-        developerMode = developerModeEntry.getValue();
+        enableDeveloperMode = ENABLE_DEVELOPER_MODE.getValue();
+        enableRestrictions = ENABLE_RESTRICTIONS_ENTRY.getValue();
     }
 }

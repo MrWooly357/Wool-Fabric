@@ -3,15 +3,21 @@
   "package": "net.mrwooly357.wool.mixin",
   "compatibilityLevel": "JAVA_21",
   "mixins": [
+    "CustomBiomeAdderMixin",
+    "CustomBiomeSurfaceRuleAdderMixin",
+    "CustomCaveBiomesBelowZeroRetrogenAdderMixin",
     "EntityAccessoriesSaverMixin",
     "EntityAnimationTickerMixin",
     "EntitySimpleDataSaverMixin",
-    "InventoryScreenAccessorySlotsMixin"
+    "InventoryScreenAccessorySlotsMixin",
+    "OverworldCustomBiomeAdderMixin",
+    "TheEndCustomBiomeAdder",
+    "TheNetherCustomBiomeAdderMixin"
   ],
   "injectors": {
     "defaultRequire": 1
   },
   "client": [
-    "ClientWorldEntityAnimationPlayerUpdater"
+    "ClientWorldEntityAnimationPlayerUpdaterMixin"
   ]
 }

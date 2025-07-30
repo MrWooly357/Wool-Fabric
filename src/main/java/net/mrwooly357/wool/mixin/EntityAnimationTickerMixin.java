@@ -1,7 +1,7 @@
 package net.mrwooly357.wool.mixin;
 
 import net.minecraft.entity.Entity;
-import net.mrwooly357.wool.entity.animation.Animatable;
+import net.mrwooly357.wool.animation.entity.Animatable;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;

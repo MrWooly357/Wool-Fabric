@@ -9,7 +9,7 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.random.Random;
 import net.mrwooly357.wool.config.custom.WoolConfig;
-import net.mrwooly357.wool.util.WoolUtil;
+import net.mrwooly357.wool.util.misc.WoolUtil;
 import net.mrwooly357.wool.util.position.Position;
 
 import java.util.Objects;
@@ -127,7 +127,7 @@ public class Position3D extends Position3<Double> {
     public Position<Double> add(Position<?> position) {
         if (position instanceof Position3<?> position3) {
             return new Position3D(x + (double) position3.x, y + (double) position3.y, z + (double) position3.z);
-        } else if (WoolConfig.developerMode) {
+        } else if (WoolConfig.enableDeveloperMode) {
             throw createAdditionException(this, position);
         } else
             return getZero();
@@ -153,7 +153,7 @@ public class Position3D extends Position3<Double> {
     public Position<Double> subtract(Position<?> position) {
         if (position instanceof Position3<?> position3) {
             return new Position3D(x - (double) position3.x, y - (double) position3.y, z - (double) position3.z);
-        } else if (WoolConfig.developerMode) {
+        } else if (WoolConfig.enableDeveloperMode) {
             throw createSubtractionException(this, position);
         } else
             return getZero();
@@ -179,7 +179,7 @@ public class Position3D extends Position3<Double> {
     public Position<Double> multiply(Position<?> position) {
         if (position instanceof Position3<?> position3) {
             return new Position3D(x * (double) position3.x, y * (double) position3.y, z * (double) position3.z);
-        } else if (WoolConfig.developerMode) {
+        } else if (WoolConfig.enableDeveloperMode) {
             throw createMultiplicationException(this, position);
         } else
             return getZero();
@@ -212,7 +212,7 @@ public class Position3D extends Position3<Double> {
                 return new Position3D(this.x / x, this.y / y, this.z / z);
             } else
                 throw new IllegalArgumentException("One of components' values is 0.0. Can't divide by 0.0!" + this + ", " + position3);
-        } else if (WoolConfig.developerMode) {
+        } else if (WoolConfig.enableDeveloperMode) {
             throw createDivisionException(this, position);
         } else
             return getZero();
@@ -269,7 +269,7 @@ public class Position3D extends Position3<Double> {
     public Double distanceTo(Position<Double> position) {
         if (position instanceof Position3<?> position3) {
             return WoolUtil.getDistanceBetween(x, y, z, (double) position3.x, (double) position3.y, (double) position3.z);
-        } else if (WoolConfig.developerMode) {
+        } else if (WoolConfig.enableDeveloperMode) {
             throw createDistanceToException(this, position);
         } else
             return 0.0;

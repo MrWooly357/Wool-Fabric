@@ -2,7 +2,7 @@ package net.mrwooly357.wool.registry.helper;
 
 import net.minecraft.registry.Registry;
 import net.minecraft.util.Identifier;
-import net.mrwooly357.wool.entity.animation.interpolation.Interpolation;
+import net.mrwooly357.wool.animation.interpolation.Interpolation;
 import net.mrwooly357.wool.registry.WoolRegistries;
 
 /**

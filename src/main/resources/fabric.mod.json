@@ -3,26 +3,24 @@
 	"id": "wool",
 	"version": "${version}",
 	"name": "Wool",
-	"description": "A simple library/API which offers some cool hooks for developers. Examples of use can be found in Medieval Stuff",
+	"description": "A simple API-library which offers some cool hooks for developers. Examples of use can be found in Medieval Stuff.",
 	"authors": [
 		"MrWooly357"
 	],
 	"contact": {
 		"homepage": "",
-		"sources": "https://github.com/MrWooly357/Wool-Fabric"
+		"sources": "https://github.com/MrWooly357/Wool-Fabric",
+		"issues": ""
 	},
 	"license": "MIT",
 	"icon": "assets/wool/icon.png",
 	"environment": "*",
 	"entrypoints": {
 		"main": [
-			"net.mrwooly357.wool.Wool"
+          "net.mrwooly357.wool.Wool"
 		],
 		"client": [
-			"net.mrwooly357.wool.WoolClient"
-		],
-		"wool": [
-			"net.mrwooly357.wool.Wool"
+          "net.mrwooly357.wool.WoolClient"
 		]
 	},
 	"mixins": [

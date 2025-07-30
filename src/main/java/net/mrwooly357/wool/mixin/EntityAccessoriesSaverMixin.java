@@ -7,16 +7,14 @@ import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.registry.Registry;
-import net.minecraft.registry.RegistryKey;
 import net.minecraft.util.Identifier;
 import net.minecraft.world.GameRules;
 import net.minecraft.world.World;
 import net.mrwooly357.wool.Wool;
-import net.mrwooly357.wool.config.custom.WoolConfig;
-import net.mrwooly357.wool.entity.accessory.inventory.AccessoryInventoryHolder;
-import net.mrwooly357.wool.entity.accessory.inventory.AccessoryInventoryUnit;
-import net.mrwooly357.wool.entity.accessory.inventory.EntityTypeAccessoryInventoryManager;
-import net.mrwooly357.wool.item.accessory.Accessory;
+import net.mrwooly357.wool.accessory.entity.inventory.AccessoryInventoryHolder;
+import net.mrwooly357.wool.accessory.entity.inventory.AccessoryInventoryUnit;
+import net.mrwooly357.wool.accessory.entity.inventory.AccessoryInventoryManager;
+import net.mrwooly357.wool.accessory.item.Accessory;
 import org.jetbrains.annotations.Nullable;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
@@ -50,13 +48,13 @@ public abstract class EntityAccessoriesSaverMixin implements AccessoryInventoryH
     @Override
     @Nullable
     public Registry<AccessoryInventoryUnit> getRegistry() {
-        return EntityTypeAccessoryInventoryManager.getEntityTypeToRegistry().get(getType());
+        return AccessoryInventoryManager.ENTITY_TYPE_TO_REGISTRY.get(getType());
     }
 
     @Override
     @Nullable
     public Identifier getId() {
-        return EntityTypeAccessoryInventoryManager.getRegistryToId().get(getRegistry());
+        return AccessoryInventoryManager.REGISTRY_TO_ID.get(getRegistry());
     }
 
     @Override
@@ -80,13 +78,13 @@ public abstract class EntityAccessoriesSaverMixin implements AccessoryInventoryH
 
     @Override
     public boolean isValid() {
-        return AccessoryInventoryHolder.super.isValid() && EntityTypeAccessoryInventoryManager.getEntityTypeToRegistry().containsKey(getType()) && EntityTypeAccessoryInventoryManager.getRegistryToId().containsKey(getRegistry());
+        return AccessoryInventoryHolder.super.isValid() && AccessoryInventoryManager.ENTITY_TYPE_TO_REGISTRY.containsKey(getType()) && AccessoryInventoryManager.REGISTRY_TO_ID.containsKey(getRegistry());
     }
 
     @Unique
     private void tryCreateAccessoryInventory() {
         if (fullAccessoryInventory == null && isValid() && getRegistry() != null && getId() != null) {
-            List<Identifier> order = EntityTypeAccessoryInventoryManager.getUnitOrder().get(getRegistry());
+            List<Identifier> order = AccessoryInventoryManager.UNIT_ORDER.get(getRegistry());
             fullAccessoryInventory = new LinkedHashMap<>();
             accessoryInventory = new LinkedHashMap<>();
 
@@ -134,28 +132,11 @@ public abstract class EntityAccessoriesSaverMixin implements AccessoryInventoryH
         if (isValid() && getRegistry() != null && getId() != null) {
             NbtCompound compound = nbt.getCompound(Wool.MOD_ID + ".FullAccessoryInventory");
             NbtCompound compound1 = nbt.getCompound(Wool.MOD_ID + ".AccessoryInventory");
-            String idAsString = getId().getNamespace() + ":empty";
-            Identifier id = Identifier.of(idAsString);
 
             tryCreateAccessoryInventory();
 
-            if (!fullAccessoryInventory.containsKey(id)) {
-                AccessoryInventoryUnit emptyTemplate = getRegistry().get(id);
-
-                if (emptyTemplate != null) {
-                    AccessoryInventoryUnit emptyUnit = new AccessoryInventoryUnit(emptyTemplate.getType(), emptyTemplate.getStack(), emptyTemplate.isAvailable());
-                    Optional<RegistryKey<AccessoryInventoryUnit>> emptyKeyTemplate = getRegistry().getKey(emptyTemplate);
-
-                    emptyKeyTemplate.ifPresent(key1 -> fullAccessoryInventory.put(key1.getValue(), emptyUnit));
-                } else if (WoolConfig.developerMode)
-                    Wool.LOGGER.error("Entity type accessory inventory registry {} doesn't contain an empty accessory inventory unit!", getRegistry());
-            }
-
-            for (String key : compound.getKeys()) {
-
-                if (!Objects.equals(key, idAsString))
-                    fullAccessoryInventory.get(Identifier.of(key)).setStack(AccessoryInventoryUnit.fromNbt(compound.getCompound(key), world));
-            }
+            for (String key : compound.getKeys())
+                fullAccessoryInventory.get(Identifier.of(key)).setStack(AccessoryInventoryUnit.fromNbt(compound.getCompound(key), world));
 
             for (String key : compound1.getKeys())
                 accessoryInventory.get(Identifier.of(key)).setStack(AccessoryInventoryUnit.fromNbt(compound1.getCompound(key), world));

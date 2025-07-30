@@ -3,16 +3,31 @@ package net.mrwooly357.wool.util.context.custom;
 import net.mrwooly357.wool.util.context.Context;
 
 /**
- * Represents a result context of something. Usually it's a group of {@link Object objects}.
- * @param <V> the type of final value.
+ * A {@link Context context} with a result value.
+ * @param <V> the type of result value.
  * @since 1.0.0
  */
-public interface ResultContext<V> extends Context {
+public class ResultContext<V> implements Context {
+
+    /**
+     * The {@link V value}.
+     */
+    protected V value;
+
+    /**
+     * Creates a new {@link ResultContext} with an initial value.
+     * @param initialValue the initial value.
+     */
+    public ResultContext(V initialValue) {
+        value = initialValue;
+    }
 
 
     /**
-     * Gets the final value of this {@link ResultContext context}.
-     * @return the final value.
+     * Gets the result value of this {@link ResultContext context}.
+     * @return the result value.
      */
-    V get();
+    public V get() {
+        return value;
+    }
 }

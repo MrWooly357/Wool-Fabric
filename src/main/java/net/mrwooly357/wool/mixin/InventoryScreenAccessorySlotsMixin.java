@@ -13,7 +13,7 @@ import net.minecraft.screen.PlayerScreenHandler;
 import net.minecraft.text.Text;
 import net.minecraft.util.Identifier;
 import net.mrwooly357.wool.Wool;
-import net.mrwooly357.wool.network.packet.c2s.OpenPlayerAccessoryInventoryC2SPacket;
+import net.mrwooly357.wool.accessory.network.packet.custom.c2s.OpenPlayerAccessoryInventoryC2SPacket;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;

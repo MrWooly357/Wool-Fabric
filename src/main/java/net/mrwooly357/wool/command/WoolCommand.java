@@ -8,6 +8,7 @@ import com.mojang.brigadier.exceptions.DynamicCommandExceptionType;
 import net.minecraft.command.CommandRegistryAccess;
 import net.minecraft.command.argument.*;
 import net.minecraft.entity.Entity;
+import net.minecraft.entity.EntityType;
 import net.minecraft.item.ItemStack;
 import net.minecraft.registry.Registries;
 import net.minecraft.registry.entry.RegistryEntry;
@@ -21,9 +22,8 @@ import net.minecraft.util.Formatting;
 import net.minecraft.util.Identifier;
 import net.mrwooly357.wool.Wool;
 import net.mrwooly357.wool.config.Config;
-import net.mrwooly357.wool.config.ConfigManager;
-import net.mrwooly357.wool.entity.accessory.inventory.AccessoryInventoryHolder;
-import net.mrwooly357.wool.entity.accessory.inventory.EntityTypeAccessoryInventoryManager;
+import net.mrwooly357.wool.accessory.entity.inventory.AccessoryInventoryHolder;
+import net.mrwooly357.wool.accessory.entity.inventory.AccessoryInventoryManager;
 import net.mrwooly357.wool.registry.WoolRegistries;
 import net.mrwooly357.wool.registry.WoolRegistryKeys;
 
@@ -121,7 +121,7 @@ public class WoolCommand {
         }
 
         private static int executeLoad(ServerCommandSource source, Identifier id) {
-            Config config = ConfigManager.getIdsToConfigs().get(id);
+            Config config = Config.Manager.getIdsToConfigs().get(id);
 
             if (config != null) {
                 config.load();
@@ -132,7 +132,7 @@ public class WoolCommand {
         }
 
         private static int executeResetToDefault(ServerCommandSource source, Identifier id) {
-            Config config = ConfigManager.getIdsToConfigs().get(id);
+            Config config = Config.Manager.getIdsToConfigs().get(id);
 
             if (config != null) {
                 config.resetToDefault();
@@ -143,14 +143,14 @@ public class WoolCommand {
         }
 
         private static int executeLoadAll(ServerCommandSource source) {
-            ConfigManager.loadAll();
+            Config.Manager.loadAll();
             source.sendFeedback(() -> Text.translatable("command." + Wool.MOD_ID + ".wool.config.loadAll", WOOL), true);
 
             return 1;
         }
 
         private static int executeResetToDefaultAll(ServerCommandSource source) {
-            ConfigManager.resetToDefaultAll();
+            Config.Manager.resetToDefaultAll();
             source.sendFeedback(() -> Text.translatable("command." + Wool.MOD_ID + ".wool.config.resetToDefaultAll", WOOL), true);
 
             return 1;
@@ -165,25 +165,21 @@ public class WoolCommand {
             List<Entity> valid = new ArrayList<>();
 
             for (Entity entity : targets) {
+                EntityType<?> entityType = entity.getType();
 
-                if (entity instanceof AccessoryInventoryHolder holder && holder.isValid() && holder.getRegistry() != null && holder.getId() != null && holder.getFullAccessoryInventory() != null && !unit.toString().equals("wool:empty") && EntityTypeAccessoryInventoryManager.getEntityTypeToRegistry().containsKey(entity.getType())) {
+                if (entity instanceof AccessoryInventoryHolder holder && holder.isValid() && holder.getRegistry() != null && holder.getId() != null
+                        && holder.getFullAccessoryInventory() != null && AccessoryInventoryManager.ENTITY_TYPE_TO_REGISTRY.containsKey(entityType)) {
                     ItemStack stack = holder.getFullAccessoryInventory().get(unit).getStack();
 
                     valid.add(entity);
                     source.sendFeedback(() -> Text.translatable("command." + Wool.MOD_ID + ".wool.accessory.get", WOOL, Texts.bracketed(entity.getName()).styled(
                             style -> style
                                     .withColor(Formatting.GREEN)
-                                    .withClickEvent(
-                                            new ClickEvent(
-                                                    ClickEvent.Action.SUGGEST_COMMAND, "/tp @s " + entity.getX() + " " + entity.getY() + " " + entity.getZ()
-                                            )
-                                    )
-                                    .withHoverEvent(
-                                            new HoverEvent(
-                                                    HoverEvent.Action.SHOW_TEXT, Text.translatable("chat.coordinates.tooltip")
-                                            )
-                                    )
-                    ), Text.translatable("chat." + Wool.MOD_ID + ".entityInfo", entity.getType().toString(), entity.getUuidAsString()).formatted(Formatting.DARK_GREEN), Text.translatable("chat." + Wool.MOD_ID + ".itemStackInfo", Registries.ITEM.getId(stack.getItem()).toString(), stack.getCount()).formatted(Formatting.AQUA), Text.translatable("chat." + Wool.MOD_ID + ".accessoryInventoryUnitInfo", unit.toString()).formatted(Formatting.DARK_AQUA)), true);
+                                    .withClickEvent(new ClickEvent(ClickEvent.Action.SUGGEST_COMMAND, "/tp @s " + entity.getX() + " " + entity.getY() + " " + entity.getZ()))
+                                    .withHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT, Text.translatable("chat.coordinates.tooltip")))
+                    ), Text.translatable("chat." + Wool.MOD_ID + ".entityInfo", entityType.toString(), entity.getUuidAsString()).formatted(Formatting.DARK_GREEN),
+                            Text.translatable("chat." + Wool.MOD_ID + ".itemStackInfo", Registries.ITEM.getId(stack.getItem()).toString(), stack.getCount()).formatted(Formatting.AQUA),
+                            Text.translatable("chat." + Wool.MOD_ID + ".accessoryInventoryUnitInfo", unit.toString()).formatted(Formatting.DARK_AQUA)), true);
                 }
             }
 
@@ -194,27 +190,23 @@ public class WoolCommand {
             List<Entity> valid = new ArrayList<>();
 
             for (Entity entity : targets) {
+                EntityType<?> entityType = entity.getType();
 
-                if (entity instanceof AccessoryInventoryHolder holder && holder.isValid() && holder.getRegistry() != null && holder.getId() != null && holder.getFullAccessoryInventory() != null && !unit.toString().equals("wool:empty") && EntityTypeAccessoryInventoryManager.getEntityTypeToRegistry().containsKey(entity.getType())) {
+                if (entity instanceof AccessoryInventoryHolder holder && holder.isValid() && holder.getRegistry() != null && holder.getId() != null
+                        && holder.getFullAccessoryInventory() != null && AccessoryInventoryManager.ENTITY_TYPE_TO_REGISTRY.containsKey(entityType)) {
                     ItemStack stack = new ItemStack(item.getItem(), count);
 
                     valid.add(entity);
                     holder.getFullAccessoryInventory().get(unit).setStack(stack);
                     source.sendFeedback(() -> Text.translatable(
-                            "command." + Wool.MOD_ID + ".wool.accessory.set", WOOL, Text.translatable("chat." + Wool.MOD_ID + ".itemStackInfo", Registries.ITEM.getId(stack.getItem()).toString(), stack.getCount()).formatted(Formatting.AQUA), Text.translatable("chat." + Wool.MOD_ID + ".accessoryInventoryUnitInfo", unit.toString()).formatted(Formatting.DARK_AQUA), Texts.bracketed(entity.getName()).styled(
+                            "command." + Wool.MOD_ID + ".wool.accessory.set", WOOL,
+                            Text.translatable("chat." + Wool.MOD_ID + ".itemStackInfo", Registries.ITEM.getId(stack.getItem()).toString(), stack.getCount()).formatted(Formatting.AQUA),
+                            Text.translatable("chat." + Wool.MOD_ID + ".accessoryInventoryUnitInfo", unit.toString()).formatted(Formatting.DARK_AQUA), Texts.bracketed(entity.getName()).styled(
                                     style -> style
                                             .withColor(Formatting.GREEN)
-                                            .withClickEvent(
-                                                    new ClickEvent(
-                                                            ClickEvent.Action.SUGGEST_COMMAND, "/tp @s " + entity.getX() + " " + entity.getY() + " " + entity.getZ()
-                                                    )
-                                            )
-                                            .withHoverEvent(
-                                                    new HoverEvent(
-                                                            HoverEvent.Action.SHOW_TEXT, Text.translatable("chat.coordinates.tooltip")
-                                                    )
-                                            )
-                            ), Text.translatable("chat." + Wool.MOD_ID + ".entityInfo", entity.getType().toString(), entity.getUuidAsString()).formatted(Formatting.DARK_GREEN)
+                                            .withClickEvent(new ClickEvent(ClickEvent.Action.SUGGEST_COMMAND, "/tp @s " + entity.getX() + " " + entity.getY() + " " + entity.getZ()))
+                                            .withHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT, Text.translatable("chat.coordinates.tooltip")))
+                            ), Text.translatable("chat." + Wool.MOD_ID + ".entityInfo", entityType.toString(), entity.getUuidAsString()).formatted(Formatting.DARK_GREEN)
                     ), true);
                 }
             }

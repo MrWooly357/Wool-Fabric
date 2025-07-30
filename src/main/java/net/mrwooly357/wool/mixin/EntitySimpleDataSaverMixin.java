@@ -3,7 +3,7 @@ package net.mrwooly357.wool.mixin;
 import net.minecraft.entity.Entity;
 import net.minecraft.nbt.NbtCompound;
 import net.mrwooly357.wool.Wool;
-import net.mrwooly357.wool.entity.util.EntitySimpleDataSaver;
+import net.mrwooly357.wool.entity_data_saver.EntitySimpleDataSaver;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;

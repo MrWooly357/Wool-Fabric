@@ -3,7 +3,7 @@ package net.mrwooly357.wool.registry.helper;
 import net.minecraft.registry.Registry;
 import net.minecraft.util.Identifier;
 import net.mrwooly357.wool.registry.WoolRegistries;
-import net.mrwooly357.wool.screen.slot.custom.accessory.AccessorySlotType;
+import net.mrwooly357.wool.accessory.screen.slot.custom.AccessorySlotType;
 
 /**
  * A helper used for registering custom {@link AccessorySlotType}s.

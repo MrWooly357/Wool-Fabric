@@ -4,9 +4,9 @@ import net.fabricmc.api.ClientModInitializer;
 import net.fabricmc.fabric.api.resource.ResourceManagerHelper;
 import net.minecraft.client.gui.screen.ingame.HandledScreens;
 import net.minecraft.resource.ResourceType;
-import net.mrwooly357.wool.entity.animation.Animation;
-import net.mrwooly357.wool.screen.WoolScreenHandlerTypes;
-import net.mrwooly357.wool.screen.custom.accessory.PlayerAccessoryInventoryScreen;
+import net.mrwooly357.wool.animation.Animation;
+import net.mrwooly357.wool.accessory.screen.WoolScreenHandlerTypes;
+import net.mrwooly357.wool.accessory.screen.custom.PlayerAccessoryInventoryScreen;
 
 public class WoolClient implements ClientModInitializer {
 
