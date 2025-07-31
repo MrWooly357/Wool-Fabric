@@ -5,12 +5,10 @@ import net.minecraft.registry.Registry;
 import net.minecraft.registry.RegistryKey;
 import net.minecraft.registry.RegistryKeys;
 import net.minecraft.registry.entry.RegistryEntry;
-import net.minecraft.util.Identifier;
 import net.minecraft.world.dimension.DimensionOptions;
 import net.minecraft.world.gen.chunk.NoiseChunkGenerator;
 import net.mrwooly357.wool.custom_biome.region.RegionType;
-import net.mrwooly357.wool.custom_biome.region.VanillaRegionTypes;
-import net.mrwooly357.wool.util.holder.custom.RegionTypeHolder;
+import net.mrwooly357.wool.custom_biome.region.RegionTypeHolder;
 import org.jetbrains.annotations.Nullable;
 
 public class CustomBiomeServerLifecycleEvents {

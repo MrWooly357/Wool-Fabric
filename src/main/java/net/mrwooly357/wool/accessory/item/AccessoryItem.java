@@ -23,7 +23,7 @@ import java.util.Map;
 
 public abstract class AccessoryItem extends Item implements Accessory {
 
-    public AccessoryItem(Settings settings) {
+    protected AccessoryItem(Settings settings) {
         super(settings);
     }
 
@@ -33,7 +33,6 @@ public abstract class AccessoryItem extends Item implements Accessory {
         if (player instanceof AccessoryInventoryHolder holder) {
             ItemStack stack = player.getStackInHand(player.getActiveHand());
             Map<Identifier, AccessoryInventoryUnit> accessoryInventory = holder.getAccessoryInventory();
-            Identifier slotId = Identifier.of("");
             boolean canEquip = false;
             AccessoryInventoryUnit unit = null;
 
@@ -43,7 +42,6 @@ public abstract class AccessoryItem extends Item implements Accessory {
                 TagKey<Item> tag = type.getTag();
 
                 if (entry.getValue().getStack().isEmpty() && (tag == null || stack.isIn(tag)) && WoolRegistries.ACCESSORY_SLOT_TYPE.getKey(type).isPresent()) {
-                    slotId = entry.getKey();
                     canEquip = true;
 
                     break;
@@ -55,7 +53,7 @@ public abstract class AccessoryItem extends Item implements Accessory {
                 float volume = MathHelper.nextFloat(random, 0.9F, 1.1F);
                 float pitch = MathHelper.nextFloat(random, 0.9F, 1.1F);
 
-                accessoryInventory.get(slotId).setStack(stack);
+                unit.setStack(stack);
                 onEquip(player, stack, unit);
                 stack.decrementUnlessCreative(1, player);
                 player.incrementStat(Stats.USED.getOrCreateStat(this));

@@ -1,6 +1,5 @@
 package net.mrwooly357.wool.util.position.custom;
 
-import com.google.common.collect.ImmutableList;
 import net.minecraft.util.math.BlockPos;
 import net.mrwooly357.wool.util.position.Position;
 
@@ -61,21 +60,12 @@ public abstract class Position3<T extends Number> implements Position<T> {
 
 
     /**
-     * An implementation of {@link Position#getComponents()} which gets an {@link ImmutableList} of {@link Position3#x}, {@link Position3#y} and {@link Position3#z}.
-     * @return an {@link ImmutableList} of {@link Position3#x}, {@link Position3#y} and {@link Position3#z}.
-     */
-    @Override
-    public ImmutableList<T> getComponents() {
-        return ImmutableList.of(x, y, z);
-    }
-
-    /**
      * Gets the {@link Position3#x} component.
      * @return the {@link Position3#x}.
      * @see Position3#getY()
      * @see Position3#getZ()
      */
-    public T getX() {
+    public final T getX() {
         return x;
     }
 
@@ -85,7 +75,7 @@ public abstract class Position3<T extends Number> implements Position<T> {
      * @see Position3#getX()
      * @see Position3#getZ()
      */
-    public T getY() {
+    public final T getY() {
         return y;
     }
 
@@ -95,7 +85,7 @@ public abstract class Position3<T extends Number> implements Position<T> {
      * @see Position3#getX()
      * @see Position3#getY()
      */
-    public T getZ() {
+    public final T getZ() {
         return z;
     }
 
@@ -106,7 +96,7 @@ public abstract class Position3<T extends Number> implements Position<T> {
      * @return an {@link IllegalArgumentException} with the message being {@link Position3#ADDITION_EXCEPTION_MESSAGE}.
      */
     @Override
-    public IllegalArgumentException createAdditionException(Position<T> position, Position<?> other) {
+    public final IllegalArgumentException createAdditionException(Position<T> position, Position<?> other) {
         return new IllegalArgumentException(ADDITION_EXCEPTION_MESSAGE + position + ", " + other);
     }
 
@@ -117,7 +107,7 @@ public abstract class Position3<T extends Number> implements Position<T> {
      * @return an {@link IllegalArgumentException} with the message being {@link Position3#SUBTRACTION_EXCEPTION_MESSAGE}.
      */
     @Override
-    public IllegalArgumentException createSubtractionException(Position<T> position, Position<?> other) {
+    public final IllegalArgumentException createSubtractionException(Position<T> position, Position<?> other) {
         return new IllegalArgumentException(SUBTRACTION_EXCEPTION_MESSAGE + position + ", " + other);
     }
 
@@ -128,7 +118,7 @@ public abstract class Position3<T extends Number> implements Position<T> {
      * @return an {@link IllegalArgumentException} with the message being {@link Position3#MULTIPLICATION_EXCEPTION_MESSAGE}.
      */
     @Override
-    public IllegalArgumentException createMultiplicationException(Position<T> position, Position<?> other) {
+    public final IllegalArgumentException createMultiplicationException(Position<T> position, Position<?> other) {
         return new IllegalArgumentException(MULTIPLICATION_EXCEPTION_MESSAGE + position + ", " + other);
     }
 
@@ -139,7 +129,7 @@ public abstract class Position3<T extends Number> implements Position<T> {
      * @return an {@link IllegalArgumentException} with the message being {@link Position3#DIVISION_EXCEPTION_MESSAGE}.
      */
     @Override
-    public IllegalArgumentException createDivisionException(Position<T> position, Position<?> other) {
+    public final IllegalArgumentException createDivisionException(Position<T> position, Position<?> other) {
         return new IllegalArgumentException(DIVISION_EXCEPTION_MESSAGE + position + ", " + other);
     }
 
@@ -150,7 +140,7 @@ public abstract class Position3<T extends Number> implements Position<T> {
      * @return an {@link IllegalArgumentException} with the message being {@link Position3#DISTANCE_TO_EXCEPTION_MESSAGE}.
      */
     @Override
-    public IllegalArgumentException createDistanceToException(Position<T> position, Position<?> other) {
+    public final IllegalArgumentException createDistanceToException(Position<T> position, Position<?> other) {
         return new IllegalArgumentException(DISTANCE_TO_EXCEPTION_MESSAGE + position + ", " + other);
     }
 
@@ -160,7 +150,7 @@ public abstract class Position3<T extends Number> implements Position<T> {
      * @apiNote {@link Position3#x}, {@link Position3#y} and {@link Position3#z} are cast to {@link Integer}s when converting and lose their precision!
      * Use {@link Position3#toBlockPosRounded()} for {@link Position3#x}, {@link Position3#y} and {@link Position3#z} to be rounded.
      */
-    public BlockPos toBlockPos() {
+    public final BlockPos toBlockPos() {
         return new BlockPos(x.intValue(), y.intValue(), z.intValue());
     }
 
@@ -169,48 +159,7 @@ public abstract class Position3<T extends Number> implements Position<T> {
      * @return a {@link BlockPos} whose x, y and z values are equal to {@link Position3#x}, {@link Position3#y} and {@link Position3#z} respectively.
      * @apiNote {@link Position3#x}, {@link Position3#y} and {@link Position3#z} are rounded when converting. If you want straight up casting to {@link Integer}s, use {@link Position3#toBlockPos()}.
      */
-    public BlockPos toBlockPosRounded() {
+    public final BlockPos toBlockPosRounded() {
         return new BlockPos(Math.round(x.floatValue()), Math.round(y.floatValue()), Math.round(z.floatValue()));
-    }
-
-
-    /**
-     * An extended {@link Mutable}.
-     * @param <T> the type of components.
-     */
-    public interface Mutable<T extends Number> extends Position.Mutable<T> {
-
-
-        /**
-         * An implementation of {@link Mutable#setComponents(Number)}. Sets all components' values to the one in parentheses.
-         * @param value the new value for all components.
-         */
-        @Override
-        default void setComponents(T value) {
-            setX(value);
-            setY(value);
-            setZ(value);
-        }
-
-        /**
-         * Sets the {@link Position3#x}.
-         * @param value the new value.
-         * @return this {@link Position3 position} with new {@link Position3#x}.
-         */
-        Position3.Mutable<T> setX(T value);
-
-        /**
-         * Sets the {@link Position3#y}.
-         * @param value the new value.
-         * @return this {@link Position3 position} with new {@link Position3#y}.
-         */
-        Position3.Mutable<T> setY(T value);
-
-        /**
-         * Sets the {@link Position3#z}.
-         * @param value the new value.
-         * @return this {@link Position3 position} with new {@link Position3#z}.
-         */
-        Position3.Mutable<T> setZ(T value);
     }
 }

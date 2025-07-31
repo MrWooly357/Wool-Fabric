@@ -19,7 +19,7 @@ import java.util.Objects;
  * @see Position3
  * @since 1.0.0
  */
-public class Position3D extends Position3<Double> {
+public final class Position3D extends Position3<Double> {
 
     /**
      * The zero {@link Position3D}.
@@ -28,11 +28,10 @@ public class Position3D extends Position3<Double> {
     /**
      * The {@link Codec}.
      */
-    public static final Codec<Position3D> CODEC = RecordCodecBuilder.create(
-            instance -> instance.group(
-                    Codec.DOUBLE.fieldOf("x").forGetter(Position3D::getX),
-                    Codec.DOUBLE.fieldOf("y").forGetter(Position3D::getY),
-                    Codec.DOUBLE.fieldOf("z").forGetter(Position3D::getZ)
+    public static final Codec<Position3D> CODEC = RecordCodecBuilder.create(instance -> instance.group(
+            Codec.DOUBLE.fieldOf("x").forGetter(Position3D::getX),
+            Codec.DOUBLE.fieldOf("y").forGetter(Position3D::getY),
+            Codec.DOUBLE.fieldOf("z").forGetter(Position3D::getZ)
             ).apply(instance, Position3D::new)
     );
     /**
@@ -281,127 +280,5 @@ public class Position3D extends Position3<Double> {
      */
     public Position3D centre() {
         return new Position3D((double) ((int) ((double) x)) + 0.5, (double) ((int) ((double) y)) + 0.5, (double) ((int) ((double) z)) + 0.5);
-    }
-
-    /**
-     * An implementation of {@link Position#toMutable()} which creates a {@link Mutable mutable} copy of this {@link Position3D position}.
-     * @return a {@link Mutable} copy of this position.
-     */
-    @Override
-    public Position.Mutable<Double> toMutable() {
-        return new Mutable(x, y, z);
-    }
-
-
-    /**
-     * An extended and fully implemented {@link Position3.Mutable}.
-     */
-    public static final class Mutable extends Position3D implements Position3.Mutable<Double> {
-
-        /**
-         * Creates a new {@link Position3D.Mutable} using x, y and z components.
-         * @param x the {@link Position3#x} component.
-         * @param y the {@link Position3#y} component.
-         * @param z the {@link Position3#z} component.
-         * @see Position3#Position3(Number, Number, Number)
-         */
-        public Mutable(double x, double y, double z) {
-            super(x, y, z);
-        }
-
-
-        /**
-         * An implementation of {@link Position#toMutable()} which creates an {@link Position3D immutable} copy of this {@link Position3D position}.
-         * @return an {@link Position3D immutable} copy of this {@link Position3D position}.
-         */
-        @Override
-        public Position<Double> toImmutable() {
-            return new Position3D(x, y, z);
-        }
-
-        /**
-         * An extension of {@link Position3D#copy()} which makes a {@link Position3D.Mutable mutable} copy of this {@link Position3D position}.
-         * @return a {@link Position3D.Mutable mutable} copy of this {@link Position3D position}.
-         */
-        @Override
-        public Position<Double> copy() {
-            return super.copy().toMutable();
-        }
-
-        /**
-         * An implementation of {@link Position3.Mutable} which sets the {@link Position3D#x}
-         * @param value the new value.
-         * @return this {@link Position3D position} with new {@link Position3#x}.
-         */
-        @Override
-        public Position3.Mutable<Double> setX(Double value) {
-            x = value;
-
-            return this;
-        }
-
-        /**
-         * An implementation of {@link Position3.Mutable} which sets the {@link Position3D#y}
-         * @param value the new value.
-         * @return this {@link Position3D position} with new {@link Position3#y}.
-         */
-        @Override
-        public Position3.Mutable<Double> setY(Double value) {
-            y = value;
-
-            return this;
-        }
-
-        /**
-         * An implementation of {@link Position3.Mutable} which sets the {@link Position3D#z}
-         * @param value the new value.
-         * @return this {@link Position3D position} with new {@link Position3#z}.
-         */
-        @Override
-        public Position3.Mutable<Double> setZ(Double value) {
-            z = value;
-
-            return this;
-        }
-
-        /**
-         * Same as {@link Position3D#add(Position)} but {@link Position3D.Mutable mutable}.
-         */
-        @Override
-        public Position<Double> add(Position<?> position) {
-            return super.add(position).toMutable();
-        }
-
-        /**
-         * Same as {@link Position3D#subtract(Position)} but {@link Position3D.Mutable mutable}.
-         */
-        @Override
-        public Position<Double> subtract(Position<?> position) {
-            return super.subtract(position).toMutable();
-        }
-
-        /**
-         * Same as {@link Position3D#multiply(Position)} but {@link Position3D.Mutable mutable}.
-         */
-        @Override
-        public Position<Double> multiply(Position<?> position) {
-            return super.multiply(position).toMutable();
-        }
-
-        /**
-         * Same as {@link Position3D#subtract(Position)} but {@link Position3D.Mutable mutable}.
-         */
-        @Override
-        public Position<Double> divide(Position<?> position) {
-            return super.divide(position).toMutable();
-        }
-
-        /**
-         * Same as {@link Position3D#randomInRadius(Random, Double)} but {@link Position3D.Mutable mutable}.
-         */
-        @Override
-        public Position<Double> randomInRadius(Random random, Double radius) {
-            return super.randomInRadius(random, radius).toMutable();
-        }
     }
 }

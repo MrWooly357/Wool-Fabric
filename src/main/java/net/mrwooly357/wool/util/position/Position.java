@@ -1,12 +1,9 @@
 package net.mrwooly357.wool.util.position;
 
-import com.google.common.collect.ImmutableList;
 import com.mojang.serialization.Codec;
 import net.minecraft.network.PacketByteBuf;
 import net.minecraft.network.codec.PacketCodec;
 import net.minecraft.util.math.random.Random;
-import net.mrwooly357.wool.util.condition.ConditionList;
-import net.mrwooly357.wool.util.condition.custom.PositionCondition;
 import net.mrwooly357.wool.util.position.custom.Position3;
 
 /**
@@ -18,12 +15,6 @@ import net.mrwooly357.wool.util.position.custom.Position3;
  */
 public interface Position<T extends Number> {
 
-
-    /**
-     * Gets all components.
-     * @return all components.
-     */
-    ImmutableList<T> getComponents();
 
     /**
      * Gets the {@link Position} whose components' values are zero.
@@ -154,26 +145,6 @@ public interface Position<T extends Number> {
     boolean equal(Position<?> position);
 
     /**
-     * Tests a {@link PositionCondition condition}.
-     * @param condition the {@link PositionCondition}.
-     * @return true if all requirements are met.
-     * @apiNote use {@link Position#testList(ConditionList)} to test a few {@link PositionCondition condition}s.
-     */
-    default boolean test(PositionCondition condition) {
-        return condition.test(this);
-    }
-
-    /**
-     * Tests a {@link ConditionList} with {@link PositionCondition condition}s.
-     * @param conditions a {@link ConditionList} which stores {@link PositionCondition condition}s.
-     * @return if all {@link PositionCondition}s were tested successfully.
-     * @apiNote use {@link Position#test(PositionCondition)} to test a single {@link PositionCondition condition}.
-     */
-    default boolean testList(ConditionList<Position<T>> conditions) {
-        return conditions.test(this);
-    }
-
-    /**
      * Finds a random {@link Position} in radius. The current {@link Position position} is used as a centre.
      * @param radius the radius.
      * @return a random {@link Position} in radius.
@@ -204,34 +175,4 @@ public interface Position<T extends Number> {
      * @return an {@link IllegalArgumentException} to use in {@link Position#distanceTo(Position)}.
      */
     IllegalArgumentException createDistanceToException(Position<T> position, Position<?> other);
-
-    /**
-     * Creates a {@link Mutable mutable} copy of this {@link Position position}.
-     * @return a {@link Mutable mutable} copy of this {@link Position position}.
-     * @apiNote use {@link Mutable#toImmutable()} to get an {@link Position immutable} copy.
-     */
-    Mutable<T> toMutable();
-
-
-    /**
-     * An extended {@link Position} whose components' values can be set to certain values.
-     * @param <T> the type of components.
-     * @implNote components must be numbers!
-     * @see Position3.Mutable
-     */
-    interface Mutable<T extends Number> extends Position<T> {
-
-
-        /**
-         * Sets all components' values.
-         * @param value the new value for all components.
-         */
-        void setComponents(T value);
-
-        /**
-         * Creates an {@link Position immutable} copy of this {@link Position position}.
-         * @return an {@link Position immutable} copy of this {@link Position position}.
-         */
-        Position<T> toImmutable();
-    }
 }

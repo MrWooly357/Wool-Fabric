@@ -4,7 +4,7 @@ import net.minecraft.world.gen.chunk.ChunkGeneratorSettings;
 import net.minecraft.world.gen.surfacebuilder.MaterialRules;
 import net.mrwooly357.wool.custom_biome.region.RegionType;
 import net.mrwooly357.wool.custom_biome.SurfaceRuleManager;
-import net.mrwooly357.wool.util.holder.custom.RegionTypeHolder;
+import net.mrwooly357.wool.custom_biome.region.RegionTypeHolder;
 import org.jetbrains.annotations.Nullable;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Unique;

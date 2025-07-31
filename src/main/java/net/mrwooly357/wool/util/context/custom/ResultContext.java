@@ -4,7 +4,12 @@ import net.mrwooly357.wool.util.context.Context;
 
 /**
  * A {@link Context context} with a result value.
+ *
  * @param <V> the type of result value.
+ *
+ * @see Context
+ *
+ * @version 1.0.0
  * @since 1.0.0
  */
 public class ResultContext<V> implements Context {
@@ -16,6 +21,7 @@ public class ResultContext<V> implements Context {
 
     /**
      * Creates a new {@link ResultContext} with an initial value.
+     *
      * @param initialValue the initial value.
      */
     public ResultContext(V initialValue) {
@@ -25,6 +31,7 @@ public class ResultContext<V> implements Context {
 
     /**
      * Gets the result value of this {@link ResultContext context}.
+     *
      * @return the result value.
      */
     public V get() {
