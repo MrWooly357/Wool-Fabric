@@ -24,7 +24,7 @@ public class CustomBiomeServerLifecycleEvents {
                     RegionType regionType = getRegionTypeByKey(entry.getKey().orElse(null));
 
                     if (regionType != null)
-                        ((RegionTypeHolder) (Object) noiseChunkGenerator.getSettings().value()).set(regionType);
+                        ((RegionTypeHolder) (Object) noiseChunkGenerator.getSettings().value()).setRegionType(regionType);
                 }
             }
         });

@@ -32,12 +32,13 @@ public abstract class CustomBiomeSurfaceRuleAdderMixin implements RegionTypeHold
     }
 
     @Override
-    public RegionType get() {
+    @Nullable
+    public RegionType getRegionType() {
         return regionType;
     }
 
     @Override
-    public void set(RegionType regionType) {
+    public void setRegionType(@Nullable RegionType regionType) {
         this.regionType = regionType;
     }
 }
