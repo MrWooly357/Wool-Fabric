@@ -30,39 +30,38 @@ public abstract class AccessoryItem extends Item implements Accessory {
 
     @Override
     public TypedActionResult<ItemStack> use(World world, PlayerEntity player, Hand hand) {
-        if (player instanceof AccessoryInventoryHolder holder) {
-            ItemStack stack = player.getStackInHand(player.getActiveHand());
-            Map<Identifier, AccessoryInventoryUnit> accessoryInventory = holder.getAccessoryInventory();
-            boolean canEquip = false;
-            AccessoryInventoryUnit unit = null;
+        ItemStack stack = player.getStackInHand(player.getActiveHand());
+        Map<Identifier, AccessoryInventoryUnit> accessoryInventory = ((AccessoryInventoryHolder) player).getAccessoryInventory();
+        boolean canEquip = false;
+        AccessoryInventoryUnit unit = null;
 
-            for (Map.Entry<Identifier, AccessoryInventoryUnit> entry : accessoryInventory.entrySet()) {
-                unit = entry.getValue();
-                AccessorySlotType type = unit.getType();
-                TagKey<Item> tag = type.getTag();
+        for (Map.Entry<Identifier, AccessoryInventoryUnit> entry : accessoryInventory.entrySet()) {
+            unit = entry.getValue();
+            AccessorySlotType type = unit.getType();
+            TagKey<Item> tag = type.getTag();
 
-                if (entry.getValue().getStack().isEmpty() && (tag == null || stack.isIn(tag)) && WoolRegistries.ACCESSORY_SLOT_TYPE.getKey(type).isPresent()) {
-                    canEquip = true;
+            if (entry.getValue().getStack().isEmpty() && (tag == null || stack.isIn(tag)) && WoolRegistries.ACCESSORY_SLOT_TYPE.getKey(type).isPresent()) {
+                canEquip = true;
 
-                    break;
-                }
+                break;
             }
+        }
 
-            if (canEquip(player, stack, unit) && canEquip) {
-                Random random = Random.create();
-                float volume = MathHelper.nextFloat(random, 0.9F, 1.1F);
-                float pitch = MathHelper.nextFloat(random, 0.9F, 1.1F);
+        if (canEquip(player, stack, unit) && canEquip) {
+            Random random = Random.create();
+            float volume = MathHelper.nextFloat(random, 0.9F, 1.1F);
+            float pitch = MathHelper.nextFloat(random, 0.9F, 1.1F);
+            ItemStack newStack = stack.copy();
 
-                unit.setStack(stack);
-                onEquip(player, stack, unit);
-                stack.decrementUnlessCreative(1, player);
-                player.incrementStat(Stats.USED.getOrCreateStat(this));
+            stack.decrementUnlessCreative(1, player);
+            unit.setStack(newStack);
+            onEquip(player, newStack, unit);
+            player.incrementStat(Stats.USED.getOrCreateStat(this));
 
-                if (getEquipSound() != null)
-                    world.playSound(null, player.getX(), player.getY(), player.getZ(), getEquipSound(), SoundCategory.PLAYERS, volume, pitch);
+            if (getEquipSound() != null)
+                world.playSound(null, player.getX(), player.getY(), player.getZ(), getEquipSound(), SoundCategory.PLAYERS, volume, pitch);
 
-                return TypedActionResult.success(stack, world.isClient());
-            }
+            return TypedActionResult.success(newStack, world.isClient());
         }
 
         return super.use(world, player, hand);
