@@ -53,15 +53,15 @@ public abstract class AccessoryItem extends Item implements Accessory {
             float pitch = MathHelper.nextFloat(random, 0.9F, 1.1F);
             ItemStack newStack = stack.copy();
 
-            stack.decrementUnlessCreative(1, player);
             unit.setStack(newStack);
             onEquip(player, newStack, unit);
+            stack.decrementUnlessCreative(1, player);
             player.incrementStat(Stats.USED.getOrCreateStat(this));
 
             if (getEquipSound() != null)
                 world.playSound(null, player.getX(), player.getY(), player.getZ(), getEquipSound(), SoundCategory.PLAYERS, volume, pitch);
 
-            return TypedActionResult.success(newStack, world.isClient());
+            return TypedActionResult.success(stack, world.isClient());
         }
 
         return super.use(world, player, hand);
