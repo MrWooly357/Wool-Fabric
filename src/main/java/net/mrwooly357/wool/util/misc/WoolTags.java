@@ -7,10 +7,11 @@ import net.minecraft.util.Identifier;
 import net.mrwooly357.wool.Wool;
 import net.mrwooly357.wool.config.custom.WoolConfig;
 
-public class WoolTags {
+public final class WoolTags {
 
 
-    public static class Items {
+    public static final class Items {
+
         public static final TagKey<Item> NECKLACE_ACCESSORIES = create("necklace_accessories");
         public static final TagKey<Item> RING_ACCESSORIES = create("ring_accessories");
         public static final TagKey<Item> BELT_ACCESSORIES = create("belt_accessories");
