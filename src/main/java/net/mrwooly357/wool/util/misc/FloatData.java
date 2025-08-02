@@ -57,7 +57,9 @@ public final class FloatData {
         return packed;
     }
 
-    public static int[] packAndSplit(long packed) {
+    public int[] packAndSplit() {
+        long packed = pack();
+
         return new int[] {(int) (packed >>> 32), (int) packed};
     }
 }
