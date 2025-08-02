@@ -7,7 +7,6 @@ public final class FloatData {
 
     private static final byte VALUE_BITS = 60;
     private static final byte PRECISION_BITS = 3;
-    private static final byte NEGATIVE_BITS = 1;
     private static final byte MIN_PRECISION = 0;
     private static final byte MAX_PRECISION = 7;
 
@@ -21,7 +20,7 @@ public final class FloatData {
     }
 
     public FloatData(long packed) {
-        long rawValue = packed & ((1L << VALUE_BITS) - NEGATIVE_BITS);
+        long rawValue = packed & ((1L << VALUE_BITS) - 1);
         byte precision = (byte) ((packed >>> VALUE_BITS) & 0b111);
         boolean negative = ((packed >>> (VALUE_BITS + PRECISION_BITS)) & 1L) == 1;
         float unpacked = (float) (rawValue / Math.pow(10, precision));
@@ -52,8 +51,8 @@ public final class FloatData {
         long packed = 0L;
 
         packed |= (negative ? 1L : 0L) << (VALUE_BITS + PRECISION_BITS);
-        packed |= ((long) precision & ((1L << PRECISION_BITS) - NEGATIVE_BITS)) << VALUE_BITS;
-        packed |= converted & ((1L << VALUE_BITS) - NEGATIVE_BITS);
+        packed |= ((long) precision & ((1L << PRECISION_BITS) - 1)) << VALUE_BITS;
+        packed |= converted & ((1L << VALUE_BITS) - 1);
 
         return packed;
     }
