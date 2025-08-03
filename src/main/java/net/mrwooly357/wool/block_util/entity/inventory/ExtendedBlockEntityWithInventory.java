@@ -28,6 +28,11 @@ public abstract class ExtendedBlockEntityWithInventory extends ExtendedBlockEnti
 
 
     @Override
+    public DefaultedList<ItemStack> getInventory() {
+        return inventory;
+    }
+
+    @Override
     public ItemStack removeStack(int slot, int amount) {
         ItemStack stack = Inventories.splitStack(getInventory(), slot, amount);
 
