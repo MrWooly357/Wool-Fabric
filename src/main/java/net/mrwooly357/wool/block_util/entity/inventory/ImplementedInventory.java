@@ -1,4 +1,4 @@
-package net.mrwooly357.wool.block_entity_inventory;
+package net.mrwooly357.wool.block_util.entity.inventory;
 
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.inventory.Inventories;
@@ -36,12 +36,12 @@ public interface ImplementedInventory extends SidedInventory {
 
     @Override
     default ItemStack removeStack(int slot, int amount) {
-        ItemStack result = Inventories.splitStack(getInventory(), slot, amount);
+        ItemStack stack = Inventories.splitStack(getInventory(), slot, amount);
 
-        if (!result.isEmpty())
+        if (!stack.isEmpty())
             markDirty();
 
-        return result;
+        return stack;
     }
 
     @Override
@@ -78,12 +78,12 @@ public interface ImplementedInventory extends SidedInventory {
     }
 
     @Override
-    default boolean canInsert(int slot, ItemStack stack, @Nullable Direction dir) {
+    default boolean canInsert(int slot, ItemStack stack, @Nullable Direction direction) {
         return true;
     }
 
     @Override
-    default boolean canExtract(int slot, ItemStack stack, Direction dir) {
+    default boolean canExtract(int slot, ItemStack stack, Direction direction) {
         return true;
     }
 }
