@@ -104,7 +104,7 @@ public interface CustomBiomeCreator {
     interface TheNether {
 
 
-        void writeCustomBiomes(Consumer<Pair<MultiNoiseUtil.NoiseHypercube, RegistryKey<Biome>>> parameters);
+        void createCustomBiomes(Consumer<Pair<MultiNoiseUtil.NoiseHypercube, RegistryKey<Biome>>> parameters);
 
         static void writeVanillaBiomes(Consumer<Pair<MultiNoiseUtil.NoiseHypercube, RegistryKey<Biome>>> parameters) {
             writeBiomeParameters(parameters, BiomeParameters.builder()
@@ -144,7 +144,7 @@ public interface CustomBiomeCreator {
                 writeVanillaBiomes(parameters);
 
                 for (CustomBiomeCreator creator : CREATORS)
-                    creator.getTheNether().writeCustomBiomes(parameters);
+                    creator.getTheNether().createCustomBiomes(parameters);
             }
         }
     }
