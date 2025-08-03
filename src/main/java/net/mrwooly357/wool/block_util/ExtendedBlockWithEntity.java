@@ -34,13 +34,13 @@ public abstract class ExtendedBlockWithEntity extends BlockWithEntity {
             if (!world1.isClient()) {
                 ServerWorld serverWorld = (ServerWorld) world1;
 
-                if (blockEntity.canTickServer(serverWorld, pos, state1))
-                    blockEntity.serverTick(serverWorld, pos, state1);
+                if (blockEntity.canTickServer(serverWorld, pos, state1, blockEntity))
+                    blockEntity.serverTick(serverWorld, pos, state1, blockEntity);
             } else {
                 ClientWorld clientWorld = (ClientWorld) world1;
 
-                if (blockEntity.canTickClient(clientWorld, pos, state1))
-                    blockEntity.clientTick(clientWorld, pos, state1);
+                if (blockEntity.canTickClient(clientWorld, pos, state1, blockEntity))
+                    blockEntity.clientTick(clientWorld, pos, state1, blockEntity);
             }
         });
     }
