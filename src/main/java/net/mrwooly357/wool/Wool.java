@@ -6,6 +6,7 @@ import net.fabricmc.fabric.api.command.v2.CommandRegistrationCallback;
 import net.minecraft.entity.EntityType;
 import net.minecraft.util.Identifier;
 import net.minecraft.world.gen.surfacebuilder.VanillaSurfaceRules;
+import net.mrwooly357.wool.block_util.entity.CustomBlocksForVanillaBlockEntityTypes;
 import net.mrwooly357.wool.multiblock_construction.WoolMultiblockConstructionBlueprints;
 import net.mrwooly357.wool.command.WoolCommand;
 import net.mrwooly357.wool.config.custom.WoolConfig;
@@ -19,7 +20,6 @@ import net.mrwooly357.wool.accessory.screen.slot.WoolAccessorySlotTypes;
 import net.mrwooly357.wool.registry.helper.ConfigRegistryHelper;
 import net.mrwooly357.wool.custom_biome.region.VanillaRegionTypes;
 import net.mrwooly357.wool.registry.WoolRegistries;
-import net.mrwooly357.wool.registry.WoolRegistryKeys;
 import net.mrwooly357.wool.util.misc.WoolTags;
 import net.mrwooly357.wool.custom_biome.SurfaceRuleManager;
 import net.mrwooly357.wool.custom_biome.event.CustomBiomeServerLifecycleEvents;
@@ -37,17 +37,15 @@ public class Wool implements ModInitializer {
 
 	@Override
 	public void onInitialize() {
+        WoolRegistries.initialize();
 		ConfigRegistryHelper.register(Identifier.of(MOD_ID, "config"), CONFIG);
-		WoolRegistries.initialize();
-		WoolRegistryKeys.initialize();
+        WoolMultiblockConstructionBlueprints.initialize();
+        CustomBlocksForVanillaBlockEntityTypes.initialize();
 		WoolTags.initialize();
-		WoolMultiblockConstructionBlueprints.initialize();
-		CommandRegistrationCallback.EVENT.register((dispatcher, access, environment) -> WoolCommand.register(dispatcher, access));
-		WoolAccessorySlotTypes.initialize();
-		AccessoryInventoryManager.initialize();
 		AccessoryInventoryManager.ENTITY_TYPE_TO_REGISTRY.put(EntityType.PLAYER, WoolRegistries.PLAYER_ACCESSORY_INVENTORY);
 		AccessoryInventoryManager.REGISTRY_TO_ID.put(WoolRegistries.PLAYER_ACCESSORY_INVENTORY, Identifier.of(MOD_ID, "player_accessory_inventory"));
 		AccessoryInventoryManager.UNIT_ORDER.put(WoolRegistries.PLAYER_ACCESSORY_INVENTORY, new ArrayList<>());
+        WoolAccessorySlotTypes.initialize();
 		WoolEntityAccessoryInventories.initialize();
 		WoolPlayerAccessoryInventory.initialize();
 		WoolInterpolations.initialize();
@@ -55,6 +53,8 @@ public class Wool implements ModInitializer {
 		WoolScreenHandlerTypes.initialize();
 		SurfaceRuleManager.addRegionType(VanillaRegionTypes.OVERWORLD, VanillaSurfaceRules.createOverworldSurfaceRule());
 		SurfaceRuleManager.addRegionType(VanillaRegionTypes.THE_NETHER, VanillaSurfaceRules.createNetherSurfaceRule());
+        SurfaceRuleManager.addRegionType(VanillaRegionTypes.THE_END, null);
 		CustomBiomeServerLifecycleEvents.initialize();
+        CommandRegistrationCallback.EVENT.register((dispatcher, access, environment) -> WoolCommand.register(dispatcher, access));
 	}
 }

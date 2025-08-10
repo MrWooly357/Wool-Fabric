@@ -2,4 +2,5 @@ accessWidener v2 named
 
 transitive-accessible method net/minecraft/registry/Registries create (Lnet/minecraft/registry/RegistryKey;Lnet/minecraft/registry/Registries$Initializer;)Lnet/minecraft/registry/Registry;
 transitive-accessible class net/minecraft/registry/Registries$Initializer
+transitive-accessible class net/minecraft/world/chunk/UpgradeData$BuiltinLogic
 transitive-accessible class net/minecraft/world/gen/WorldPresets$Registrar

@@ -28,7 +28,6 @@ public abstract class CustomBiomeSurfaceRuleAdderMixin implements RegionTypeHold
             if (materialRule != null)
                 cir.setReturnValue(materialRule);
         }
-
     }
 
     @Override

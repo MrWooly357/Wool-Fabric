@@ -5,6 +5,7 @@
   "mixins": [
     "CustomBiomeAdderMixin",
     "CustomBiomeSurfaceRuleAdderMixin",
+    "CustomBlockToVanillaBlockEntityTypeAdderMixin",
     "CustomCaveBiomesBelowZeroRetrogenAdderMixin",
     "EntityAccessoriesSaverMixin",
     "EntityAnimationTickerMixin",

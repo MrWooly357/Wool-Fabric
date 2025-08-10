@@ -9,9 +9,7 @@ import net.mrwooly357.wool.registry.WoolRegistries;
 
 public final class WoolEntityAccessoryInventories {
 
-    public static final Registry<AccessoryInventoryUnit> PLAYER = register(
-            "player_accessory_inventory", WoolRegistries.PLAYER_ACCESSORY_INVENTORY
-    );
+    public static final Registry<AccessoryInventoryUnit> PLAYER = register("player_accessory_inventory", WoolRegistries.PLAYER_ACCESSORY_INVENTORY);
 
 
     private static Registry<AccessoryInventoryUnit> register(String name, Registry<AccessoryInventoryUnit> inventory) {

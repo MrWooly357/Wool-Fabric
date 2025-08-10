@@ -24,24 +24,20 @@ public interface SurfaceRuleManager {
     }
 
     static @Nullable MaterialRules.MaterialRule getCombinedSurfaceMaterialRules(RegionType regionType) {
-        MaterialRules.MaterialRule defaultRule = getSurfaceMaterialRulesByRegionType(regionType);
-        MaterialRules.MaterialRule materialRule = null;
+        MaterialRules.MaterialRule defaultRule = REGION_TYPE_TO_SURFACE_MATERIAL_RULE.get(regionType);
+        MaterialRules.MaterialRule customRule = null;
 
         for (MaterialRules.MaterialRule rule : CUSTOM_RULES) {
 
-            if (materialRule != null) {
-                materialRule = MaterialRules.sequence(rule, materialRule);
+            if (customRule != null) {
+                customRule = MaterialRules.sequence(rule, customRule);
             } else
-                materialRule = rule;
+                customRule = rule;
         }
 
-        if (defaultRule != null && materialRule != null)
-            return MaterialRules.sequence(materialRule, defaultRule);
+        if (defaultRule != null && customRule != null)
+            return MaterialRules.sequence(customRule, defaultRule);
 
-        return materialRule;
-    }
-
-    static @Nullable MaterialRules.MaterialRule getSurfaceMaterialRulesByRegionType(RegionType regionType) {
-        return REGION_TYPE_TO_SURFACE_MATERIAL_RULE.get(regionType);
+        return defaultRule;
     }
 }

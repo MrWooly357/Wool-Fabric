@@ -20,27 +20,14 @@ import net.mrwooly357.wool.custom_biome.region.VanillaRegionTypes;
 
 public class WoolRegistries {
 
-    public static final Registry<Config> CONFIG = create(
-            WoolRegistryKeys.CONFIG, registry -> Wool.CONFIG
-    );
-    public static final Registry<MultiblockConstructionBlueprint> MULTIBLOCK_CONSTRUCTION_BLUEPRINT = create(
-            WoolRegistryKeys.MULTIBLOCK_CONSTRUCTION_BLUEPRINT, registry -> WoolMultiblockConstructionBlueprints.EMPTY
-    );
-    public static final Registry<AccessorySlotType> ACCESSORY_SLOT_TYPE = create(
-            WoolRegistryKeys.ACCESSORY_SLOT_TYPE, registry -> WoolAccessorySlotTypes.BELT
-    );
-    public static final Registry<Registry<AccessoryInventoryUnit>> ENTITY_ACCESSORY_INVENTORY = create(
-            WoolRegistryKeys.ENTITY_TYPE_ACCESSORY_INVENTORY, registry -> WoolEntityAccessoryInventories.PLAYER
-    );
-    public static final Registry<AccessoryInventoryUnit> PLAYER_ACCESSORY_INVENTORY = create(
-            WoolRegistryKeys.PLAYER_ACCESSORY_INVENTORY, registry -> WoolPlayerAccessoryInventory.BELT
-    );
-    public static final Registry<Interpolation> INTERPOLATION = create(
-            WoolRegistryKeys.INTERPOLATION, registry -> WoolInterpolations.LINEAR
-    );
-    public static final Registry<RegionType> REGION_TYPE = create(
-            WoolRegistryKeys.REGION_TYPE, registry -> VanillaRegionTypes.OVERWORLD
-    );
+    public static final Registry<Config> CONFIG = create(WoolRegistryKeys.CONFIG, registry -> Wool.CONFIG);
+    public static final Registry<MultiblockConstructionBlueprint> MULTIBLOCK_CONSTRUCTION_BLUEPRINT = create(WoolRegistryKeys.MULTIBLOCK_CONSTRUCTION_BLUEPRINT,
+            registry -> WoolMultiblockConstructionBlueprints.EMPTY);
+    public static final Registry<AccessorySlotType> ACCESSORY_SLOT_TYPE = create(WoolRegistryKeys.ACCESSORY_SLOT_TYPE, registry -> WoolAccessorySlotTypes.BELT);
+    public static final Registry<Registry<AccessoryInventoryUnit>> ENTITY_ACCESSORY_INVENTORY = create(WoolRegistryKeys.ENTITY_TYPE_ACCESSORY_INVENTORY, registry -> WoolEntityAccessoryInventories.PLAYER);
+    public static final Registry<AccessoryInventoryUnit> PLAYER_ACCESSORY_INVENTORY = create(WoolRegistryKeys.PLAYER_ACCESSORY_INVENTORY, registry -> WoolPlayerAccessoryInventory.BELT);
+    public static final Registry<Interpolation> INTERPOLATION = create(WoolRegistryKeys.INTERPOLATION, registry -> WoolInterpolations.LINEAR);
+    public static final Registry<RegionType> REGION_TYPE = create(WoolRegistryKeys.REGION_TYPE, registry -> VanillaRegionTypes.OVERWORLD);
 
 
     private static <T> Registry<T> create(RegistryKey<? extends Registry<T>> key, Registries.Initializer<T> initializer) {
