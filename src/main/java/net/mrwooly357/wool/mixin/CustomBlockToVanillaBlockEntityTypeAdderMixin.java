@@ -27,8 +27,11 @@ public abstract class CustomBlockToVanillaBlockEntityTypeAdderMixin {
     private static <BE extends BlockEntity> void injectCreate(BlockEntityType.BlockEntityFactory<? extends BE> factory, Block[] blocks, CallbackInfoReturnable<BlockEntityType.Builder<BE>> cir) {
         Set<Block> blockSet = new HashSet<>(List.of(blocks));
 
-        if (CustomBlocksForVanillaBlockEntityTypes.isFactoryRegistered(factory))
-            blockSet.addAll(CustomBlocksForVanillaBlockEntityTypes.getBlocksForFactory(factory));
+        if (CustomBlocksForVanillaBlockEntityTypes.isFactoryRegistered(factory)) {
+
+            for (List<? extends Block> blockList : CustomBlocksForVanillaBlockEntityTypes.getBlocksForFactory(factory))
+                blockSet.addAll(blockList);
+        }
 
         cir.setReturnValue(invokeConstructor(factory, blockSet));
     }

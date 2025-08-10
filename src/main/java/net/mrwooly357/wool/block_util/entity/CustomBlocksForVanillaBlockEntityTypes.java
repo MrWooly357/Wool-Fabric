@@ -1,8 +1,6 @@
 package net.mrwooly357.wool.block_util.entity;
 
-import net.minecraft.block.Block;
-import net.minecraft.block.HangingSignBlock;
-import net.minecraft.block.SignBlock;
+import net.minecraft.block.*;
 import net.minecraft.block.entity.BlockEntityType;
 import net.minecraft.block.entity.HangingSignBlockEntity;
 import net.minecraft.block.entity.SignBlockEntity;
@@ -13,16 +11,19 @@ import java.util.*;
 
 public class CustomBlocksForVanillaBlockEntityTypes {
 
-    private static final Map<BlockEntityType.BlockEntityFactory<?>, List<? extends Block>> FACTORIES = new HashMap<>();
+    private static final Map<BlockEntityType.BlockEntityFactory<?>, List<List<? extends Block>>> FACTORIES = new HashMap<>();
     private static final List<SignBlock> CUSTOM_SIGNS = new ArrayList<>();
+    private static final List<WallSignBlock> CUSTOM_WALL_SIGNS = new ArrayList<>();
     private static final List<HangingSignBlock> CUSTOM_HANGING_SIGNS = new ArrayList<>();
+    private static final List<WallHangingSignBlock> CUSTOM_WALL_HANGING_SIGNS = new ArrayList<>();
 
 
-    public static void addFactory(BlockEntityType.BlockEntityFactory<?> factory, List<? extends Block> blocks) {
-        FACTORIES.put(factory, blocks);
+    @SafeVarargs
+    public static void addFactory(BlockEntityType.BlockEntityFactory<?> factory, List<? extends Block>... blocks) {
+        FACTORIES.put(factory, List.of(blocks));
     }
 
-    public static List<? extends Block> getBlocksForFactory(BlockEntityType.BlockEntityFactory<?> factory) {
+    public static List<List<? extends Block>> getBlocksForFactory(BlockEntityType.BlockEntityFactory<?> factory) {
         return FACTORIES.get(factory);
     }
 
@@ -34,15 +35,23 @@ public class CustomBlocksForVanillaBlockEntityTypes {
         CUSTOM_SIGNS.add(sign);
     }
 
+    public static void addWallSign(WallSignBlock wallSign) {
+        CUSTOM_WALL_SIGNS.add(wallSign);
+    }
+
     public static void addHangingSign(HangingSignBlock hangingSign) {
         CUSTOM_HANGING_SIGNS.add(hangingSign);
+    }
+
+    public static void addWallHangingSign(WallHangingSignBlock wallHangingSign) {
+        CUSTOM_WALL_HANGING_SIGNS.add(wallHangingSign);
     }
 
     public static void initialize() {
         if (!WoolConfig.enableDeveloperMode)
             Wool.LOGGER.info("Initializing " + Wool.MOD_ID + " factories for custom blocks for vanilla block entity types");
 
-        addFactory(SignBlockEntity::new, CUSTOM_SIGNS);
-        addFactory(HangingSignBlockEntity::new, CUSTOM_HANGING_SIGNS);
+        addFactory(SignBlockEntity::new, CUSTOM_SIGNS, CUSTOM_WALL_SIGNS);
+        addFactory(HangingSignBlockEntity::new, CUSTOM_HANGING_SIGNS, CUSTOM_WALL_HANGING_SIGNS);
     }
 }
