@@ -30,30 +30,30 @@ public abstract class ExtendedBlockEntity extends BlockEntity implements Tickabl
 
 
     @Override
-    public boolean canTickServer(ServerWorld serverWorld, BlockPos pos, BlockState state) {
+    public boolean canTickServer(ServerWorld world, BlockPos pos, BlockState state) {
         return false;
     }
 
     @Override
-    public void serverTick(ServerWorld serverWorld, BlockPos pos, BlockState state) {}
+    public void serverTick(ServerWorld world, BlockPos pos, BlockState state) {}
 
     @Override
-    public boolean canTickClient(ClientWorld clientWorld, BlockPos pos, BlockState state) {
+    public boolean canTickClient(ClientWorld world, BlockPos pos, BlockState state) {
         return false;
     }
 
     @Override
-    public void clientTick(ClientWorld clientWorld, BlockPos pos, BlockState state) {}
+    public void clientTick(ClientWorld world, BlockPos pos, BlockState state) {}
 
     @Override
-    protected void writeNbt(NbtCompound nbt, RegistryWrapper.WrapperLookup registryLookup) {
+    protected void writeNbt(NbtCompound nbt, RegistryWrapper.WrapperLookup lookup) {
         for (Data data : this.data)
-            data.encoder().accept(nbt, registryLookup);
+            data.encoder().accept(nbt, lookup);
     }
 
     @Override
-    protected void readNbt(NbtCompound nbt, RegistryWrapper.WrapperLookup registryLookup) {
+    protected void readNbt(NbtCompound nbt, RegistryWrapper.WrapperLookup lookup) {
         for (Data data : this.data)
-            data.decoder().accept(nbt, registryLookup);
+            data.decoder().accept(nbt, lookup);
     }
 }

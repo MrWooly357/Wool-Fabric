@@ -1,5 +1,6 @@
 package net.mrwooly357.wool.block_util;
 
+import net.minecraft.block.BlockRenderType;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.BlockWithEntity;
 import net.minecraft.block.entity.BlockEntity;
@@ -43,5 +44,10 @@ public abstract class ExtendedBlockWithEntity extends BlockWithEntity {
                     blockEntity.clientTick(clientWorld, pos, state1);
             }
         });
+    }
+
+    @Override
+    protected BlockRenderType getRenderType(BlockState state) {
+        return BlockRenderType.MODEL;
     }
 }
