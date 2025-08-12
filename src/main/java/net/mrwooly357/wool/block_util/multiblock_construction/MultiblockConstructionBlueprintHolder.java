@@ -1,4 +1,4 @@
-package net.mrwooly357.wool.multiblock_construction;
+package net.mrwooly357.wool.block_util.multiblock_construction;
 
 /**
  * Represents a thing that holds a {@link MultiblockConstructionBlueprint}

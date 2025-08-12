@@ -4,7 +4,7 @@ import net.minecraft.registry.Registry;
 import net.minecraft.registry.RegistryKey;
 import net.minecraft.util.Identifier;
 import net.mrwooly357.wool.Wool;
-import net.mrwooly357.wool.multiblock_construction.MultiblockConstructionBlueprint;
+import net.mrwooly357.wool.block_util.multiblock_construction.MultiblockConstructionBlueprint;
 import net.mrwooly357.wool.config.Config;
 import net.mrwooly357.wool.accessory.entity.inventory.AccessoryInventoryUnit;
 import net.mrwooly357.wool.animation.interpolation.Interpolation;

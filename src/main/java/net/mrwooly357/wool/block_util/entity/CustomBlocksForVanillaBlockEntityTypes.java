@@ -48,7 +48,7 @@ public class CustomBlocksForVanillaBlockEntityTypes {
     }
 
     public static void initialize() {
-        if (!WoolConfig.enableDeveloperMode)
+        if (WoolConfig.enableDeveloperMode)
             Wool.LOGGER.info("Initializing " + Wool.MOD_ID + " factories for custom blocks for vanilla block entity types");
 
         addFactory(SignBlockEntity::new, CUSTOM_SIGNS, CUSTOM_WALL_SIGNS);

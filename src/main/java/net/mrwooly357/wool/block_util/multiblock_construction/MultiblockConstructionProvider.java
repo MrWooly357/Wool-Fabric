@@ -1,4 +1,4 @@
-package net.mrwooly357.wool.multiblock_construction;
+package net.mrwooly357.wool.block_util.multiblock_construction;
 
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Direction;

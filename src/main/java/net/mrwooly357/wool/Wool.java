@@ -7,7 +7,7 @@ import net.minecraft.entity.EntityType;
 import net.minecraft.util.Identifier;
 import net.minecraft.world.gen.surfacebuilder.VanillaSurfaceRules;
 import net.mrwooly357.wool.block_util.entity.CustomBlocksForVanillaBlockEntityTypes;
-import net.mrwooly357.wool.multiblock_construction.WoolMultiblockConstructionBlueprints;
+import net.mrwooly357.wool.block_util.multiblock_construction.WoolMultiblockConstructionBlueprints;
 import net.mrwooly357.wool.command.WoolCommand;
 import net.mrwooly357.wool.config.custom.WoolConfig;
 import net.mrwooly357.wool.accessory.entity.inventory.AccessoryInventoryManager;
@@ -37,24 +37,35 @@ public class Wool implements ModInitializer {
 
 	@Override
 	public void onInitialize() {
+        // Basic stuff
         WoolRegistries.initialize();
 		ConfigRegistryHelper.register(Identifier.of(MOD_ID, "config"), CONFIG);
+        WoolTags.initialize();
+        CommandRegistrationCallback.EVENT.register((dispatcher, access, environment) -> WoolCommand.register(dispatcher, access));
+
+        // Block util
         WoolMultiblockConstructionBlueprints.initialize();
         CustomBlocksForVanillaBlockEntityTypes.initialize();
-		WoolTags.initialize();
+
+        // Accessory
 		AccessoryInventoryManager.ENTITY_TYPE_TO_REGISTRY.put(EntityType.PLAYER, WoolRegistries.PLAYER_ACCESSORY_INVENTORY);
 		AccessoryInventoryManager.REGISTRY_TO_ID.put(WoolRegistries.PLAYER_ACCESSORY_INVENTORY, Identifier.of(MOD_ID, "player_accessory_inventory"));
 		AccessoryInventoryManager.UNIT_ORDER.put(WoolRegistries.PLAYER_ACCESSORY_INVENTORY, new ArrayList<>());
         WoolAccessorySlotTypes.initialize();
 		WoolEntityAccessoryInventories.initialize();
 		WoolPlayerAccessoryInventory.initialize();
-		WoolInterpolations.initialize();
-		WoolServerPlayNetworking.initialize();
-		WoolScreenHandlerTypes.initialize();
-		SurfaceRuleManager.addRegionType(VanillaRegionTypes.OVERWORLD, VanillaSurfaceRules.createOverworldSurfaceRule());
-		SurfaceRuleManager.addRegionType(VanillaRegionTypes.THE_NETHER, VanillaSurfaceRules.createNetherSurfaceRule());
+
+        // Custom biomes
+        SurfaceRuleManager.addRegionType(VanillaRegionTypes.OVERWORLD, VanillaSurfaceRules.createOverworldSurfaceRule());
+        SurfaceRuleManager.addRegionType(VanillaRegionTypes.THE_NETHER, VanillaSurfaceRules.createNetherSurfaceRule());
         SurfaceRuleManager.addRegionType(VanillaRegionTypes.THE_END, null);
-		CustomBiomeServerLifecycleEvents.initialize();
-        CommandRegistrationCallback.EVENT.register((dispatcher, access, environment) -> WoolCommand.register(dispatcher, access));
+        CustomBiomeServerLifecycleEvents.initialize();
+
+        // Misc
+		WoolScreenHandlerTypes.initialize();
+        WoolServerPlayNetworking.initialize();
+
+        // In development
+        WoolInterpolations.initialize();
 	}
 }
