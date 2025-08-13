@@ -1,12 +1,15 @@
 package net.mrwooly357.wool;
 
 import net.fabricmc.api.ClientModInitializer;
+import net.fabricmc.api.EnvType;
+import net.fabricmc.api.Environment;
 import net.minecraft.client.gui.screen.ingame.HandledScreens;
 import net.mrwooly357.wool.animation.Animation;
 import net.mrwooly357.wool.accessory.screen.WoolScreenHandlerTypes;
 import net.mrwooly357.wool.accessory.screen.custom.PlayerAccessoryInventoryScreen;
 
-public class WoolClient implements ClientModInitializer {
+@Environment(EnvType.CLIENT)
+public final class WoolClient implements ClientModInitializer {
 
     public static final Animation.Loader ANIMATION_LOADER = new Animation.Loader();
 

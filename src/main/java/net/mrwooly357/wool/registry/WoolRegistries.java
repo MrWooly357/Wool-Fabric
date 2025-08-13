@@ -7,7 +7,6 @@ import net.mrwooly357.wool.Wool;
 import net.mrwooly357.wool.block_util.multiblock_construction.MultiblockConstructionBlueprint;
 import net.mrwooly357.wool.block_util.multiblock_construction.WoolMultiblockConstructionBlueprints;
 import net.mrwooly357.wool.config.Config;
-import net.mrwooly357.wool.config.custom.WoolConfig;
 import net.mrwooly357.wool.accessory.entity.inventory.AccessoryInventoryUnit;
 import net.mrwooly357.wool.accessory.entity.inventory.WoolEntityAccessoryInventories;
 import net.mrwooly357.wool.accessory.entity.inventory.custom.WoolPlayerAccessoryInventory;
@@ -18,7 +17,7 @@ import net.mrwooly357.wool.accessory.screen.slot.WoolAccessorySlotTypes;
 import net.mrwooly357.wool.custom_biome.region.RegionType;
 import net.mrwooly357.wool.custom_biome.region.VanillaRegionTypes;
 
-public class WoolRegistries {
+public final class WoolRegistries {
 
     public static final Registry<Config> CONFIG = create(WoolRegistryKeys.CONFIG, registry -> Wool.CONFIG);
     public static final Registry<MultiblockConstructionBlueprint> MULTIBLOCK_CONSTRUCTION_BLUEPRINT = create(WoolRegistryKeys.MULTIBLOCK_CONSTRUCTION_BLUEPRINT,
@@ -35,7 +34,6 @@ public class WoolRegistries {
     }
 
     public static void initialize() {
-        if (WoolConfig.enableDeveloperMode)
-            Wool.LOGGER.info("Initializing " + Wool.MOD_ID + " registries");
+        Wool.logInitializing("registries");
     }
 }

@@ -1,10 +1,10 @@
 package net.mrwooly357.wool.accessory.screen.slot;
 
+import net.minecraft.registry.Registry;
 import net.minecraft.util.Identifier;
 import net.mrwooly357.wool.Wool;
 import net.mrwooly357.wool.accessory.screen.slot.custom.AccessorySlotType;
-import net.mrwooly357.wool.config.custom.WoolConfig;
-import net.mrwooly357.wool.registry.helper.AccessorySlotTypeRegistryHelper;
+import net.mrwooly357.wool.registry.WoolRegistries;
 import net.mrwooly357.wool.util.misc.WoolTags;
 
 public class WoolAccessorySlotTypes {
@@ -26,12 +26,11 @@ public class WoolAccessorySlotTypes {
     );
 
 
-    private static AccessorySlotType register(String name, AccessorySlotType slot) {
-        return AccessorySlotTypeRegistryHelper.register(Identifier.of(Wool.MOD_ID, name), slot);
+    private static AccessorySlotType register(String name, AccessorySlotType type) {
+        return Registry.register(WoolRegistries.ACCESSORY_SLOT_TYPE, Identifier.of(Wool.MOD_ID, name), type);
     }
 
     public static void initialize() {
-        if (WoolConfig.enableDeveloperMode)
-            Wool.LOGGER.info("Initializing " + Wool.MOD_ID + " accessory slots");
+        Wool.logInitializing("accessory slot types");
     }
 }

@@ -27,7 +27,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 import java.util.*;
 
 @Mixin(Entity.class)
-public abstract class EntityAccessoriesSaverMixin implements AccessoryInventoryHolder {
+public abstract class EntityAccessoryInventorySaverMixin implements AccessoryInventoryHolder {
 
     @Shadow
     private World world;
@@ -84,11 +84,11 @@ public abstract class EntityAccessoriesSaverMixin implements AccessoryInventoryH
     @Unique
     private void tryCreateAccessoryInventory() {
         if (fullAccessoryInventory == null && isValid() && getRegistry() != null && getId() != null) {
-            List<Identifier> order = AccessoryInventoryManager.UNIT_ORDER.get(getRegistry());
+            List<Identifier> idOrder = AccessoryInventoryManager.UNIT_ORDER.get(getRegistry());
             fullAccessoryInventory = new LinkedHashMap<>();
             accessoryInventory = new LinkedHashMap<>();
 
-            for (Identifier id : order) {
+            for (Identifier id : idOrder) {
                 AccessoryInventoryUnit template = getRegistry().get(id);
 
                 if (template != null) {

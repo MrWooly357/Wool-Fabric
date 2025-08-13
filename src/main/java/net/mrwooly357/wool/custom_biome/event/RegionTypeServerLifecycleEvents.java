@@ -7,14 +7,16 @@ import net.minecraft.registry.RegistryKeys;
 import net.minecraft.registry.entry.RegistryEntry;
 import net.minecraft.world.dimension.DimensionOptions;
 import net.minecraft.world.gen.chunk.NoiseChunkGenerator;
+import net.mrwooly357.wool.Wool;
 import net.mrwooly357.wool.custom_biome.region.RegionType;
 import net.mrwooly357.wool.custom_biome.region.RegionTypeHolder;
 import org.jetbrains.annotations.Nullable;
 
-public class CustomBiomeServerLifecycleEvents {
+public class RegionTypeServerLifecycleEvents {
 
 
     public static void initialize() {
+        Wool.logInitializing("region type server lifecycle events");
         ServerLifecycleEvents.SERVER_STARTED.register(server -> {
             Registry<DimensionOptions> dimensionRegistry = server.getRegistryManager().get(RegistryKeys.DIMENSION);
 
@@ -30,7 +32,8 @@ public class CustomBiomeServerLifecycleEvents {
         });
     }
 
-    private static @Nullable RegionType getRegionTypeByKey(@Nullable RegistryKey<DimensionOptions> key) {
+    @Nullable
+    private static RegionType getRegionTypeByKey(@Nullable RegistryKey<DimensionOptions> key) {
         if (key != null)
             return RegionType.getById(key.getValue());
 

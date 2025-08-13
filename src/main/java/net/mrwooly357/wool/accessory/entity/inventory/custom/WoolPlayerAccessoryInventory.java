@@ -1,10 +1,10 @@
 package net.mrwooly357.wool.accessory.entity.inventory.custom;
 
+import net.minecraft.registry.Registry;
 import net.minecraft.util.Identifier;
 import net.mrwooly357.wool.Wool;
-import net.mrwooly357.wool.config.custom.WoolConfig;
 import net.mrwooly357.wool.accessory.entity.inventory.AccessoryInventoryUnit;
-import net.mrwooly357.wool.registry.helper.PlayerAccessoryInventoryRegistryHelper;
+import net.mrwooly357.wool.registry.WoolRegistries;
 import net.mrwooly357.wool.accessory.screen.slot.WoolAccessorySlotTypes;
 
 public class WoolPlayerAccessoryInventory {
@@ -15,11 +15,10 @@ public class WoolPlayerAccessoryInventory {
 
 
     private static AccessoryInventoryUnit register(String name, AccessoryInventoryUnit unit) {
-        return PlayerAccessoryInventoryRegistryHelper.register(Identifier.of(Wool.MOD_ID, name), unit);
+        return Registry.register(WoolRegistries.PLAYER_ACCESSORY_INVENTORY, Identifier.of(Wool.MOD_ID, name), unit);
     }
 
     public static void initialize() {
-        if (WoolConfig.enableDeveloperMode)
-            Wool.LOGGER.info("Initializing " + Wool.MOD_ID + " player accessory inventory");
+        Wool.logInitializing("player accessory inventory");
     }
 }

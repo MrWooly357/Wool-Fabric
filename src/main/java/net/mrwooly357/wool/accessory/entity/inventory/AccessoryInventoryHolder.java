@@ -11,6 +11,11 @@ public interface AccessoryInventoryHolder {
 
 
     @Nullable
+    default AccessoryInventoryUnit getAccessoryInventoryUnit(Identifier id, boolean full) {
+        return full ? getFullAccessoryInventory().get(id) : getAccessoryInventory().get(id);
+    }
+
+    @Nullable
     Identifier getId();
 
     @Nullable

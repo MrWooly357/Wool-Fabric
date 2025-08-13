@@ -2,7 +2,6 @@ package net.mrwooly357.wool.config;
 
 import com.google.common.collect.ImmutableList;
 import net.fabricmc.loader.api.FabricLoader;
-import net.minecraft.util.Identifier;
 import net.mrwooly357.wool.config.field_type.FieldType;
 import net.mrwooly357.wool.config.restriction.Restriction;
 import net.mrwooly357.wool.Wool;
@@ -41,6 +40,13 @@ public abstract class Config {
 
         defaultLines.add(formattedComment);
         lines.add(formattedComment);
+    }
+
+    protected void category(Entry.Category category) {
+        String formattedCategory =  "# " + category.getName();
+
+        defaultLines.add(formattedCategory);
+        lines.add(formattedCategory);
     }
 
     protected void entry(Entry<?> entry) {
@@ -204,7 +210,7 @@ public abstract class Config {
         public void parseAndSetValue(String string) {
             T raw = type.parse(string);
 
-            if (restriction != null && WoolConfig.enableRestrictions) {
+            if (restriction != null) {
                 value = restriction.normalize(raw);
             } else
                 value = raw;
@@ -305,12 +311,7 @@ public abstract class Config {
     public static final class Manager {
 
         private static final List<Config> CONFIGS = WoolRegistries.CONFIG.stream().toList();
-        private static final Map<Identifier, Config> IDS_TO_CONFIGS = new HashMap<>();
 
-
-        public static Map<Identifier, Config> getIdsToConfigs() {
-            return IDS_TO_CONFIGS;
-        }
 
         public static void loadAll() {
             for (Config config : CONFIGS)

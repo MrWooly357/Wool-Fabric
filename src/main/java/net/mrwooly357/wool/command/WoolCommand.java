@@ -31,21 +31,13 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
-public class WoolCommand {
+public final class WoolCommand {
 
     private static final Text WOOL = Texts.bracketed(Text.translatable("command." + Wool.MOD_ID + ".wool.wool"))
             .styled(
             style -> style.withColor(Formatting.YELLOW)
-                    .withClickEvent(
-                            new ClickEvent(
-                                    ClickEvent.Action.SUGGEST_COMMAND, "/wool "
-                            )
-                    )
-                    .withHoverEvent(
-                            new HoverEvent(
-                                    HoverEvent.Action.SHOW_TEXT, Text.translatable("chat." + Wool.MOD_ID + ".clickToInsertCommand")
-                            )
-                    )
+                    .withClickEvent(new ClickEvent(ClickEvent.Action.SUGGEST_COMMAND, "/wool "))
+                    .withHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT, Text.translatable("chat." + Wool.MOD_ID + ".clickToInsertCommand")))
     );
     private static final DynamicCommandExceptionType INVALID_CONFIG_ID_EXCEPTION = new DynamicCommandExceptionType(
             id -> Text.stringifiedTranslatable("command." + Wool.MOD_ID + ".wool.config.invalid_id", WOOL, id)
@@ -121,22 +113,26 @@ public class WoolCommand {
         }
 
         private static int executeLoad(ServerCommandSource source, Identifier id) {
-            Config config = Config.Manager.getIdsToConfigs().get(id);
+            Config config = WoolRegistries.CONFIG.get(id);
 
             if (config != null) {
                 config.load();
-                source.sendFeedback(() -> Text.translatable("command." + Wool.MOD_ID + ".wool.config.load", WOOL, Text.translatable("chat." + Wool.MOD_ID + ".configInfo", id.toString()).formatted(Formatting.GREEN)), true);
+                source.sendFeedback(() -> Text.translatable(
+                        "command." + Wool.MOD_ID + ".wool.config.load", WOOL, Text.translatable("chat." + Wool.MOD_ID + ".configInfo", id.toString()).formatted(Formatting.GREEN)
+                ), true);
             }
 
             return 1;
         }
 
         private static int executeResetToDefault(ServerCommandSource source, Identifier id) {
-            Config config = Config.Manager.getIdsToConfigs().get(id);
+            Config config = WoolRegistries.CONFIG.get(id);
 
             if (config != null) {
                 config.resetToDefault();
-                source.sendFeedback(() -> Text.translatable("command." + Wool.MOD_ID + ".wool.config.resetToDefault", WOOL, Text.translatable("chat." + Wool.MOD_ID + ".configInfo", id.toString()).formatted(Formatting.GREEN)), true);
+                source.sendFeedback(() -> Text.translatable(
+                        "command." + Wool.MOD_ID + ".wool.config.resetToDefault", WOOL, Text.translatable("chat." + Wool.MOD_ID + ".configInfo", id.toString()).formatted(Formatting.GREEN)
+                ), true);
             }
 
             return 1;
@@ -169,7 +165,7 @@ public class WoolCommand {
 
                 if (entity instanceof AccessoryInventoryHolder holder && holder.isValid() && holder.getRegistry() != null && holder.getId() != null
                         && holder.getFullAccessoryInventory() != null && AccessoryInventoryManager.ENTITY_TYPE_TO_REGISTRY.containsKey(entityType)) {
-                    ItemStack stack = holder.getFullAccessoryInventory().get(unit).getStack();
+                    ItemStack stack = holder.getAccessoryInventoryUnit(unit, true).getStack();
 
                     valid.add(entity);
                     source.sendFeedback(() -> Text.translatable("command." + Wool.MOD_ID + ".wool.accessory.get", WOOL, Texts.bracketed(entity.getName()).styled(
@@ -197,7 +193,7 @@ public class WoolCommand {
                     ItemStack stack = new ItemStack(item.getItem(), count);
 
                     valid.add(entity);
-                    holder.getFullAccessoryInventory().get(unit).setStack(stack);
+                    holder.getAccessoryInventoryUnit(unit, true).setStack(stack);
                     source.sendFeedback(() -> Text.translatable(
                             "command." + Wool.MOD_ID + ".wool.accessory.set", WOOL,
                             Text.translatable("chat." + Wool.MOD_ID + ".itemStackInfo", Registries.ITEM.getId(stack.getItem()).toString(), stack.getCount()).formatted(Formatting.AQUA),

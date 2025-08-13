@@ -6,7 +6,7 @@
     "CustomBiomeSurfaceRuleAdderMixin",
     "CustomBlockToVanillaBlockEntityTypeAdderMixin",
     "CustomCaveBiomesBelowZeroRetrogenAdderMixin",
-    "EntityAccessoriesSaverMixin",
+    "EntityAccessoryInventorySaverMixin",
     "EntityAnimationTickerMixin",
     "EntitySimpleDataSaverMixin",
     "InventoryScreenAccessorySlotsMixin",

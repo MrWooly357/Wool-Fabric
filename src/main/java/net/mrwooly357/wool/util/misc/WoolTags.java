@@ -5,7 +5,6 @@ import net.minecraft.registry.RegistryKeys;
 import net.minecraft.registry.tag.TagKey;
 import net.minecraft.util.Identifier;
 import net.mrwooly357.wool.Wool;
-import net.mrwooly357.wool.config.custom.WoolConfig;
 
 public final class WoolTags {
 
@@ -24,7 +23,6 @@ public final class WoolTags {
 
 
     public static void initialize() {
-        if (WoolConfig.enableDeveloperMode)
-            Wool.LOGGER.info("Initializing " + Wool.MOD_ID + " tags");
+        Wool.logInitializing("tags");
     }
 }

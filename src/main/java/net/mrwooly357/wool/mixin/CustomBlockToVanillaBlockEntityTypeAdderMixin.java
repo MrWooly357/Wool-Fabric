@@ -3,7 +3,7 @@ package net.mrwooly357.wool.mixin;
 import net.minecraft.block.Block;
 import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.block.entity.BlockEntityType;
-import net.mrwooly357.wool.block_util.entity.CustomBlocksForVanillaBlockEntityTypes;
+import net.mrwooly357.wool.block_util.entity.CustomBlocksForVanillaBlockEntities;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.gen.Invoker;
 import org.spongepowered.asm.mixin.injection.At;
@@ -25,14 +25,14 @@ public abstract class CustomBlockToVanillaBlockEntityTypeAdderMixin {
 
     @Inject(method = "create", at = @At("RETURN"), cancellable = true)
     private static <BE extends BlockEntity> void injectCreate(BlockEntityType.BlockEntityFactory<? extends BE> factory, Block[] blocks, CallbackInfoReturnable<BlockEntityType.Builder<BE>> cir) {
-        Set<Block> blockSet = new HashSet<>(List.of(blocks));
+        Set<Block> allBlocks = new HashSet<>();
+        Set<Block> vanillaBlocks = new HashSet<>(List.of(blocks));
+        Set<Block> customBlocks = new HashSet<>();
 
-        if (CustomBlocksForVanillaBlockEntityTypes.isFactoryRegistered(factory)) {
+        CustomBlocksForVanillaBlockEntities.forEachAdder(adder -> adder.addCustomBlocks(vanillaBlocks, customBlocks));
 
-            for (List<? extends Block> blockList : CustomBlocksForVanillaBlockEntityTypes.getBlocksForFactory(factory))
-                blockSet.addAll(blockList);
-        }
-
-        cir.setReturnValue(invokeConstructor(factory, blockSet));
+        allBlocks.addAll(vanillaBlocks);
+        allBlocks.addAll(customBlocks);
+        cir.setReturnValue(invokeConstructor(factory, allBlocks));
     }
 }

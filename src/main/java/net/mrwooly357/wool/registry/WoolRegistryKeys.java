@@ -11,7 +11,7 @@ import net.mrwooly357.wool.animation.interpolation.Interpolation;
 import net.mrwooly357.wool.accessory.screen.slot.custom.AccessorySlotType;
 import net.mrwooly357.wool.custom_biome.region.RegionType;
 
-public class WoolRegistryKeys {
+public final class WoolRegistryKeys {
 
     public static final RegistryKey<Registry<Config>> CONFIG = create("config");
     public static final RegistryKey<Registry<MultiblockConstructionBlueprint>> MULTIBLOCK_CONSTRUCTION_BLUEPRINT = create("multiblock_construction_blueprint");
