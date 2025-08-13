@@ -2,6 +2,8 @@ package net.mrwooly357.wool.config;
 
 import com.google.common.collect.ImmutableList;
 import net.fabricmc.loader.api.FabricLoader;
+import net.minecraft.registry.Registry;
+import net.minecraft.util.Identifier;
 import net.mrwooly357.wool.config.field_type.FieldType;
 import net.mrwooly357.wool.config.restriction.Restriction;
 import net.mrwooly357.wool.Wool;
@@ -310,20 +312,19 @@ public abstract class Config {
 
     public static final class Manager {
 
-        private static final List<Config> CONFIGS = WoolRegistries.CONFIG.stream().toList();
 
-
-        public static void initialize(Config config) {
+        public static void register(Identifier id, Config config) {
+            Registry.register(WoolRegistries.CONFIG, id, config);
             config.load();
         }
 
         public static void loadAll() {
-            for (Config config : CONFIGS)
+            for (Config config : WoolRegistries.CONFIG.stream().toList())
                 config.load();
         }
 
         public static void resetToDefaultAll() {
-            for (Config config : CONFIGS)
+            for (Config config : WoolRegistries.CONFIG.stream().toList())
                 config.resetToDefault();
         }
     }

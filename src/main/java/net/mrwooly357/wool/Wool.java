@@ -4,7 +4,6 @@ import net.fabricmc.api.ModInitializer;
 
 import net.fabricmc.fabric.api.command.v2.CommandRegistrationCallback;
 import net.minecraft.entity.EntityType;
-import net.minecraft.registry.Registry;
 import net.minecraft.util.Identifier;
 import net.minecraft.world.gen.surfacebuilder.VanillaSurfaceRules;
 import net.mrwooly357.wool.block_util.multiblock_construction.WoolMultiblockConstructionBlueprints;
@@ -39,8 +38,7 @@ public final class Wool implements ModInitializer {
 	public void onInitialize() {
         // Basic stuff
         WoolRegistries.initialize();
-		Registry.register(WoolRegistries.CONFIG, Identifier.of(MOD_ID, "config"), CONFIG);
-        Config.Manager.initialize(CONFIG);
+        Config.Manager.register(Identifier.of(MOD_ID, "config"), CONFIG);
         WoolTags.initialize();
         CommandRegistrationCallback.EVENT.register((dispatcher, access, environment) -> WoolCommand.register(dispatcher, access));
 
