@@ -5,6 +5,7 @@ import com.mojang.serialization.codecs.RecordCodecBuilder;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.network.PacketByteBuf;
 import net.minecraft.network.codec.PacketCodec;
+import org.jetbrains.annotations.Range;
 
 import java.security.SecureRandom;
 import java.util.*;
@@ -49,10 +50,7 @@ public final class Id {
         return key;
     }
 
-    public static Id create(int length) {
-        if (length <= 0)
-            throw new IllegalArgumentException("Can't create an Id with length of 0 or less!");
-
+    public static Id create(@Range(from = 1, to = Integer.MAX_VALUE) int length) {
         String key = "";
         StringBuilder builder = new StringBuilder();
 
@@ -113,7 +111,10 @@ public final class Id {
             if (next == character) {
                 charAmount++;
             } else {
-                builder.append(charAmount).append(character);
+                builder
+                        .append(charAmount)
+                        .append(character)
+                        .append("—");
 
                 charAmount = 1;
             }
@@ -187,12 +188,20 @@ public final class Id {
                 characters.add(character);
 
             while (!characters.isEmpty()) {
-                int amount = Integer.parseInt(String.valueOf(characters.getFirst()));
-                char character = characters.get(1);
+                StringBuilder pairBuilder = new StringBuilder();
+                String pair = "";
+
+                while (pair.isEmpty() || pair.charAt(pair.length() - 1) != '—') {
+                    pairBuilder.append(characters.getFirst());
+                    characters.removeFirst();
+
+                    pair = pairBuilder.toString();
+                }
+
+                int amount = Integer.parseInt(pair.substring(0, pair.length() - 2));
+                char character = pair.charAt(pair.length() - 2);
 
                 builder.append(String.valueOf(character).repeat(Math.max(0, amount)));
-                characters.removeFirst();
-                characters.removeFirst();
             }
 
             return builder.toString();
