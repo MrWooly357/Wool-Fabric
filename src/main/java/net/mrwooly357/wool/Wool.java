@@ -9,6 +9,7 @@ import net.minecraft.util.Identifier;
 import net.minecraft.world.gen.surfacebuilder.VanillaSurfaceRules;
 import net.mrwooly357.wool.block_util.multiblock_construction.WoolMultiblockConstructionBlueprints;
 import net.mrwooly357.wool.command.WoolCommand;
+import net.mrwooly357.wool.config.Config;
 import net.mrwooly357.wool.config.custom.WoolConfig;
 import net.mrwooly357.wool.accessory.entity.inventory.AccessoryInventoryManager;
 import net.mrwooly357.wool.accessory.entity.inventory.WoolEntityAccessoryInventories;
@@ -39,6 +40,7 @@ public final class Wool implements ModInitializer {
         // Basic stuff
         WoolRegistries.initialize();
 		Registry.register(WoolRegistries.CONFIG, Identifier.of(MOD_ID, "config"), CONFIG);
+        Config.Manager.initialize(CONFIG);
         WoolTags.initialize();
         CommandRegistrationCallback.EVENT.register((dispatcher, access, environment) -> WoolCommand.register(dispatcher, access));
 

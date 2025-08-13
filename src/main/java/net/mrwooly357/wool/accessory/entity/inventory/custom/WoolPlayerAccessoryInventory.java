@@ -3,6 +3,7 @@ package net.mrwooly357.wool.accessory.entity.inventory.custom;
 import net.minecraft.registry.Registry;
 import net.minecraft.util.Identifier;
 import net.mrwooly357.wool.Wool;
+import net.mrwooly357.wool.accessory.entity.inventory.AccessoryInventoryManager;
 import net.mrwooly357.wool.accessory.entity.inventory.AccessoryInventoryUnit;
 import net.mrwooly357.wool.registry.WoolRegistries;
 import net.mrwooly357.wool.accessory.screen.slot.WoolAccessorySlotTypes;
@@ -15,7 +16,11 @@ public class WoolPlayerAccessoryInventory {
 
 
     private static AccessoryInventoryUnit register(String name, AccessoryInventoryUnit unit) {
-        return Registry.register(WoolRegistries.PLAYER_ACCESSORY_INVENTORY, Identifier.of(Wool.MOD_ID, name), unit);
+        Identifier id = Identifier.of(Wool.MOD_ID, name);
+
+        AccessoryInventoryManager.UNIT_ORDER.get(WoolRegistries.PLAYER_ACCESSORY_INVENTORY).add(id);
+
+        return Registry.register(WoolRegistries.PLAYER_ACCESSORY_INVENTORY, id, unit);
     }
 
     public static void initialize() {

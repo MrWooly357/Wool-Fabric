@@ -313,6 +313,10 @@ public abstract class Config {
         private static final List<Config> CONFIGS = WoolRegistries.CONFIG.stream().toList();
 
 
+        public static void initialize(Config config) {
+            config.load();
+        }
+
         public static void loadAll() {
             for (Config config : CONFIGS)
                 config.load();
