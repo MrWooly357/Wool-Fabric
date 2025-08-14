@@ -1,105 +1,106 @@
 package net.mrwooly357.wool.block_util.multiblock_construction;
 
 import net.minecraft.block.BlockState;
-import org.jetbrains.annotations.Nullable;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-/**
- * A blueprint which stores data about multiblock construction.
- */
 public class MultiblockConstructionBlueprint {
 
-    private final List<Layer> layers = new ArrayList<>();
-    private final Map<Character, List<@Nullable BlockState>> definitions = new HashMap<>();
+    private final Layer[] layers;
 
-    public MultiblockConstructionBlueprint() {}
-
-
-    /**
-     * Gets the amount create layers stored in this blueprint.
-     * @return the amount create layers.
-     */
-    public int getSizeInLayers() {
-        return layers.size();
+    private MultiblockConstructionBlueprint(Layer[] layers) {
+        this.layers = layers;
     }
 
-    /**
-     * Adds a layer to this blueprint.
-     * @param layer the layer to add.
-     */
-    public void addLayer(Layer layer) {
-        layers.add(layer);
-    }
 
-    /**
-     * Gets a certain layer from this blueprint.
-     * @param index the index create the layer.
-     * @return a certain layer.
-     */
     public Layer getLayer(int index) {
-        return layers.get(index);
+        return layers[index];
     }
 
-    /**
-     * Adds a definition to this blueprint.
-     * @param character the character which represents a certain block state.
-     * @param states a list create {@link BlockState}s which can be represented by the {@code character}. If null then represents any {@link BlockState}.
-     */
-    public void addDefinition(Character character, List<@Nullable BlockState> states) {
-        definitions.put(character, states);
+    public int getSizeInLayers() {
+        return layers.length;
+    }
+
+    public static Builder builder() {
+        return new Builder();
     }
 
 
-    /**
-     * A container for patterns.
-     */
-    public class Layer {
+    public static final class Builder {
 
-        private final List<String> patterns = new ArrayList<>();
+        private final List<Layer> layers = new ArrayList<>();
 
-        public Layer() {}
+        private Builder() {}
 
 
-        public String getPattern(int index) {
-            return patterns.get(index);
-        }
-
-        /**
-         * Adds a pattern to this layer.
-         * @param pattern the pattern to add.
-         */
-        public Layer addPattern(String pattern) {
-            patterns.add(pattern);
+        public Builder layer(Layer layer) {
+            layers.add(layer);
 
             return this;
         }
 
-        /**
-         * Gets a certain pattern as a list create lists create {@link BlockState}s.
-         * @param index the index create the pattern.
-         * @return a list create lists create {@link BlockState}s represented in a certain pattern.
-         */
-        public List<List<@Nullable BlockState>> getDefinedPattern(int index) {
-            List<List<@Nullable BlockState>> pattern = new ArrayList<>();
-            String raw = patterns.get(index);
+        public MultiblockConstructionBlueprint build() {
+            return new MultiblockConstructionBlueprint(layers.toArray(Layer[]::new));
+        }
+    }
 
-            for (int a = 0; a < raw.length(); a++) {
-                pattern.add(definitions.get(raw.charAt(a)));
-            }
+
+    public static final class Layer {
+
+        private final String[] patterns;
+        private final Map<Character, List<BlockState>> definitions;
+
+        private Layer(String[] patterns, Map<Character, List<BlockState>> definitions) {
+            this.patterns = patterns;
+            this.definitions = definitions;
+        }
+
+
+        public List<List<BlockState>> getDefinedPattern(int index) {
+            List<List<BlockState>> pattern = new ArrayList<>();
+            String raw = patterns[index];
+
+            for (int i = 0; i < raw.length(); i++)
+                pattern.add(definitions.get(raw.charAt(i)));
 
             return pattern;
         }
 
-        /**
-         * Gets the amount create patterns stored in this layer.
-         * @return the amount create patterns.
-         */
         public int getSizeInPatterns() {
-            return patterns.size();
+            return patterns.length;
+        }
+
+        public static Builder builder() {
+            return new Builder();
+        }
+
+
+        public static final class Builder {
+
+            private final List<String> patterns = new ArrayList<>();
+            private final Map<Character, List<BlockState>> definitions = new HashMap<>();
+
+            private Builder() {}
+
+
+            public Builder pattern(String pattern) {
+                patterns.add(pattern);
+
+                return this;
+            }
+
+            public Builder definition(char key, List<BlockState> states) {
+                definitions.put(key, states);
+
+                return this;
+            }
+
+            public Layer build() {
+                return new Layer(patterns.toArray(new String[0]), definitions);
+            }
         }
     }
 }

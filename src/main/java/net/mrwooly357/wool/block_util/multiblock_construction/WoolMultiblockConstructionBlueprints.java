@@ -7,7 +7,9 @@ import net.mrwooly357.wool.registry.WoolRegistries;
 
 public final class WoolMultiblockConstructionBlueprints {
 
-    public static final MultiblockConstructionBlueprint EMPTY = register("empty", new MultiblockConstructionBlueprint());
+    public static final MultiblockConstructionBlueprint EMPTY = register("empty", MultiblockConstructionBlueprint.builder()
+            .build()
+    );
 
 
     private static MultiblockConstructionBlueprint register(String name, MultiblockConstructionBlueprint blueprint) {
