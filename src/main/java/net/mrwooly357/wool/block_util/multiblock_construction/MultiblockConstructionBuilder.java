@@ -9,7 +9,7 @@ import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
 
-public class MultiblockConstructionBuilder {
+public final class MultiblockConstructionBuilder {
 
     private final MultiblockConstructionBlueprint blueprint;
     private final World world;
@@ -113,7 +113,7 @@ public class MultiblockConstructionBuilder {
         return new BlockPos(x, y, z);
     }
 
-    private BlockPos calculateLastPatternPos(BlockPos firstPatternPos, List<List<@Nullable BlockState>> pattern, Direction direction) {
+    private static BlockPos calculateLastPatternPos(BlockPos firstPatternPos, List<List<@Nullable BlockState>> pattern, Direction direction) {
         int x = firstPatternPos.getX();
         int y = firstPatternPos.getY();
         int z = firstPatternPos.getZ();
