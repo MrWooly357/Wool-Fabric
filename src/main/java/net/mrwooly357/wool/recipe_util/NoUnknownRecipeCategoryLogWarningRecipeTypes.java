@@ -5,16 +5,16 @@ import net.minecraft.recipe.RecipeType;
 import java.util.HashSet;
 import java.util.Set;
 
-public interface NoUnknownRecipeCategoryLogWarningRecipeTypes {
+public final class NoUnknownRecipeCategoryLogWarningRecipeTypes {
 
-    Set<RecipeType<?>> RECIPE_TYPES = new HashSet<>();
+    private static final Set<RecipeType<?>> RECIPE_TYPES = new HashSet<>();
 
 
-    static void addRecipeType(RecipeType<?> recipeType) {
+    public static void addRecipeType(RecipeType<?> recipeType) {
         RECIPE_TYPES.add(recipeType);
     }
 
-    static boolean contains(RecipeType<?> recipeType) {
+    public static boolean contains(RecipeType<?> recipeType) {
         return RECIPE_TYPES.contains(recipeType);
     }
 }
