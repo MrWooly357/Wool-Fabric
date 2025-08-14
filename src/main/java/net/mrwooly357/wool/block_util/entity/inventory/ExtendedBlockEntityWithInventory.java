@@ -10,7 +10,7 @@ import net.minecraft.util.collection.DefaultedList;
 import net.minecraft.util.math.BlockPos;
 import net.mrwooly357.wool.block_util.entity.ExtendedBlockEntity;
 
-public abstract class ExtendedBlockEntityWithInventory extends ExtendedBlockEntity implements ImplementedInventory {
+public abstract class ExtendedBlockEntityWithInventory extends ExtendedBlockEntity implements ExtendedInventory {
 
     protected final DefaultedList<ItemStack> inventory;
 
@@ -45,7 +45,7 @@ public abstract class ExtendedBlockEntityWithInventory extends ExtendedBlockEnti
     @Override
     public void setStack(int slot, ItemStack stack) {
         markDirty();
-        ImplementedInventory.super.setStack(slot, stack);
+        ExtendedInventory.super.setStack(slot, stack);
     }
 
     @Override

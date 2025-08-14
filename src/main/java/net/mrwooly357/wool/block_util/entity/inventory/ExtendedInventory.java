@@ -8,7 +8,9 @@ import net.minecraft.util.collection.DefaultedList;
 import net.minecraft.util.math.Direction;
 import org.jetbrains.annotations.Nullable;
 
-public interface ImplementedInventory extends SidedInventory {
+import java.util.function.Predicate;
+
+public interface ExtendedInventory extends SidedInventory {
 
 
     DefaultedList<ItemStack> getInventory();
@@ -85,5 +87,16 @@ public interface ImplementedInventory extends SidedInventory {
     @Override
     default boolean canExtract(int slot, ItemStack stack, Direction direction) {
         return true;
+    }
+
+    default ItemStack findFirstNonEmpty() {
+        return findFirst(stack -> !stack.isEmpty());
+    }
+
+    default ItemStack findFirst(Predicate<ItemStack> predicate) {
+        return getInventory().stream()
+                .filter(predicate)
+                .findFirst()
+                .orElse(ItemStack.EMPTY);
     }
 }
