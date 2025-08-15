@@ -3,8 +3,8 @@ package net.mrwooly357.wool.util.misc.id;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.network.PacketByteBuf;
 import net.minecraft.network.codec.PacketCodec;
+import net.mrwooly357.wool.util.random.RandomUtil;
 
-import java.security.SecureRandom;
 import java.util.*;
 
 public final class Id {
@@ -51,10 +51,9 @@ public final class Id {
         StringBuilder builder = new StringBuilder();
 
         while (!EXISTING_KEYS.contains(key)) {
-            SecureRandom random = new SecureRandom();
 
             for (int i = 0; i < length; i++)
-                builder.append(AVAILABLE_SYMBOLS[random.nextInt(AVAILABLE_SYMBOLS.length)]);
+                builder.append(AVAILABLE_SYMBOLS[RandomUtil.SECURE_RANDOM.nextInt(AVAILABLE_SYMBOLS.length)]);
 
             key = builder.toString();
             builder = new StringBuilder();

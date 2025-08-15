@@ -33,6 +33,24 @@ public interface ExtendedInventory extends SidedInventory {
         return true;
     }
 
+    default boolean isNotEmpty() {
+        return !isEmpty();
+    }
+
+    default boolean isFull() {
+        for (ItemStack stack : getInventory()) {
+
+            if (stack.isEmpty())
+                return false;
+        }
+
+        return true;
+    }
+
+    default boolean isNotFull() {
+        return !isFull();
+    }
+
     @Override
     default ItemStack getStack(int slot) {
         return getInventory().get(slot);
@@ -91,25 +109,6 @@ public interface ExtendedInventory extends SidedInventory {
         return true;
     }
 
-    default boolean isFull() {
-        for (ItemStack stack : getInventory()) {
-
-            if (stack.isEmpty())
-                return false;
-        }
-
-        return true;
-    }
-
-    default boolean hasSpace() {
-        return !isFull();
-    }
-
-    @Nullable
-    default ItemStack findFirstNonEmpty() {
-        return findFirst(stack -> !stack.isEmpty());
-    }
-
     @Nullable
     default ItemStack findFirst(Predicate<ItemStack> predicate) {
         return getInventory().stream()
@@ -119,8 +118,8 @@ public interface ExtendedInventory extends SidedInventory {
     }
 
     @Nullable
-    default ItemStack selectRandomNonEmpty() {
-        return selectRandom(stack -> !stack.isEmpty());
+    default ItemStack findFirstNonEmpty() {
+        return findFirst(stack -> !stack.isEmpty());
     }
 
     @Nullable
@@ -133,5 +132,10 @@ public interface ExtendedInventory extends SidedInventory {
             return RandomUtil.select(candidates);
 
         return null;
+    }
+
+    @Nullable
+    default ItemStack selectRandomNonEmpty() {
+        return selectRandom(stack -> !stack.isEmpty());
     }
 }

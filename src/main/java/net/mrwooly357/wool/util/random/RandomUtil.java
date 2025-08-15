@@ -11,8 +11,8 @@ import java.util.Map;
 
 public final class RandomUtil {
 
-    private static final SecureRandom SECURE_RANDOM = new SecureRandom();
-    private static final Random RANDOM = Random.create();
+    public static final SecureRandom SECURE_RANDOM = new SecureRandom();
+    public static final Random RANDOM = Random.create();
 
 
     public static <O> O select(List<O> candidates) {
