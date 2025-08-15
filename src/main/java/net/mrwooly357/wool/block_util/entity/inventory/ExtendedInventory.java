@@ -90,19 +90,28 @@ public interface ExtendedInventory extends SidedInventory {
         return true;
     }
 
+    default boolean hasSpace() {
+        return getInventory().getLast().isEmpty();
+    }
+
+    @Nullable
     default ItemStack findFirstNonEmpty() {
         return findFirst(stack -> !stack.isEmpty());
     }
 
+    @Nullable
     default ItemStack findFirst(Predicate<ItemStack> predicate) {
         return getInventory().stream()
                 .filter(predicate)
                 .findFirst()
-                .orElse(ItemStack.EMPTY);
+                .orElse(null);
     }
 
+    @Nullable
     default ItemStack selectRandomNonEmpty() {
-        return selectRandom(stack -> !stack.isEmpty());
+        ItemStack stack = selectRandom(stack1 -> !stack1.isEmpty());
+
+        return stack.isEmpty() ? null : stack;
     }
 
     default ItemStack selectRandom(Predicate<ItemStack> predicate) {
