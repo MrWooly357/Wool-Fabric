@@ -12,7 +12,7 @@ import net.mrwooly357.wool.custom_biome.region.RegionType;
 import net.mrwooly357.wool.custom_biome.region.RegionTypeHolder;
 import org.jetbrains.annotations.Nullable;
 
-public class RegionTypeServerLifecycleEvents {
+public final class RegionTypeServerLifecycleEvents {
 
 
     public static void initialize() {

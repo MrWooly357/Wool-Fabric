@@ -9,7 +9,7 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.random.Random;
 import net.mrwooly357.wool.config.custom.WoolConfig;
-import net.mrwooly357.wool.util.misc.WoolUtil;
+import net.mrwooly357.wool.util.WoolUtil;
 import net.mrwooly357.wool.util.position.Position;
 
 import java.util.Objects;

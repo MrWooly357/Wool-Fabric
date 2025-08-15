@@ -1,4 +1,4 @@
-package net.mrwooly357.wool.util.misc;
+package net.mrwooly357.wool.util;
 
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.PlayerInventory;

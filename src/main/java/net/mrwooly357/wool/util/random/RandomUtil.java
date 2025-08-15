@@ -5,20 +5,28 @@ import net.minecraft.util.math.random.Random;
 import net.mrwooly357.wool.config.custom.WoolConfig;
 import org.jetbrains.annotations.Nullable;
 
+import java.security.SecureRandom;
+import java.util.List;
 import java.util.Map;
 
-public interface WeightedRandom {
+public final class RandomUtil {
+
+    private static final SecureRandom SECURE_RANDOM = new SecureRandom();
 
 
-    static @Nullable <T> T floatRandom(Map<T, Float> objects) {
-        return floatRandom(Random.create(), objects);
+    public static <O> O select(List<O> candidates) {
+        if (candidates.isEmpty())
+            throw new IllegalArgumentException("Can't select an object form an empty list!");
+
+        return candidates.get(SECURE_RANDOM.nextInt(candidates.size()));
     }
 
-    static @Nullable <T> T floatRandom(Random random, Map<T, Float> objects) {
+    @Nullable
+    public static <O> O weighted(Map<O, Float> objects) {
         if (!objects.isEmpty()) {
             float totalWeight = 0.0F;
 
-            for (Map.Entry<T, Float> entry : objects.entrySet())
+            for (Map.Entry<O, Float> entry : objects.entrySet())
                 totalWeight += entry.getValue();
 
             if (totalWeight == 0.0F) {
@@ -26,10 +34,10 @@ public interface WeightedRandom {
                 if (WoolConfig.enableDeveloperMode)
                     throw new IllegalArgumentException("No given objects have weight: " + objects);
             } else {
-                float roll = MathHelper.nextFloat(random, 0.0F, totalWeight);
+                float roll = MathHelper.nextFloat(Random.create(), 0.0F, totalWeight);
                 float cumulative = 0.0F;
 
-                for (Map.Entry<T, Float> entry : objects.entrySet()) {
+                for (Map.Entry<O, Float> entry : objects.entrySet()) {
                     cumulative += entry.getValue();
 
                     if (roll <= cumulative)
@@ -37,7 +45,7 @@ public interface WeightedRandom {
                 }
             }
         } else if (WoolConfig.enableDeveloperMode)
-                throw new IllegalArgumentException("No objects to choose from!");
+            throw new IllegalArgumentException("No objects to choose from!");
 
         return null;
     }

@@ -1,4 +1,4 @@
-package net.mrwooly357.wool.util.misc;
+package net.mrwooly357.wool.util.misc.id;
 
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;

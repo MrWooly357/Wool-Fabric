@@ -14,7 +14,7 @@ import net.minecraft.world.biome.source.util.MultiNoiseUtil;
 import net.minecraft.world.gen.carver.ConfiguredCarver;
 import net.minecraft.world.gen.densityfunction.DensityFunction;
 import net.minecraft.world.gen.feature.PlacedFeature;
-import net.mrwooly357.wool.util.random.WeightedRandom;
+import net.mrwooly357.wool.util.random.RandomUtil;
 
 import java.util.*;
 import java.util.function.Consumer;
@@ -246,16 +246,16 @@ public interface CustomBiomeCreator {
                 int l = ChunkSectionPos.getSectionCoord(j);
 
                 if ((long) k * k + (long) l * l <= 4096L) {
-                    return WeightedRandom.floatRandom(CENTRE_BIOMES);
+                    return RandomUtil.weighted(CENTRE_BIOMES);
                 } else {
                     double d = noise.erosion().sample(new DensityFunction.UnblendedNoisePos((ChunkSectionPos.getSectionCoord(i) * 2 + 1) * 8, BiomeCoords.toBlock(y), (ChunkSectionPos.getSectionCoord(j) * 2 + 1) * 8));
 
                     if (d > 0.25) {
-                        return WeightedRandom.floatRandom(HIGHLANDS_BIOMES);
+                        return RandomUtil.weighted(HIGHLANDS_BIOMES);
                     } else if (d >= -0.0625) {
-                        return WeightedRandom.floatRandom(MIDLANDS_BIOMES);
+                        return RandomUtil.weighted(MIDLANDS_BIOMES);
                     } else
-                        return d < -0.21875 ? WeightedRandom.floatRandom(SMALL_ISLANDS_BIOMES) : WeightedRandom.floatRandom(BARRENS_BIOMES);
+                        return d < -0.21875 ? RandomUtil.weighted(SMALL_ISLANDS_BIOMES) : RandomUtil.weighted(BARRENS_BIOMES);
                 }
             }
         }
