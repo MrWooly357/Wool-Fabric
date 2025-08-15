@@ -1,11 +1,8 @@
 package net.mrwooly357.wool.util.misc.id;
 
-import com.mojang.serialization.Codec;
-import com.mojang.serialization.codecs.RecordCodecBuilder;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.network.PacketByteBuf;
 import net.minecraft.network.codec.PacketCodec;
-import org.jetbrains.annotations.Range;
 
 import java.security.SecureRandom;
 import java.util.*;
@@ -19,14 +16,10 @@ public final class Id {
             'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z',
             ',' , '.', '?', '!', '+', '-', '*', '/', '~', '@', '#', '&', ';', ':', '%', '=', '<', '>', '^', '(', ')', '[', ']', '{', '}', '|', '$', '`'
     };
+
     private static final Set<String> EXISTING_KEYS = new HashSet<>();
     private static final Set<String> EXISTING_PACKED_KEYS = new HashSet<>();
 
-    public static final Codec<Id> CODEC = RecordCodecBuilder.create(
-            instance -> instance.group(
-                    Codec.STRING.fieldOf("key").forGetter(Id::getKey)
-            ).apply(instance, Id::new)
-    );
     public static final PacketCodec<PacketByteBuf, Id> PACKET_CODEC = new PacketCodec<>() {
 
 
@@ -50,7 +43,10 @@ public final class Id {
         return key;
     }
 
-    public static Id create(@Range(from = 1, to = Integer.MAX_VALUE) int length) {
+    public static Id create(short length) {
+        if (length <= 0)
+            throw new IllegalArgumentException("Id key length can't be 0 or less!");
+
         String key = "";
         StringBuilder builder = new StringBuilder();
 
