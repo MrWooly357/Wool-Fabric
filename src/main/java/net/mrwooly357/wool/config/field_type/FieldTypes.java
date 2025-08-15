@@ -2,7 +2,7 @@ package net.mrwooly357.wool.config.field_type;
 
 import net.mrwooly357.wool.config.field_type.custom.*;
 
-public class WoolFieldTypes {
+public final class FieldTypes {
 
     public static final FieldType<Byte> BYTE = new ByteFieldType();
     public static final FieldType<Short> SHORT = new ShortFieldType();

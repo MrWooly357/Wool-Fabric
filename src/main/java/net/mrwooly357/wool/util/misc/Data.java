@@ -5,12 +5,12 @@ import org.jetbrains.annotations.Nullable;
 import java.util.Objects;
 import java.util.function.*;
 
-public final class Data<T> {
+public class Data<T> {
 
     @Nullable
     private T value;
 
-    private Data(@Nullable T initialValue) {
+    protected Data(@Nullable T initialValue) {
         value = initialValue;
     }
 
