@@ -12,6 +12,7 @@ import java.util.Map;
 public final class RandomUtil {
 
     private static final SecureRandom SECURE_RANDOM = new SecureRandom();
+    private static final Random RANDOM = Random.create();
 
 
     public static <O> O select(List<O> candidates) {
@@ -34,7 +35,7 @@ public final class RandomUtil {
                 if (WoolConfig.enableDeveloperMode)
                     throw new IllegalArgumentException("No given objects have weight: " + objects);
             } else {
-                float roll = MathHelper.nextFloat(Random.create(), 0.0F, totalWeight);
+                float roll = MathHelper.nextFloat(RANDOM, 0.0F, totalWeight);
                 float cumulative = 0.0F;
 
                 for (Map.Entry<O, Float> entry : objects.entrySet()) {
