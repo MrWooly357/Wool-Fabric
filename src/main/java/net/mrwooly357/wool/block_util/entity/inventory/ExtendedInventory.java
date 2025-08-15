@@ -9,6 +9,7 @@ import net.minecraft.util.math.Direction;
 import net.mrwooly357.wool.util.random.RandomUtil;
 import org.jetbrains.annotations.Nullable;
 
+import java.util.List;
 import java.util.function.Predicate;
 
 public interface ExtendedInventory extends SidedInventory {
@@ -119,17 +120,18 @@ public interface ExtendedInventory extends SidedInventory {
 
     @Nullable
     default ItemStack selectRandomNonEmpty() {
-        ItemStack stack = selectRandom(stack1 -> !stack1.isEmpty());
-
-        return stack.isEmpty() ? null : stack;
+        return selectRandom(stack -> !stack.isEmpty());
     }
 
+    @Nullable
     default ItemStack selectRandom(Predicate<ItemStack> predicate) {
-        ItemStack stack = RandomUtil.select(getInventory());
+        List<ItemStack> candidates = getInventory().stream()
+                .filter(predicate)
+                .toList();
 
-        while (!predicate.test(stack))
-            stack = RandomUtil.select(getInventory());
+        if (!candidates.isEmpty())
+            return RandomUtil.select(candidates);
 
-        return stack;
+        return null;
     }
 }
