@@ -71,12 +71,38 @@ public interface ExtendedInventory extends SidedInventory {
         return Inventories.removeStack(getInventory(), slot);
     }
 
+    default void removeRandom(Predicate<ItemStack> predicate) {
+        for (int i = 0; i < size(); i++) {
+
+            if (predicate.test(getStack(i)))
+                break;
+        }
+
+        while (true) {
+            int slot = RandomUtil.SECURE_RANDOM.nextInt(size());
+
+            if (predicate.test(getStack(slot))) {
+                removeStack(slot);
+
+                break;
+            }
+        }
+    }
+
     @Override
     default void setStack(int slot, ItemStack stack) {
         getInventory().set(slot, stack);
 
         if (stack.getCount() > getMaxCountPerStack())
             stack.setCount(getMaxCountPerStack());
+    }
+
+    default void setStackInFirstEmpty(ItemStack stack) {
+        for (int i = 0; i < size(); i++) {
+
+            if (getStack(i).isEmpty())
+                setStack(i, stack);
+        }
     }
 
     @Override
