@@ -57,6 +57,11 @@ public interface ExtendedInventory extends SidedInventory {
     }
 
     @Override
+    default ItemStack removeStack(int slot) {
+        return Inventories.removeStack(getInventory(), slot);
+    }
+
+    @Override
     default ItemStack removeStack(int slot, int amount) {
         ItemStack stack = Inventories.splitStack(getInventory(), slot, amount);
 
@@ -66,12 +71,21 @@ public interface ExtendedInventory extends SidedInventory {
         return stack;
     }
 
-    @Override
-    default ItemStack removeStack(int slot) {
-        return Inventories.removeStack(getInventory(), slot);
+    default ItemStack removeFirstStack(Predicate<ItemStack> predicate) {
+        for (int i = 0; i < size(); i++) {
+
+            if (predicate.test(getStack(i)))
+                return removeStack(i);
+        }
+
+        return ItemStack.EMPTY;
     }
 
-    default void removeRandom(Predicate<ItemStack> predicate) {
+    default void removeFirstNonEmptyStack() {
+        removeFirstStack(stack -> !stack.isEmpty());
+    }
+
+    default void removeRandomStack(Predicate<ItemStack> predicate) {
         for (int i = 0; i < size(); i++) {
 
             if (predicate.test(getStack(i)))
@@ -100,8 +114,11 @@ public interface ExtendedInventory extends SidedInventory {
     default void setStackInFirstEmpty(ItemStack stack) {
         for (int i = 0; i < size(); i++) {
 
-            if (getStack(i).isEmpty())
+            if (getStack(i).isEmpty()) {
                 setStack(i, stack);
+
+                break;
+            }
         }
     }
 
@@ -136,7 +153,7 @@ public interface ExtendedInventory extends SidedInventory {
     }
 
     @Nullable
-    default ItemStack findFirst(Predicate<ItemStack> predicate) {
+    default ItemStack findFirstStack(Predicate<ItemStack> predicate) {
         return getInventory().stream()
                 .filter(predicate)
                 .findFirst()
@@ -144,12 +161,12 @@ public interface ExtendedInventory extends SidedInventory {
     }
 
     @Nullable
-    default ItemStack findFirstNonEmpty() {
-        return findFirst(stack -> !stack.isEmpty());
+    default ItemStack findFirstNonEmptyStack() {
+        return findFirstStack(stack -> !stack.isEmpty());
     }
 
     @Nullable
-    default ItemStack selectRandom(Predicate<ItemStack> predicate) {
+    default ItemStack selectRandomStack(Predicate<ItemStack> predicate) {
         List<ItemStack> candidates = getInventory().stream()
                 .filter(predicate)
                 .toList();
@@ -161,7 +178,7 @@ public interface ExtendedInventory extends SidedInventory {
     }
 
     @Nullable
-    default ItemStack selectRandomNonEmpty() {
-        return selectRandom(stack -> !stack.isEmpty());
+    default ItemStack selectRandomNonEmptyStack() {
+        return selectRandomStack(stack -> !stack.isEmpty());
     }
 }
