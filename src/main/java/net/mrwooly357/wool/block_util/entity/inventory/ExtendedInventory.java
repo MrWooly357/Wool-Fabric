@@ -6,6 +6,7 @@ import net.minecraft.inventory.SidedInventory;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.collection.DefaultedList;
 import net.minecraft.util.math.Direction;
+import net.mrwooly357.wool.util.random.RandomUtil;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.function.Predicate;
@@ -98,5 +99,18 @@ public interface ExtendedInventory extends SidedInventory {
                 .filter(predicate)
                 .findFirst()
                 .orElse(ItemStack.EMPTY);
+    }
+
+    default ItemStack selectRandomNonEmpty() {
+        return selectRandom(stack -> !stack.isEmpty());
+    }
+
+    default ItemStack selectRandom(Predicate<ItemStack> predicate) {
+        ItemStack stack = RandomUtil.select(getInventory());
+
+        while (!predicate.test(stack))
+            stack = RandomUtil.select(getInventory());
+
+        return stack;
     }
 }
