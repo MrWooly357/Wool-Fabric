@@ -90,8 +90,18 @@ public interface ExtendedInventory extends SidedInventory {
         return true;
     }
 
+    default boolean isFull() {
+        for (ItemStack stack : getInventory()) {
+
+            if (stack.isEmpty())
+                return false;
+        }
+
+        return true;
+    }
+
     default boolean hasSpace() {
-        return getInventory().getLast().isEmpty();
+        return !isFull();
     }
 
     @Nullable
