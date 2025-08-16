@@ -1,6 +1,7 @@
 package net.mrwooly357.wool.util.position;
 
 import com.mojang.serialization.Codec;
+import net.minecraft.nbt.NbtCompound;
 import net.minecraft.network.PacketByteBuf;
 import net.minecraft.network.codec.PacketCodec;
 import net.minecraft.util.math.random.Random;
@@ -170,9 +171,20 @@ public interface Position<T extends Number> {
 
     /**
      * Creates an {@link IllegalArgumentException} to throw whenever a wrong type of {@link Position} is used in {@link Position#distanceTo(Position)}.
+     *
      * @param position the {@link Position}.
      * @param other the other {@link Position}.
+     *
      * @return an {@link IllegalArgumentException} to use in {@link Position#distanceTo(Position)}.
      */
     IllegalArgumentException createDistanceToException(Position<T> position, Position<?> other);
+
+    /**
+     * Creates an {@link NbtCompound} with this position saved on it.
+     *
+     * @return an {@link NbtCompound} with this position saved on it.
+     */
+    default NbtCompound toNbt() {
+        return new NbtCompound();
+    }
 }

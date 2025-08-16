@@ -2,7 +2,9 @@ package net.mrwooly357.wool.util.position.custom;
 
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
+import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.entity.Entity;
+import net.minecraft.nbt.NbtCompound;
 import net.minecraft.network.PacketByteBuf;
 import net.minecraft.network.codec.PacketCodec;
 import net.minecraft.util.math.BlockPos;
@@ -16,8 +18,11 @@ import java.util.Objects;
 
 /**
  * Represents a position in 3D space with three double-precision components.
- * @see Position3
+ *
+ * @version 1.0.0
  * @since 1.0.0
+ *
+ * @see Position3
  */
 public final class Position3D extends Position3<Double> {
 
@@ -60,26 +65,26 @@ public final class Position3D extends Position3<Double> {
      * @param z the {@link Position3#z} component.
      * @see Position3#Position3(Number, Number, Number)
      */
-    public Position3D(double x, double y, double z) {
+    private Position3D(double x, double y, double z) {
         super(x, y, z);
     }
 
-    /**
-     * Creates a new {@link Position3D} using a {@link BlockPos pos}.
-     * @param pos the {@link BlockPos}.
-     */
-    public Position3D(BlockPos pos) {
-        super((double) pos.getX(), (double) pos.getY(), (double) pos.getZ());
+
+    public static Position3D of(double x, double y, double z) {
+        return new Position3D(x, y, z);
     }
 
-    /**
-     * Creates a new {@link Position3D} using an {@link Entity entity}.
-     * @param entity the {@link Entity}.
-     */
-    public Position3D(Entity entity) {
-        super(entity.getX(), entity.getY(), entity.getZ());
+    public static Position3D of(BlockPos pos) {
+        return of(pos.getX(), pos.getY(), pos.getZ());
     }
 
+    public static Position3D of(BlockEntity blockEntity) {
+        return of(blockEntity.getPos());
+    }
+
+    public static Position3D of(Entity entity) {
+        return of(entity.getX(), entity.getY(), entity.getZ());
+    }
 
     /**
      * An implementation of {@link Position#getZero()} which gets the zero {@link Position3D}.
@@ -272,6 +277,28 @@ public final class Position3D extends Position3<Double> {
             throw createDistanceToException(this, position);
         } else
             return 0.0;
+    }
+
+    /**
+     * An implementation of {@link Position#toNbt()}.
+     */
+    @Override
+    public NbtCompound toNbt() {
+        NbtCompound nbt = super.toNbt();
+
+        nbt.putDouble(X_KEY, x);
+        nbt.putDouble(Y_KEY, y);
+        nbt.putDouble(Z_KEY, z);
+
+        return nbt;
+    }
+
+    public static Position3D fromNbt(NbtCompound nbt) {
+        double x = nbt.getDouble(X_KEY);
+        double y = nbt.getDouble(Y_KEY);
+        double z = nbt.getDouble(Z_KEY);
+
+        return of(x, y, z);
     }
 
     /**

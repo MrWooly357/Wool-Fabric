@@ -28,23 +28,28 @@ public abstract class Position3<T extends Number> implements Position<T> {
     /**
      * The message used in {@link Position3#add(Position)}.
      */
-    String ADDITION_EXCEPTION_MESSAGE = "Can't add a non instance of Position3 to an instance of Position3! ";
+    protected static final String ADDITION_EXCEPTION_MESSAGE = "Can't add a non instance of Position3 to an instance of Position3! ";
     /**
      * The message used in {@link Position3#subtract(Position)}.
      */
-    String SUBTRACTION_EXCEPTION_MESSAGE = "Can't subtract a non instance of Position3 to an instance of Position3! ";
+    protected static final String SUBTRACTION_EXCEPTION_MESSAGE = "Can't subtract a non instance of Position3 to an instance of Position3! ";
     /**
      * The message used in {@link Position3#multiply(Position)}.
      */
-    String MULTIPLICATION_EXCEPTION_MESSAGE = "Can't multiply an instance of Position3 by a non instance of Position3! ";
+    protected static final String MULTIPLICATION_EXCEPTION_MESSAGE = "Can't multiply an instance of Position3 by a non instance of Position3! ";
     /**
      * The message used in {@link Position3#divide(Position)}.
      */
-    String DIVISION_EXCEPTION_MESSAGE = "Can't divide an instance of Position3 by a non instance of Position3! ";
+    protected static final String DIVISION_EXCEPTION_MESSAGE = "Can't divide an instance of Position3 by a non instance of Position3! ";
     /**
      * The message used in {@link Position3#createDistanceToException(Position, Position)}.
      */
-    String DISTANCE_TO_EXCEPTION_MESSAGE = "Can't use a non instance of Position3 in distanceTo in Position3! ";
+    protected static final String DISTANCE_TO_EXCEPTION_MESSAGE = "Can't use a non instance of Position3 in distanceTo in Position3! ";
+    protected static final String X_KEY = "X";
+    protected static final String Y_KEY = "Y";
+    protected static final String Z_KEY = "Z";
+
+
 
     /**
      * Creates a new {@link Position3} using x, y and z components.
