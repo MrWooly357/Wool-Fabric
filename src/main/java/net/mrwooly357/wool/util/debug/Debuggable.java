@@ -31,9 +31,10 @@ public interface Debuggable {
         String VALUE_KEY = "Value";
 
         @SafeVarargs
-        public Setting(byte index, String name, V... values) {
+        public Setting(byte index, String name, V initialValue, V... values) {
             this.index = index;
             this.name = name;
+            this.value = initialValue;
             this.values = Arrays.stream(values)
                     .toList();
         }
