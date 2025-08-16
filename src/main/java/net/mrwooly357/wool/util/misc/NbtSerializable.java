@@ -6,5 +6,5 @@ import net.minecraft.registry.RegistryWrapper;
 public interface NbtSerializable {
 
 
-    NbtCompound toNbt(RegistryWrapper.WrapperLookup lookup);
+    NbtCompound toNbt(RegistryWrapper.WrapperLookup registryLookup);
 }

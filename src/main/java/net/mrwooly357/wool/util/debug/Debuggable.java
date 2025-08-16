@@ -56,7 +56,7 @@ public interface Debuggable {
         }
 
         @Override
-        public NbtCompound toNbt(RegistryWrapper.WrapperLookup lookup) {
+        public NbtCompound toNbt(RegistryWrapper.WrapperLookup registryLookup) {
             NbtCompound nbt = new NbtCompound();
 
             nbt.putByte(INDEX_KEY, index);
@@ -132,18 +132,18 @@ public interface Debuggable {
         }
 
         @Override
-        public NbtCompound toNbt(RegistryWrapper.WrapperLookup lookup) {
+        public NbtCompound toNbt(RegistryWrapper.WrapperLookup registryLookup) {
             NbtCompound nbt = new NbtCompound();
 
             nbt.putByte(SIZE_KEY, (byte) settings.size());
 
             for (Setting<?> setting : settings.values())
-                nbt.put(SETTING_KEY + setting.index, setting.toNbt(lookup));
+                nbt.put(SETTING_KEY + setting.index, setting.toNbt(registryLookup));
 
             return nbt;
         }
 
-        public static Settings fromNbt(NbtCompound nbt, Function<NbtCompound, Setting<?>> settingDeserializer) {
+        public static Settings fromNbt(NbtCompound nbt, RegistryWrapper.WrapperLookup registryLookup, Function<NbtCompound, Setting<?>> settingDeserializer) {
             List<Setting<?>> settings = new ArrayList<>();
 
             byte size = nbt.getByte(SIZE_KEY);
