@@ -4,6 +4,7 @@
   "chat.wool.itemStackInfo": "[Item: %s, Count: %s]",
   "chat.wool.entityInfo": "[EntityType: %s, UUID: %s]",
   "chat.wool.accessoryInventoryUnitInfo": "[AccessoryInventoryUnit: %s]",
+  "chat.wool.block_entity_info": "[Type: %s, Pos: %s]",
   "command.wool.wool.wool": "Wool",
   "command.wool.wool.config.invalid_id": "%s No config with id \"%s\"",
   "command.wool.wool.config.load": "%s Loading config %s",
@@ -12,5 +13,8 @@
   "command.wool.wool.config.resetToDefaultAll": "%s Resetting to default all configs",
   "command.wool.wool.accessory.get": "%s Entity %s %s has stack %s in accessory slot %s",
   "command.wool.wool.accessory.set": "%s Set stack %s in accessory slot %s for entity %s",
+  "command.wool.wool.debug.data.block_entity": "%s Block entity %s has debug data: %s",
+  "command.wool.wool.debug.settings.get.block_entity": "%s Block entity %s has following debug settings: %s",
+  "command.wool.wool.debug.settings.set.block_entity": "%s Set block entity %s's debug setting %s (%s) to %s (%s)",
   "gui.wool.player_accessory_inventory": "Accessories"
 }

@@ -1,58 +1,157 @@
 package net.mrwooly357.wool.util.debug;
 
-import net.mrwooly357.wool.util.misc.Data;
+import net.minecraft.nbt.NbtCompound;
+import net.minecraft.registry.RegistryWrapper;
+import net.mrwooly357.wool.util.misc.NbtSerializable;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.*;
-import java.util.function.Consumer;
+import java.util.function.Function;
 
+@Debug
 public interface Debuggable {
 
+    String DEBUG_DATA_KEY = "DebugData";
+    String DEBUG_SETTINGS_KEY = "DebugSettings";
 
-    Data<DebugData> getDebugData();
+
+    DebugData getDebugData();
 
     Settings getDebugSettings();
 
 
-    final class Setting<T> extends Data<T> {
+    final class Setting<V extends Setting.Value> implements NbtSerializable {
 
-        private final String key;
+        private final byte index;
+        private final String name;
+        private V value;
+        private final List<V> values;
 
-        private Setting(@Nullable T initialValue, String key) {
-            super(initialValue);
+        String INDEX_KEY = "Index";
+        String VALUE_KEY = "Value";
 
-            this.key = key;
+        @SafeVarargs
+        public Setting(byte index, String name, V... values) {
+            this.index = index;
+            this.name = name;
+            this.values = Arrays.stream(values)
+                    .toList();
         }
 
 
-        public String getKey() {
-            return key;
+        public byte getIndex() {
+            return index;
+        }
+
+        public String getName() {
+            return name;
+        }
+
+        public V getValue() {
+            return value;
+        }
+
+        public void setValue(byte index) {
+            this.value = values.get(index);
+        }
+
+        @Override
+        public NbtCompound toNbt(RegistryWrapper.WrapperLookup lookup) {
+            NbtCompound nbt = new NbtCompound();
+
+            nbt.putByte(INDEX_KEY, index);
+            nbt.putByte(VALUE_KEY, value.getIndex());
+
+            return nbt;
+        }
+
+
+        public interface Value {
+
+
+            byte getIndex();
+
+            String getName();
         }
     }
 
 
-    final class Settings {
+    final class Settings implements NbtSerializable {
 
-        private final Map<String, Setting<?>> settings = new HashMap<>();
+        private final Map<Byte, Setting<?>> settings = new HashMap<>();
+
+        private static final String SIZE_KEY = "Size";
+        private static final String SETTING_KEY = "Setting";
 
         public Settings(Setting<?>... settings) {
-            Arrays.stream(settings)
-                    .forEach(setting -> this.settings.put(setting.key, setting));
+            this(Arrays.stream(settings)
+                    .toList());
+        }
+
+        private Settings(List<Setting<?>> settings) {
+            settings.forEach(setting -> this.settings.put(setting.index, setting));
         }
 
 
-        public Setting<?> get(String key) {
-            return settings.get(key);
+        public String get() {
+            StringBuilder builder = new StringBuilder();
+
+            for (Map.Entry<Byte, Setting<?>> entry : settings.entrySet()) {
+                Setting<?> setting = entry.getValue();
+
+                builder.append("Setting[Index: ")
+                        .append(entry.getKey())
+                        .append(", Name: ")
+                        .append(setting.name)
+                        .append(", Values: [");
+
+                for (Setting.Value value : setting.values) {
+                    builder
+                            .append("Value[Index: ")
+                            .append(value.getIndex())
+                            .append(", Name: ")
+                            .append(value.getName())
+                            .append("]");
+
+                    if (value != setting.values.getLast())
+                        builder.append(", ");
+                }
+
+                builder.append("]");
+
+                if (entry != settings.entrySet().stream().toList().getLast())
+                    builder.append(", ");
+            }
+
+            return builder.toString();
         }
 
-        public void ifEqualTo(String key, Object value, Consumer<Object> action) {
-            if (get(key).get() == value)
-                action.accept(value);
+        @Nullable
+        public Setting<?> getSetting(byte index) {
+            return settings.get(index);
         }
 
-        public List<String> getKeys() {
-            return settings.keySet().stream()
-                    .toList();
+        @Override
+        public NbtCompound toNbt(RegistryWrapper.WrapperLookup lookup) {
+            NbtCompound nbt = new NbtCompound();
+
+            nbt.putByte(SIZE_KEY, (byte) settings.size());
+
+            for (Setting<?> setting : settings.values())
+                nbt.put(SETTING_KEY + setting.index, setting.toNbt(lookup));
+
+            return nbt;
+        }
+
+        public static Settings fromNbt(NbtCompound nbt, Function<NbtCompound, Setting<?>> settingDeserializer) {
+            List<Setting<?>> settings = new ArrayList<>();
+
+            byte size = nbt.getByte(SIZE_KEY);
+
+            for (byte b = 0; b < size; b++)
+                settings.add(settingDeserializer.apply(nbt.getCompound(SETTING_KEY + b)));
+
+            return new Settings(settings);
         }
     }
 }

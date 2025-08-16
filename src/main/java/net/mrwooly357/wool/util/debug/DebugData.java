@@ -1,3 +1,6 @@
 package net.mrwooly357.wool.util.debug;
 
-public interface DebugData {}
+import net.mrwooly357.wool.util.misc.NbtSerializable;
+
+@Debug
+public interface DebugData extends NbtSerializable {}

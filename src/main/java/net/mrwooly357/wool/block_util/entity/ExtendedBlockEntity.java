@@ -48,12 +48,12 @@ public abstract class ExtendedBlockEntity extends BlockEntity implements Tickabl
     @Override
     protected void writeNbt(NbtCompound nbt, RegistryWrapper.WrapperLookup lookup) {
         for (Data data : this.data)
-            data.encoder().accept(nbt, lookup);
+            data.serializer().accept(nbt, lookup);
     }
 
     @Override
     protected void readNbt(NbtCompound nbt, RegistryWrapper.WrapperLookup lookup) {
         for (Data data : this.data)
-            data.decoder().accept(nbt, lookup);
+            data.deserializer().accept(nbt, lookup);
     }
 }
