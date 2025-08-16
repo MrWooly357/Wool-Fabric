@@ -95,7 +95,7 @@ public final class WoolCommand {
                 )
                 .then(CommandManager.literal("debug")
                         .then(CommandManager.literal("data")
-                                .then(CommandManager.literal("block entity")
+                                .then(CommandManager.literal("blockEntity")
                                         .then(CommandManager.argument("pos", BlockPosArgumentType.blockPos())
                                                 .executes(context ->
                                                         DebugCommand.executeDataBlockEntity(context.getSource(), BlockPosArgumentType.getBlockPos(context, "pos")))
@@ -104,7 +104,7 @@ public final class WoolCommand {
                         )
                         .then(CommandManager.literal("settings")
                                 .then(CommandManager.literal("get")
-                                        .then(CommandManager.literal("block entity")
+                                        .then(CommandManager.literal("blockEntity")
                                                 .then(CommandManager.argument("pos", BlockPosArgumentType.blockPos())
                                                         .executes(context ->
                                                                 DebugCommand.executeSettingsGetBlockEntity(context.getSource(), BlockPosArgumentType.getBlockPos(context, "pos")))
@@ -112,7 +112,7 @@ public final class WoolCommand {
                                         )
                                 )
                                 .then(CommandManager.literal("set")
-                                        .then(CommandManager.literal("block entity")
+                                        .then(CommandManager.literal("blockEntity")
                                                 .then(CommandManager.argument("pos", BlockPosArgumentType.blockPos())
                                                         .then(CommandManager.argument("setting index", IntegerArgumentType.integer(0, Byte.MAX_VALUE))
                                                                 .then(CommandManager.argument("value index", IntegerArgumentType.integer(0, Byte.MAX_VALUE))
