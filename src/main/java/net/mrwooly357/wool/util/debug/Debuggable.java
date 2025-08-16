@@ -3,10 +3,10 @@ package net.mrwooly357.wool.util.debug;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.registry.RegistryWrapper;
 import net.mrwooly357.wool.util.misc.NbtSerializable;
+import net.mrwooly357.wool.util.misc.TriFunction;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.*;
-import java.util.function.BiFunction;
 
 @Debug
 public interface Debuggable {
@@ -143,13 +143,13 @@ public interface Debuggable {
             return nbt;
         }
 
-        public static Settings fromNbt(NbtCompound nbt, RegistryWrapper.WrapperLookup registryLookup, BiFunction<NbtCompound, RegistryWrapper.WrapperLookup, Setting<?>> settingDeserializer) {
+        public static Settings fromNbt(NbtCompound nbt, RegistryWrapper.WrapperLookup registryLookup, TriFunction<Byte, NbtCompound, RegistryWrapper.WrapperLookup, Setting<?>> settingDeserializer) {
             List<Setting<?>> settings = new ArrayList<>();
 
             byte size = nbt.getByte(SIZE_KEY);
 
             for (byte b = 0; b < size; b++)
-                settings.add(settingDeserializer.apply(nbt.getCompound(SETTING_KEY + b), registryLookup));
+                settings.add(settingDeserializer.apply(b, nbt.getCompound(SETTING_KEY + b), registryLookup));
 
             return new Settings(settings);
         }
