@@ -313,6 +313,11 @@ public abstract class Config {
     public static final class Manager {
 
 
+        public static void register(Identifier id, Config config) {
+            Registry.register(WoolRegistries.CONFIG, id, config);
+            config.load();
+        }
+
         public static void loadAll() {
             for (Config config : WoolRegistries.CONFIG.stream().toList())
                 config.load();
