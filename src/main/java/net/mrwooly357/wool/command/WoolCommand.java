@@ -251,7 +251,7 @@ public final class WoolCommand {
     private static final class DebugCommand {
 
         private static final String DEBUG_KEY = "wool.debug";
-        private static final String BLOCK_ENTITY_INFO_KEY = ".block_entity_info";
+        private static final String BLOCK_ENTITY_INFO_KEY = "block_entity_info";
 
         private static final DynamicCommandExceptionType NON_DEBUGGABLE_OBJECT_EXCEPTION = new DynamicCommandExceptionType(object ->
                 TextUtil.woolTranslatable(TextKeys.COMMAND, DEBUG_KEY + ".non_debuggable_object", WOOL, object)
