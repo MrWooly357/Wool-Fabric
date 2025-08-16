@@ -6,7 +6,7 @@ import net.mrwooly357.wool.util.misc.NbtSerializable;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.*;
-import java.util.function.Function;
+import java.util.function.BiFunction;
 
 @Debug
 public interface Debuggable {
@@ -143,13 +143,13 @@ public interface Debuggable {
             return nbt;
         }
 
-        public static Settings fromNbt(NbtCompound nbt, RegistryWrapper.WrapperLookup registryLookup, Function<NbtCompound, Setting<?>> settingDeserializer) {
+        public static Settings fromNbt(NbtCompound nbt, RegistryWrapper.WrapperLookup registryLookup, BiFunction<NbtCompound, RegistryWrapper.WrapperLookup, Setting<?>> settingDeserializer) {
             List<Setting<?>> settings = new ArrayList<>();
 
             byte size = nbt.getByte(SIZE_KEY);
 
             for (byte b = 0; b < size; b++)
-                settings.add(settingDeserializer.apply(nbt.getCompound(SETTING_KEY + b)));
+                settings.add(settingDeserializer.apply(nbt.getCompound(SETTING_KEY + b), registryLookup));
 
             return new Settings(settings);
         }

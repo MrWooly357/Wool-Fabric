@@ -46,14 +46,14 @@ public abstract class ExtendedBlockEntity extends BlockEntity implements Tickabl
     public void clientTick(ClientWorld world, BlockPos pos, BlockState state) {}
 
     @Override
-    protected void writeNbt(NbtCompound nbt, RegistryWrapper.WrapperLookup lookup) {
+    protected void writeNbt(NbtCompound nbt, RegistryWrapper.WrapperLookup registryLookup) {
         for (Data data : this.data)
-            data.serializer().accept(nbt, lookup);
+            data.serializer().accept(nbt, registryLookup);
     }
 
     @Override
-    protected void readNbt(NbtCompound nbt, RegistryWrapper.WrapperLookup lookup) {
+    protected void readNbt(NbtCompound nbt, RegistryWrapper.WrapperLookup registryLookup) {
         for (Data data : this.data)
-            data.deserializer().accept(nbt, lookup);
+            data.deserializer().accept(nbt, registryLookup);
     }
 }
