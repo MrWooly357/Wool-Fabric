@@ -20,6 +20,6 @@ public final class WoolClient implements ClientModInitializer {
         HandledScreens.register(WoolScreenHandlerTypes.PLAYER_ACCESSORY_INVENTORY, PlayerAccessoryInventoryScreen::new);
 
         // In development
-        //ResourceManagerHelper.getAsString(ResourceType.CLIENT_RESOURCES).registerReloadListener(ANIMATION_LOADER);
+        //ResourceManagerHelper.get(ResourceType.CLIENT_RESOURCES).registerReloadListener(ANIMATION_LOADER);
     }
 }

@@ -75,7 +75,7 @@ public final class WoolCommand {
                 .then(CommandManager.literal("accessory")
                         .then(CommandManager.argument("targets", EntityArgumentType.entities())
                                 .then(CommandManager.argument("unit", IdentifierArgumentType.identifier())
-                                        .then(CommandManager.literal("getAsString")
+                                        .then(CommandManager.literal("get")
                                                 .executes(context ->
                                                         AccessoryCommand.executeGet(context.getSource(), EntityArgumentType.getEntities(context, "targets"), IdentifierArgumentType.getIdentifier(context, "unit")))
                                         )
@@ -105,7 +105,7 @@ public final class WoolCommand {
                                 )
                         )
                         .then(CommandManager.literal("settings")
-                                .then(CommandManager.literal("getAsString")
+                                .then(CommandManager.literal("get")
                                         .then(CommandManager.literal("blockEntity")
                                                 .then(CommandManager.argument("pos", BlockPosArgumentType.blockPos())
                                                         .executes(context ->
@@ -206,7 +206,7 @@ public final class WoolCommand {
                     ItemStack stack = holder.getAccessoryInventoryUnit(unit, true).getStack();
 
                     valid.add(entity);
-                    source.sendFeedback(() -> Text.translatable("command." + Wool.MOD_ID + ".wool.accessory.getAsString", WOOL, Texts.bracketed(entity.getName()).styled(
+                    source.sendFeedback(() -> Text.translatable("command." + Wool.MOD_ID + ".wool.accessory.get", WOOL, Texts.bracketed(entity.getName()).styled(
                             style -> style
                                     .withColor(Formatting.GREEN)
                                     .withClickEvent(new ClickEvent(ClickEvent.Action.SUGGEST_COMMAND, "/tp @s " + entity.getX() + " " + entity.getY() + " " + entity.getZ()))
@@ -289,7 +289,7 @@ public final class WoolCommand {
                 source.sendFeedback(() ->
                         TextUtil.woolTranslatable(
                                 TextKeys.COMMAND,
-                                DEBUG_KEY + ".settings.getAsString.block_entity",
+                                DEBUG_KEY + ".settings.get.block_entity",
                                 WOOL,
                                 blockEntityInfo(blockEntity),
                                 Text.literal(debuggable.getDebugSettings().getAsString()).formatted(Formatting.GREEN)
