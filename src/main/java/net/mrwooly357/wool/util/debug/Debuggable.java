@@ -70,7 +70,7 @@ public interface Debuggable {
         public interface Value {
 
 
-            byte getIndex();
+            int getIndex();
 
             String getName();
         }
