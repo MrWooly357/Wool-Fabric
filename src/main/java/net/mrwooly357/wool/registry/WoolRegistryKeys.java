@@ -18,8 +18,8 @@ public final class WoolRegistryKeys {
     public static final RegistryKey<Registry<AccessorySlotType>> ACCESSORY_SLOT_TYPE = create("accessory_slot_type");
     public static final RegistryKey<Registry<Registry<AccessoryInventoryUnit>>> ENTITY_TYPE_ACCESSORY_INVENTORY = create("entity_type_accessory_inventory");
     public static final RegistryKey<Registry<AccessoryInventoryUnit>> PLAYER_ACCESSORY_INVENTORY = create("player_accessory_inventory");
-    public static final RegistryKey<Registry<Interpolation>> INTERPOLATION = create("interpolation");
     public static final RegistryKey<Registry<RegionType>> REGION_TYPE = create("region_type");
+    public static final RegistryKey<Registry<Interpolation>> INTERPOLATION = create("interpolation");
 
 
     private static <T> RegistryKey<Registry<T>> create(String name) {

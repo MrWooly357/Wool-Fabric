@@ -29,12 +29,20 @@ public final class UnifiedData {
         return dataList.get(index);
     }
 
-    public void set(int index, Data<?> data) {
-        dataList.set(index, data);
+    public Data<?> getFirst() {
+        return dataList.getFirst();
+    }
+
+    public Data<?> getLast() {
+        return dataList.getLast();
     }
 
     public List<Data<?>> getAll() {
-        return List.copyOf(dataList);
+        return dataList;
+    }
+
+    public void set(int index, Data<?> data) {
+        dataList.set(index, data);
     }
 
     @Override
