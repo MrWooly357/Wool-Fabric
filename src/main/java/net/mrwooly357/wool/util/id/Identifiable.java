@@ -1,4 +1,4 @@
-package net.mrwooly357.wool.util.misc.id;
+package net.mrwooly357.wool.util.id;
 
 public interface Identifiable {
 

@@ -1,16 +1,16 @@
-package net.mrwooly357.wool.util.misc;
+package net.mrwooly357.wool.util.data;
 
 import org.jetbrains.annotations.Nullable;
 
 import java.util.Objects;
 import java.util.function.*;
 
-public class Data<T> {
+public final class Data<T> {
 
     @Nullable
     private T value;
 
-    protected Data(@Nullable T initialValue) {
+    private Data(@Nullable T initialValue) {
         value = initialValue;
     }
 
@@ -106,6 +106,6 @@ public class Data<T> {
 
     @Override
     public String toString() {
-        return isNonNull() ? "Data[Value: " + value + "]" : "Data[]";
+        return isNonNull() ? "Data[value: " + value + "]" : "Data[]";
     }
 }

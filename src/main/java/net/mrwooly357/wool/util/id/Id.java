@@ -1,4 +1,4 @@
-package net.mrwooly357.wool.util.misc.id;
+package net.mrwooly357.wool.util.id;
 
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.network.PacketByteBuf;
@@ -43,7 +43,7 @@ public final class Id {
         return key;
     }
 
-    public static Id create(short length) {
+    public static Id create(int length) {
         if (length <= 0)
             throw new IllegalArgumentException("Id key length can't be 0 or less!");
 
@@ -134,7 +134,7 @@ public final class Id {
 
     @Override
     public String toString() {
-        return "Id[Key: " + key + "]";
+        return "Id[key: " + key + "]";
     }
 
     public static Set<String> getExistingPackedKeys() {
@@ -204,7 +204,7 @@ public final class Id {
 
         @Override
         public String toString() {
-            return "PackedId[Key: " + packedKey + "]";
+            return "PackedId[key: " + packedKey + "]";
         }
 
         public NbtCompound toNbt() {

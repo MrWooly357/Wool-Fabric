@@ -30,6 +30,8 @@ import net.mrwooly357.wool.accessory.entity.inventory.AccessoryInventoryManager;
 import net.mrwooly357.wool.registry.WoolRegistries;
 import net.mrwooly357.wool.registry.WoolRegistryKeys;
 import net.mrwooly357.wool.util.debug.Debuggable;
+import net.mrwooly357.wool.util.data.Data;
+import net.mrwooly357.wool.util.data.UnifiedData;
 import net.mrwooly357.wool.util.text.TextKeys;
 import net.mrwooly357.wool.util.text.TextUtil;
 
@@ -57,10 +59,10 @@ public final class WoolCommand {
                 .then(CommandManager.literal("config")
                         .then(CommandManager.argument("id", RegistryEntryReferenceArgumentType.registryEntry(access, WoolRegistryKeys.CONFIG))
                                 .then(CommandManager.literal("load")
-                                        .executes(context -> ConfigCommand.executeLoad(context.getSource(), WoolCommand.ConfigCommand.getConfig(context)))
+                                        .executes(context -> ConfigCommand.executeLoad(context.getSource(), ConfigCommand.getConfig(context)))
                                 )
                                 .then(CommandManager.literal("resetToDefault")
-                                        .executes(context -> ConfigCommand.executeResetToDefault(context.getSource(),  WoolCommand.ConfigCommand.getConfig(context)))
+                                        .executes(context -> ConfigCommand.executeResetToDefault(context.getSource(),  ConfigCommand.getConfig(context)))
                                 )
                         )
                         .then(CommandManager.literal("loadAll")
@@ -73,7 +75,7 @@ public final class WoolCommand {
                 .then(CommandManager.literal("accessory")
                         .then(CommandManager.argument("targets", EntityArgumentType.entities())
                                 .then(CommandManager.argument("unit", IdentifierArgumentType.identifier())
-                                        .then(CommandManager.literal("get")
+                                        .then(CommandManager.literal("getAsString")
                                                 .executes(context ->
                                                         AccessoryCommand.executeGet(context.getSource(), EntityArgumentType.getEntities(context, "targets"), IdentifierArgumentType.getIdentifier(context, "unit")))
                                         )
@@ -103,7 +105,7 @@ public final class WoolCommand {
                                 )
                         )
                         .then(CommandManager.literal("settings")
-                                .then(CommandManager.literal("get")
+                                .then(CommandManager.literal("getAsString")
                                         .then(CommandManager.literal("blockEntity")
                                                 .then(CommandManager.argument("pos", BlockPosArgumentType.blockPos())
                                                         .executes(context ->
@@ -204,7 +206,7 @@ public final class WoolCommand {
                     ItemStack stack = holder.getAccessoryInventoryUnit(unit, true).getStack();
 
                     valid.add(entity);
-                    source.sendFeedback(() -> Text.translatable("command." + Wool.MOD_ID + ".wool.accessory.get", WOOL, Texts.bracketed(entity.getName()).styled(
+                    source.sendFeedback(() -> Text.translatable("command." + Wool.MOD_ID + ".wool.accessory.getAsString", WOOL, Texts.bracketed(entity.getName()).styled(
                             style -> style
                                     .withColor(Formatting.GREEN)
                                     .withClickEvent(new ClickEvent(ClickEvent.Action.SUGGEST_COMMAND, "/tp @s " + entity.getX() + " " + entity.getY() + " " + entity.getZ()))
@@ -254,10 +256,10 @@ public final class WoolCommand {
         private static final String BLOCK_ENTITY_INFO_KEY = "block_entity_info";
 
         private static final DynamicCommandExceptionType NON_DEBUGGABLE_OBJECT_EXCEPTION = new DynamicCommandExceptionType(object ->
-                TextUtil.woolTranslatable(TextKeys.COMMAND, DEBUG_KEY + ".non_debuggable_object", WOOL, object)
+                TextUtil.woolTranslatable(TextKeys.COMMAND, DEBUG_KEY + ".non_debuggable_object_exception", WOOL, object.toString())
         );
         public static final DynamicCommandExceptionType NON_EXISTENT_SETTING_EXCEPTION = new DynamicCommandExceptionType(object ->
-                TextUtil.woolTranslatable(TextKeys.COMMAND, DEBUG_KEY + "non_existent_setting", WOOL, object)
+                TextUtil.woolTranslatable(TextKeys.COMMAND, DEBUG_KEY + "non_existent_setting_exception", WOOL, ((UnifiedData) object).get(0).get().toString(), ((UnifiedData) object).get(1).get().toString())
         );
 
 
@@ -270,7 +272,7 @@ public final class WoolCommand {
                                 TextKeys.COMMAND,
                                 DEBUG_KEY + ".data.block_entity",
                                 WOOL,
-                                TextUtil.woolTranslatable(TextKeys.CHAT, BLOCK_ENTITY_INFO_KEY, blockEntity.getType().toString(), blockEntity.getPos().toString()).formatted(Formatting.AQUA),
+                                blockEntityInfo(blockEntity),
                                 Text.literal(debuggable.getDebugData().toString()).formatted(Formatting.GREEN)
                         ), true
                 );
@@ -287,10 +289,10 @@ public final class WoolCommand {
                 source.sendFeedback(() ->
                         TextUtil.woolTranslatable(
                                 TextKeys.COMMAND,
-                                DEBUG_KEY + ".settings.get.block_entity",
+                                DEBUG_KEY + ".settings.getAsString.block_entity",
                                 WOOL,
-                                TextUtil.woolTranslatable(TextKeys.CHAT, BLOCK_ENTITY_INFO_KEY, blockEntity.getType().toString(), blockEntity.getPos().toString()).formatted(Formatting.AQUA),
-                                Text.literal(debuggable.getDebugSettings().get()).formatted(Formatting.GREEN)
+                                blockEntityInfo(blockEntity),
+                                Text.literal(debuggable.getDebugSettings().getAsString()).formatted(Formatting.GREEN)
                         ), true
                 );
             else
@@ -315,7 +317,7 @@ public final class WoolCommand {
                                     TextKeys.COMMAND,
                                     DEBUG_KEY + ".settings.set.block_entity",
                                     WOOL,
-                                    TextUtil.woolTranslatable(TextKeys.CHAT, BLOCK_ENTITY_INFO_KEY, blockEntity.getType().toString(), blockEntity.getPos().toString()).formatted(Formatting.AQUA),
+                                    blockEntityInfo(blockEntity),
                                     Text.literal(String.valueOf(setting.getIndex())).formatted(Formatting.YELLOW),
                                     Text.literal(setting.getName()).formatted(Formatting.YELLOW),
                                     Text.literal(String.valueOf(value.getIndex())).formatted(Formatting.GREEN),
@@ -323,11 +325,16 @@ public final class WoolCommand {
                             ), true
                     );
                 } else
-                    throw NON_EXISTENT_SETTING_EXCEPTION.create(settingIndex);
+                    throw NON_EXISTENT_SETTING_EXCEPTION.create(UnifiedData.of(Data.of(valueIndex), Data.of(debuggable)));
             } else
                 throw NON_DEBUGGABLE_OBJECT_EXCEPTION.create(blockEntity);
 
             return Command.SINGLE_SUCCESS;
+        }
+
+        private static Text blockEntityInfo(BlockEntity blockEntity) {
+            return TextUtil.woolTranslatable(TextKeys.CHAT, BLOCK_ENTITY_INFO_KEY, Registries.BLOCK_ENTITY_TYPE.getId(blockEntity.getType()).toString(), blockEntity.getPos().toString())
+                    .formatted(Formatting.AQUA);
         }
     }
 }

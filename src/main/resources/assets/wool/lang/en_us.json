@@ -13,8 +13,10 @@
   "command.wool.wool.config.resetToDefaultAll": "%s Resetting to default all configs",
   "command.wool.wool.accessory.get": "%s Entity %s %s has stack %s in accessory slot %s",
   "command.wool.wool.accessory.set": "%s Set stack %s in accessory slot %s for entity %s",
+  "command.wool.wool.debug.non_debuggable_object_exception": "%s Can't access debug features of a non-debuggable object %s!",
+  "command.wool.wool.debug.non_existent_setting_exception": "%s No debug setting found for index %s for object %s!",
   "command.wool.wool.debug.data.block_entity": "%s Block entity %s has debug data: %s",
   "command.wool.wool.debug.settings.get.block_entity": "%s Block entity %s has following debug settings: %s",
-  "command.wool.wool.debug.settings.set.block_entity": "%s Set block entity %s's debug setting %s (%s) to %s (%s)",
+  "command.wool.wool.debug.settings.set.block_entity": "%s Set block entity %s's debug setting %s §e(§r%s§e)§r to %s §e(§r%s§e)",
   "gui.wool.player_accessory_inventory": "Accessories"
 }

@@ -22,16 +22,16 @@ public interface Debuggable {
 
     final class Setting<V extends Setting.Value> implements NbtSerializable {
 
-        private final byte index;
+        private final int index;
         private final String name;
         private V value;
         private final List<V> values;
 
-        String INDEX_KEY = "Index";
-        String VALUE_KEY = "Value";
+        private static final String INDEX_KEY = "Index";
+        private static final String VALUE_KEY = "Value";
 
         @SafeVarargs
-        public Setting(byte index, String name, V initialValue, V... values) {
+        public Setting(int index, String name, V initialValue, V... values) {
             this.index = index;
             this.name = name;
             this.value = initialValue;
@@ -40,7 +40,7 @@ public interface Debuggable {
         }
 
 
-        public byte getIndex() {
+        public int getIndex() {
             return index;
         }
 
@@ -52,7 +52,7 @@ public interface Debuggable {
             return value;
         }
 
-        public void setValue(byte index) {
+        public void setValue(int index) {
             this.value = values.get(index);
         }
 
@@ -60,8 +60,8 @@ public interface Debuggable {
         public NbtCompound toNbt(RegistryWrapper.WrapperLookup registryLookup) {
             NbtCompound nbt = new NbtCompound();
 
-            nbt.putByte(INDEX_KEY, index);
-            nbt.putByte(VALUE_KEY, value.getIndex());
+            nbt.putInt(INDEX_KEY, index);
+            nbt.putInt(VALUE_KEY, value.getIndex());
 
             return nbt;
         }
@@ -79,7 +79,7 @@ public interface Debuggable {
 
     final class Settings implements NbtSerializable {
 
-        private final Map<Byte, Setting<?>> settings = new HashMap<>();
+        private final Map<Integer, Setting<?>> settings = new HashMap<>();
 
         private static final String SIZE_KEY = "Size";
         private static final String SETTING_KEY = "Setting";
@@ -94,23 +94,24 @@ public interface Debuggable {
         }
 
 
-        public String get() {
+        public String getAsString() {
             StringBuilder builder = new StringBuilder();
 
-            for (Map.Entry<Byte, Setting<?>> entry : settings.entrySet()) {
+            for (Map.Entry<Integer, Setting<?>> entry : settings.entrySet()) {
                 Setting<?> setting = entry.getValue();
 
-                builder.append("Setting[Index: ")
-                        .append(entry.getKey())
-                        .append(", Name: ")
+                builder.append("Setting[index: ")
+                        .append(setting.index)
+                        .append(", name: ")
                         .append(setting.name)
-                        .append(", Values: [");
+                        .append(", value: ")
+                        .append(setting.value)
+                        .append(", values: [");
 
                 for (Setting.Value value : setting.values) {
-                    builder
-                            .append("Value[Index: ")
+                    builder.append("Value[index: ")
                             .append(value.getIndex())
-                            .append(", Name: ")
+                            .append(", name: ")
                             .append(value.getName())
                             .append("]");
 
@@ -128,7 +129,7 @@ public interface Debuggable {
         }
 
         @Nullable
-        public Setting<?> getSetting(byte index) {
+        public Setting<?> getSetting(int index) {
             return settings.get(index);
         }
 
@@ -136,7 +137,7 @@ public interface Debuggable {
         public NbtCompound toNbt(RegistryWrapper.WrapperLookup registryLookup) {
             NbtCompound nbt = new NbtCompound();
 
-            nbt.putByte(SIZE_KEY, (byte) settings.size());
+            nbt.putInt(SIZE_KEY, settings.size());
 
             for (Setting<?> setting : settings.values())
                 nbt.put(SETTING_KEY + setting.index, setting.toNbt(registryLookup));
@@ -144,13 +145,13 @@ public interface Debuggable {
             return nbt;
         }
 
-        public static Settings fromNbt(NbtCompound nbt, RegistryWrapper.WrapperLookup registryLookup, TriFunction<Byte, NbtCompound, RegistryWrapper.WrapperLookup, Setting<?>> settingDeserializer) {
+        public static Settings fromNbt(NbtCompound nbt, RegistryWrapper.WrapperLookup registryLookup, TriFunction<Integer, NbtCompound, RegistryWrapper.WrapperLookup, Setting<?>> settingDeserializer) {
             List<Setting<?>> settings = new ArrayList<>();
 
-            byte size = nbt.getByte(SIZE_KEY);
+            int size = nbt.getInt(SIZE_KEY);
 
-            for (byte b = 0; b < size; b++)
-                settings.add(settingDeserializer.apply(b, nbt.getCompound(SETTING_KEY + b), registryLookup));
+            for (int i = 0; i < size; i++)
+                settings.add(settingDeserializer.apply(i, nbt.getCompound(SETTING_KEY + i), registryLookup));
 
             return new Settings(settings);
         }
