@@ -259,7 +259,7 @@ public final class WoolCommand {
                 TextUtil.woolTranslatable(TextKeys.COMMAND, DEBUG_KEY + ".non_debuggable_object_exception", WOOL, object.toString())
         );
         public static final DynamicCommandExceptionType NON_EXISTENT_SETTING_EXCEPTION = new DynamicCommandExceptionType(object ->
-                TextUtil.woolTranslatable(TextKeys.COMMAND, DEBUG_KEY + "non_existent_setting_exception", WOOL, ((UnifiedData) object).get(0).get().toString(), ((UnifiedData) object).get(1).get().toString())
+                TextUtil.woolTranslatable(TextKeys.COMMAND, DEBUG_KEY + ".non_existent_setting_exception", WOOL, ((UnifiedData) object).get(0).get().toString(), ((UnifiedData) object).get(1).get().toString())
         );
 
 
