@@ -11,13 +11,13 @@ import java.util.*;
 @Debug
 public interface Debuggable {
 
-    String DEBUG_DATA_KEY = "DebugData";
     String DEBUG_SETTINGS_KEY = "DebugSettings";
+    String DEBUG_DATA_KEY = "DebugData";
 
-
-    DebugData getDebugData();
 
     Settings getDebugSettings();
+
+    DebugData getDebugData();
 
 
     final class Setting<V extends Setting.Value> implements NbtSerializable {
@@ -27,8 +27,8 @@ public interface Debuggable {
         private V value;
         private final List<V> values;
 
-        private static final String INDEX_KEY = "Index";
-        private static final String VALUE_KEY = "Value";
+        public static final String INDEX_KEY = "Index";
+        public static final String VALUE_KEY = "Value";
 
         @SafeVarargs
         public Setting(int index, String name, V initialValue, V... values) {
@@ -81,8 +81,8 @@ public interface Debuggable {
 
         private final Map<Integer, Setting<?>> settings = new HashMap<>();
 
-        private static final String SIZE_KEY = "Size";
-        private static final String SETTING_KEY = "Setting";
+        public static final String SIZE_KEY = "Size";
+        public static final String SETTING_KEY = "Setting";
 
         public Settings(Setting<?>... settings) {
             this(Arrays.stream(settings)
