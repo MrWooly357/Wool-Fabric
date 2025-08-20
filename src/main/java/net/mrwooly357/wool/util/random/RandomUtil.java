@@ -30,7 +30,7 @@ public final class RandomUtil {
     }
 
     public static boolean nextWithChance(float chance) {
-        return nextFloat(0.0F, 100.0F) >= chance;
+        return nextFloat(0.0F, 100.0F) <= chance;
     }
 
     public static <O> O select(List<O> candidates) {
