@@ -19,7 +19,6 @@ import net.mrwooly357.wool.accessory.screen.WoolScreenHandlerTypes;
 import net.mrwooly357.wool.accessory.screen.slot.WoolAccessorySlotTypes;
 import net.mrwooly357.wool.custom_biome.region.VanillaRegionTypes;
 import net.mrwooly357.wool.registry.WoolRegistries;
-import net.mrwooly357.wool.util.misc.WoolTags;
 import net.mrwooly357.wool.custom_biome.SurfaceRuleManager;
 import net.mrwooly357.wool.custom_biome.event.RegionTypeServerLifecycleEvents;
 import org.slf4j.Logger;
@@ -39,7 +38,6 @@ public final class Wool implements ModInitializer {
         // Basic stuff
         WoolRegistries.initialize();
         Config.Manager.register(Identifier.of(MOD_ID, "config"), CONFIG);
-        WoolTags.initialize();
         CommandRegistrationCallback.EVENT.register((dispatcher, access, environment) -> WoolCommand.register(dispatcher, access));
 
         // Block util

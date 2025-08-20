@@ -11,7 +11,7 @@ import net.mrwooly357.wool.animation.network.packet.custom.c2s.ElapsedAnimationT
 import net.mrwooly357.wool.accessory.network.packet.custom.c2s.OpenPlayerAccessoryInventoryC2SPacket;
 import net.mrwooly357.wool.accessory.screen.custom.PlayerAccessoryInventoryScreenHandler;
 
-public class WoolServerPlayNetworking {
+public final class WoolServerPlayNetworking {
 
 
     public static void initialize() {
