@@ -53,8 +53,6 @@ public final class Wool implements ModInitializer {
 
         // Custom biomes
         SurfaceRuleManager.addRegionType(VanillaRegionTypes.OVERWORLD, VanillaSurfaceRules.createOverworldSurfaceRule());
-        SurfaceRuleManager.addRegionType(VanillaRegionTypes.THE_NETHER, VanillaSurfaceRules.createNetherSurfaceRule());
-        SurfaceRuleManager.addRegionType(VanillaRegionTypes.THE_END, null);
         RegionTypeServerLifecycleEvents.initialize();
 
         // Misc

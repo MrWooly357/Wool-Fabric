@@ -93,7 +93,7 @@ public interface ExtendedInventory extends SidedInventory {
         }
 
         while (true) {
-            int slot = RandomUtil.SECURE_RANDOM.nextInt(size());
+            int slot = RandomUtil.RANDOM.nextInt(size());
 
             if (predicate.test(getStack(slot))) {
                 removeStack(slot);

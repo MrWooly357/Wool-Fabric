@@ -23,10 +23,10 @@ public abstract class CustomBiomeSurfaceRuleAdderMixin implements RegionTypeHold
     @Inject(method = "surfaceRule", at = @At("HEAD"), cancellable = true)
     private void injectSurfaceRule(CallbackInfoReturnable<MaterialRules.MaterialRule> cir) {
         if (regionType != null) {
-            MaterialRules.MaterialRule materialRule = SurfaceRuleManager.getCombinedSurfaceMaterialRules(regionType);
+            MaterialRules.MaterialRule rule = SurfaceRuleManager.getCombinedSurfaceMaterialRules(regionType);
 
-            if (materialRule != null)
-                cir.setReturnValue(materialRule);
+            if (rule != null)
+                cir.setReturnValue(rule);
         }
     }
 

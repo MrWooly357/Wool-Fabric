@@ -21,12 +21,12 @@ public abstract class OverworldCustomBiomeAdderMixin {
     @Inject(method = "writeOverworldBiomeParameters", at = @At("TAIL"))
     private void injectWriteOverworldBiomeParameters(Consumer<Pair<MultiNoiseUtil.NoiseHypercube, RegistryKey<Biome>>> parameters, CallbackInfo ci) {
         if (!SharedConstants.DEBUG_BIOME_SOURCE) {
-            CustomBiomeCreator.CREATORS.forEach(creator -> {
+            CustomBiomeCreator.Manager.forEach(creator -> {
                 CustomBiomeCreator.Overworld overworld = creator.getOverworld();
 
-                overworld.createCustomOceanBiomes(parameters);
-                overworld.createCustomLandBiomes(parameters);
-                overworld.createCustomCaveBiomes(parameters);
+                overworld.createOceanBiomes(parameters);
+                overworld.createLandBiomes(parameters);
+                overworld.createCaveBiomes(parameters);
             });
         }
     }

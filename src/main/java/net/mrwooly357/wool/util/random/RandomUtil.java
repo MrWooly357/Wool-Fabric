@@ -1,36 +1,50 @@
 package net.mrwooly357.wool.util.random;
 
+import net.minecraft.util.math.Direction;
+
 import java.security.SecureRandom;
 import java.util.List;
 import java.util.Map;
 
 public final class RandomUtil {
 
-    public static final SecureRandom SECURE_RANDOM = new SecureRandom();
+    public static final SecureRandom RANDOM = new SecureRandom();
 
 
     public static int nextInt(int min, int max) {
-        return min >= max ? min : SECURE_RANDOM.nextInt(max - min + 1) + min;
+        return min >= max ? min : RANDOM.nextInt(max - min + 1) + min;
     }
 
     public static long nextLong(long min, long max) {
-        return min >= max ? min : SECURE_RANDOM.nextLong(max - min + 1) + min;
+        return min >= max ? min : RANDOM.nextLong(max - min + 1) + min;
     }
 
     public static float nextFloat(float min, float max) {
-        return min >= max ? min : SECURE_RANDOM.nextFloat() * (max - min) + min;
+        return min >= max ? min : RANDOM.nextFloat() * (max - min) + min;
     }
 
     public static double nextDouble(double min, double max) {
-        return min >= max ? min : SECURE_RANDOM.nextDouble() * (max - min) + min;
+        return min >= max ? min : RANDOM.nextDouble() * (max - min) + min;
     }
 
     public static boolean nextBoolean() {
-        return SECURE_RANDOM.nextBoolean();
+        return RANDOM.nextBoolean();
     }
 
-    public static boolean nextWithChance(float chance) {
+    public static boolean nextChance(float chance) {
         return nextFloat(0.0F, 100.0F) <= chance;
+    }
+
+    public static Direction nextDirection() {
+        return select(List.of(Direction.UP, Direction.NORTH, Direction.EAST, Direction.SOUTH, Direction.WEST, Direction.DOWN));
+    }
+
+    public static Direction nextVerticalDirection() {
+        return select(List.of(Direction.UP, Direction.DOWN));
+    }
+
+    public static Direction nextHorizontalDirection() {
+        return select(List.of(Direction.NORTH, Direction.EAST, Direction.SOUTH, Direction.WEST));
     }
 
     public static <O> O select(List<O> candidates) {

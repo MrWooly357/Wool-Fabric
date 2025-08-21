@@ -53,7 +53,7 @@ public final class Id {
         while (!EXISTING_KEYS.contains(key)) {
 
             for (int i = 0; i < length; i++)
-                builder.append(AVAILABLE_SYMBOLS[RandomUtil.SECURE_RANDOM.nextInt(AVAILABLE_SYMBOLS.length)]);
+                builder.append(AVAILABLE_SYMBOLS[RandomUtil.RANDOM.nextInt(AVAILABLE_SYMBOLS.length)]);
 
             key = builder.toString();
             builder = new StringBuilder();

@@ -9,9 +9,7 @@
     "EntityAnimationTickerMixin",
     "EntitySimpleDataSaverMixin",
     "InventoryScreenAccessorySlotsMixin",
-    "OverworldCustomBiomeAdderMixin",
-    "TheEndCustomBiomeAdder",
-    "TheNetherCustomBiomeAdderMixin"
+    "OverworldCustomBiomeAdderMixin"
   ],
   "injectors": {
     "defaultRequire": 1

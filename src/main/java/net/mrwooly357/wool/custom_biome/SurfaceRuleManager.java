@@ -9,22 +9,23 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public interface SurfaceRuleManager {
+public final class SurfaceRuleManager {
 
-    List<MaterialRules.MaterialRule> CUSTOM_RULES = new ArrayList<>();
-    Map<RegionType, MaterialRules.@Nullable MaterialRule> REGION_TYPE_TO_SURFACE_MATERIAL_RULE = new HashMap<>();
+    private static final List<MaterialRules.MaterialRule> CUSTOM_RULES = new ArrayList<>();
+    private static final Map<RegionType, MaterialRules.MaterialRule> REGION_TYPE_TO_MATERIAL_RULE = new HashMap<>();
 
 
-    static void addCustomRule(MaterialRules.MaterialRule materialRule) {
+    public static void addRegionType(RegionType regionType, @Nullable MaterialRules.MaterialRule materialRule) {
+        REGION_TYPE_TO_MATERIAL_RULE.put(regionType, materialRule);
+    }
+
+    public static void addRule(MaterialRules.MaterialRule materialRule) {
         CUSTOM_RULES.add(materialRule);
     }
 
-    static void addRegionType(RegionType regionType, @Nullable MaterialRules.MaterialRule materialRule) {
-        REGION_TYPE_TO_SURFACE_MATERIAL_RULE.put(regionType, materialRule);
-    }
-
-    static @Nullable MaterialRules.MaterialRule getCombinedSurfaceMaterialRules(RegionType regionType) {
-        MaterialRules.MaterialRule defaultRule = REGION_TYPE_TO_SURFACE_MATERIAL_RULE.get(regionType);
+    @Nullable
+    public static MaterialRules.MaterialRule getCombinedSurfaceMaterialRules(RegionType regionType) {
+        MaterialRules.MaterialRule defaultRule = REGION_TYPE_TO_MATERIAL_RULE.get(regionType);
         MaterialRules.MaterialRule customRule = null;
 
         for (MaterialRules.MaterialRule rule : CUSTOM_RULES) {

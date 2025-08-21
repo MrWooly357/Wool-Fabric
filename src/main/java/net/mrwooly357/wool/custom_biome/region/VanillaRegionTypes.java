@@ -8,8 +8,6 @@ import net.mrwooly357.wool.registry.WoolRegistries;
 public final class VanillaRegionTypes {
 
     public static final RegionType OVERWORLD = register("overworld", new RegionType());
-    public static final RegionType THE_NETHER = register("the_nether", new RegionType());
-    public static final RegionType THE_END = register("the_end", new RegionType());
 
 
     private static RegionType register(String name, RegionType regionType) {
@@ -17,6 +15,6 @@ public final class VanillaRegionTypes {
     }
 
     public static void initialize() {
-            Wool.logInitializing("Initializing vanilla region types");
+            Wool.logInitializing("vanilla region types");
     }
 }
