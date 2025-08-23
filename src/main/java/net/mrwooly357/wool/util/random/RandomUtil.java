@@ -2,13 +2,13 @@ package net.mrwooly357.wool.util.random;
 
 import net.minecraft.util.math.Direction;
 
-import java.security.SecureRandom;
 import java.util.List;
 import java.util.Map;
+import java.util.Random;
 
 public final class RandomUtil {
 
-    public static final SecureRandom RANDOM = new SecureRandom();
+    private static final Random RANDOM = new Random();
 
 
     public static int nextInt(int min, int max) {
@@ -32,7 +32,7 @@ public final class RandomUtil {
     }
 
     public static boolean nextChance(float chance) {
-        return nextFloat(0.0F, 100.0F) <= chance;
+        return chance != 0.0F && (chance == 100.0F || nextFloat(0.0F, 100.0F) <= chance);
     }
 
     public static Direction nextDirection() {

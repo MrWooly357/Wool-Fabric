@@ -21,6 +21,7 @@ import net.mrwooly357.wool.custom_biome.region.VanillaRegionTypes;
 import net.mrwooly357.wool.registry.WoolRegistries;
 import net.mrwooly357.wool.custom_biome.SurfaceRuleManager;
 import net.mrwooly357.wool.custom_biome.event.RegionTypeServerLifecycleEvents;
+import net.mrwooly357.wool.util.random.RandomUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

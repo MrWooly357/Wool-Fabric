@@ -3,20 +3,20 @@ package net.mrwooly357.wool.util.id;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.network.PacketByteBuf;
 import net.minecraft.network.codec.PacketCodec;
-import net.mrwooly357.wool.util.random.RandomUtil;
 
+import java.security.SecureRandom;
 import java.util.*;
 
 public final class Id {
 
     private final String key;
 
+    public static final SecureRandom RANDOM = new SecureRandom();
     private static final char[] AVAILABLE_SYMBOLS = new char[] {
             '0', '1', '2', '3', '4', '5', '6', '7', '8', '9',
             'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z',
             ',' , '.', '?', '!', '+', '-', '*', '/', '~', '@', '#', '&', ';', ':', '%', '=', '<', '>', '^', '(', ')', '[', ']', '{', '}', '|', '$', '`'
     };
-
     private static final Set<String> EXISTING_KEYS = new HashSet<>();
     private static final Set<String> EXISTING_PACKED_KEYS = new HashSet<>();
 
@@ -53,7 +53,7 @@ public final class Id {
         while (!EXISTING_KEYS.contains(key)) {
 
             for (int i = 0; i < length; i++)
-                builder.append(AVAILABLE_SYMBOLS[RandomUtil.RANDOM.nextInt(AVAILABLE_SYMBOLS.length)]);
+                builder.append(AVAILABLE_SYMBOLS[RANDOM.nextInt(AVAILABLE_SYMBOLS.length)]);
 
             key = builder.toString();
             builder = new StringBuilder();
