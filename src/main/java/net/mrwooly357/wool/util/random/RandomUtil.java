@@ -51,7 +51,7 @@ public final class RandomUtil {
         if (candidates.isEmpty())
             throw new IllegalArgumentException("Can't select an object form an empty list!");
 
-        return candidates.get(nextInt(0, candidates.size()));
+        return candidates.get(nextInt(0, candidates.size() - 1));
     }
 
     public static <O> O weighted(Map<O, Float> objects) {
