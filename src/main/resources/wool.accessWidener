@@ -1,0 +1,19 @@
+accessWidener v2 named
+
+mutable field net/minecraft/util/Formatting CODEC Lcom/mojang/serialization/Codec;
+accessible field net/minecraft/util/Formatting BY_NAME Ljava/util/Map;
+mutable field net/minecraft/util/Formatting BY_NAME Ljava/util/Map;
+accessible method net/minecraft/util/Formatting sanitize (Ljava/lang/String;)Ljava/lang/String;
+accessible field net/minecraft/util/Formatting name Ljava/lang/String;
+mutable field net/minecraft/util/Rarity CODEC Lcom/mojang/serialization/Codec;
+mutable field net/minecraft/util/Rarity ID_TO_VALUE Ljava/util/function/IntFunction;
+mutable field net/minecraft/util/Rarity PACKET_CODEC Lnet/minecraft/network/codec/PacketCodec;
+accessible field net/minecraft/util/Rarity index I
+mutable field net/minecraft/recipe/book/CraftingRecipeCategory CODEC Lcom/mojang/serialization/Codec;
+mutable field net/minecraft/recipe/book/CraftingRecipeCategory INDEX_TO_VALUE Ljava/util/function/IntFunction;
+mutable field net/minecraft/recipe/book/CraftingRecipeCategory PACKET_CODEC Lnet/minecraft/network/codec/PacketCodec;
+accessible method net/minecraft/recipe/book/CraftingRecipeCategory getIndex ()I
+mutable field net/minecraft/recipe/book/CookingRecipeCategory CODEC Lnet/minecraft/util/StringIdentifiable$EnumCodec;
+accessible field net/minecraft/recipe/book/RecipeBookOptions CATEGORY_OPTION_NAMES Ljava/util/Map;
+mutable field net/minecraft/recipe/book/RecipeBookOptions CATEGORY_OPTION_NAMES Ljava/util/Map;
+mutable field net/minecraft/client/recipebook/RecipeBookGroup SEARCH_MAP Ljava/util/Map;
