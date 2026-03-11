@@ -7,7 +7,11 @@
 	"authors": [
 		"MrWooly357"
 	],
-	"contact": {},
+	"contact": {
+		"homepage": "",
+		"sources": "https://github.com/MrWooly357/Wool-Fabric",
+		"issues": "https://github.com/MrWooly357/Wool-Fabric/issues"
+	},
 	"license": "MIT",
 	"icon": "assets/wool/icon.png",
 	"environment": "*",
