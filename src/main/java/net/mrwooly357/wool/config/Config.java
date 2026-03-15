@@ -17,11 +17,13 @@ import java.io.IOException;
 import java.io.Reader;
 import java.io.Writer;
 import java.nio.file.Files;
+import java.nio.file.LinkOption;
+import java.nio.file.NoSuchFileException;
 import java.nio.file.Path;
 import java.util.List;
 import java.util.Map;
 
-public abstract class Config<C extends Config<C>> {
+public abstract class Config {
 
     private static final Logger LOGGER = Wool.LOGGER;
     private static final Gson GSON = new GsonBuilder().setPrettyPrinting().create();
@@ -43,65 +45,67 @@ public abstract class Config<C extends Config<C>> {
 
     protected abstract Identifier getId();
 
-    protected abstract Codec<C> getCodec();
+    protected abstract Codec<? extends Config> getCodec();
 
     @SuppressWarnings("unchecked")
-    protected final void serialize(DynamicOps<JsonElement> ops) {
-        Identifier id = getId();
-        Path directoryPath = getDirectoryPath(id.getNamespace());
+    protected static void serialize(Identifier id, String suffix, Config config, DynamicOps<JsonElement> ops) {
+        Path directoryPath = getDirectoryPath(id);
+        String id1 = suffix.isEmpty() ? id.toString() : id + "-" + suffix;
 
         if (Files.notExists(directoryPath))
             try {
                 Files.createDirectories(directoryPath);
             } catch (IOException e) {
-                throw new RuntimeException("Failed to create directory " + directoryPath + " for config " + id, e);
+                throw new RuntimeException("Failed to create directory " + directoryPath + " for config " + id1, e);
             }
 
-        getCodec().encodeStart(ops, (C) this)
-                .ifError(error -> LOGGER.error("Failed to encode config {} {}", id, error.message()))
+        ((Codec<Config>) config.getCodec()).encodeStart(ops, config)
+                .ifError(error -> LOGGER.error("Failed to encode config {} {}", id1, error.message()))
                 .ifSuccess(json -> {
-                    Path path = getPath(directoryPath, id);
+                    Path path = getPath(directoryPath, id1);
 
                     try (Writer writer = Files.newBufferedWriter(path)) {
                         GSON.toJson(json, writer);
                     } catch (IOException e) {
-                        throw new RuntimeException("Failed to write config " + id + "!", e);
+                        throw new RuntimeException("Failed to write config " + id1 + "!", e);
                     }
                 });
     }
 
-    protected static <C extends Config<C>> C deserialize(Identifier id, Codec<C> codec, DynamicOps<JsonElement> ops, C fallback) {
-        Path directoryPath = getDirectoryPath(id.getNamespace());
+    @SuppressWarnings("unchecked")
+    protected static Config deserialize(Identifier id, String suffix, Codec<? extends Config> codec, DynamicOps<JsonElement> ops, Config fallback) throws NoSuchFileException {
+        Path directoryPath = getDirectoryPath(id);
+        String id1 = suffix.isEmpty() ? id.toString() : id + "-" + suffix;
 
         if (Files.notExists(directoryPath))
-            return fallback;
+            throw new NoSuchFileException("Config " + id1 + " file not found!");
 
-        Path path = getPath(directoryPath, id);
+        Path path = getPath(directoryPath, id1);
 
         if (Files.exists(path))
             try (Reader reader = Files.newBufferedReader(path)) {
-                return codec.parse(ops, JsonParser.parseReader(reader))
-                        .ifError(error -> LOGGER.error("Failed to decode config {} {}", id, error.message()))
+                return ((Codec<Config>) codec).parse(ops, JsonParser.parseReader(reader))
+                        .ifError(error -> LOGGER.error("Failed to decode config {} {}!", id1, error.message()))
                         .resultOrPartial()
                         .orElse(fallback);
             } catch (IOException e) {
-                throw new RuntimeException("Failed to read config " + id + "!", e);
+                throw new RuntimeException("Failed to read config " + id1 + "!", e);
             }
         else
             return fallback;
     }
 
-    public static boolean doesNotExist(Identifier id) {
-        return Files.notExists(getPath(getDirectoryPath(id.getNamespace()), id));
+    protected static boolean doesNotExist(Identifier id, String suffix) {
+        return Files.notExists(getPath(getDirectoryPath(id), suffix), LinkOption.NOFOLLOW_LINKS);
     }
 
-    private static Path getDirectoryPath(String modId) {
+    protected static Path getDirectoryPath(Identifier id) {
         return FabricLoader.getInstance().getConfigDir()
-                .resolve(modId);
+                .resolve(id.getNamespace());
     }
 
-    private static Path getPath(Path directoryPath, Identifier id) {
-        return directoryPath.resolve(id.toString().replace(":", "-") + ".json");
+    protected static Path getPath(Path directoryPath, String id) {
+        return directoryPath.resolve(id.replaceAll("[^\\p{L}\\p{N}._-]", "-") + ".json");
     }
 
 
@@ -123,6 +127,25 @@ public abstract class Config<C extends Config<C>> {
         public @NotNull String toString() {
             return "Config.Category[categories: " + categories
                     + ", options: " + options + "]";
+        }
+    }
+
+
+    public static final class Instance<C extends Config> {
+
+        private volatile C config;
+
+        public Instance(C initial) {
+            config = initial;
+        }
+
+
+        public C get() {
+            return config;
+        }
+
+        public void set(C config) {
+            this.config = config;
         }
     }
 }

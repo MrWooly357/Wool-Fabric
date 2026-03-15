@@ -1,15 +1,14 @@
 package net.mrwooly357.wool.config.custom.wool;
 
 import com.mojang.serialization.Codec;
-import com.mojang.serialization.JsonOps;
 import net.minecraft.util.Identifier;
 import net.mrwooly357.wool.Wool;
-import net.mrwooly357.wool.config.Config;
+import net.mrwooly357.wool.config.custom.GeneralConfig;
 
 import java.util.List;
 import java.util.Map;
 
-public final class WoolServerConfig extends Config<WoolServerConfig> {
+public final class WoolServerConfig extends GeneralConfig {
 
     public static final Identifier ID = Wool.id("server");
     public static final Codec<WoolServerConfig> CODEC = Category.createCodec(Map.of())
@@ -35,11 +34,11 @@ public final class WoolServerConfig extends Config<WoolServerConfig> {
         return CODEC;
     }
 
-    public void save() {
-        serialize(JsonOps.INSTANCE);
+    public static boolean doesNotExist() {
+        return doesNotExist(ID, "");
     }
 
     public static WoolServerConfig load() {
-        return deserialize(ID, CODEC, JsonOps.INSTANCE, DEFAULT);
+        return deserialize(ID, CODEC, DEFAULT);
     }
 }

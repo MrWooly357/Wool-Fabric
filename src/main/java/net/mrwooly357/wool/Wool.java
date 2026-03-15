@@ -5,7 +5,6 @@ import net.fabricmc.api.ModInitializer;
 import net.minecraft.util.Identifier;
 import net.mrwooly357.wool.config.custom.wool.WoolConfig;
 import net.mrwooly357.wool.event.WoolEvents;
-import net.mrwooly357.wool.registry.WoolRegistries;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -17,12 +16,8 @@ public final class Wool implements ModInitializer {
 
 	@Override
 	public void onInitialize() {
-		if (WoolConfig.serverDoesNotExist())
-			WoolConfig.saveServer();
-
-		WoolConfig.reloadServer();
-		WoolRegistries.initialize();
-		WoolEvents.initialize();
+		WoolConfig.register();
+		WoolEvents.initializeServer();
 	}
 
 	public static void logInitialization(String message) {

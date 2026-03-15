@@ -1,16 +1,15 @@
 package net.mrwooly357.wool.config.custom.wool;
 
 import com.mojang.serialization.Codec;
-import com.mojang.serialization.JsonOps;
 import net.minecraft.registry.DynamicRegistryManager;
 import net.minecraft.util.Identifier;
 import net.mrwooly357.wool.Wool;
-import net.mrwooly357.wool.config.Config;
+import net.mrwooly357.wool.config.custom.WorldConfig;
 
 import java.util.List;
 import java.util.Map;
 
-public final class WoolClientWorldConfig extends Config<WoolClientWorldConfig> {
+public final class WoolClientWorldConfig extends WorldConfig {
 
     public static final Identifier ID = Wool.id("client_world");
     public static final Codec<WoolClientWorldConfig> CODEC = Category.createCodec(Map.of())
@@ -36,11 +35,15 @@ public final class WoolClientWorldConfig extends Config<WoolClientWorldConfig> {
         return CODEC;
     }
 
-    public void save(DynamicRegistryManager registryManager) {
-        serialize(registryManager.getOps(JsonOps.INSTANCE));
+    public static boolean doesNotExist(String name) {
+        return doesNotExist(ID, name);
     }
 
-    public static WoolClientWorldConfig load(DynamicRegistryManager registryManager) {
-        return deserialize(ID, CODEC, registryManager.getOps(JsonOps.INSTANCE), DEFAULT);
+    public static WoolClientWorldConfig load(String name, DynamicRegistryManager registryManager) {
+        return deserialize(ID, name, CODEC, registryManager, DEFAULT);
+    }
+
+    public static void delete(String name) {
+        delete(ID, name);
     }
 }

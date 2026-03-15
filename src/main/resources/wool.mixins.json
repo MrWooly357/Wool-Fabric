@@ -5,10 +5,12 @@
   "mixins": [
     "CraftingRecipeJsonBuilderMixin",
     "ItemStackMixin",
+    "LevelStorageSessionMixin",
     "MultiNoiseBiomeSourceParameterListPresetMixin"
   ],
   "client": [
     "ClientRecipeBookMixin",
+    "MultiplayerScreenMixin",
     "RecipeBookGroupMixin"
   ],
   "injectors": {
