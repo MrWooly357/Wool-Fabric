@@ -1,10 +1,12 @@
 package net.mrwooly357.wool.util.enum_extensions;
 
 import com.mojang.datafixers.util.Pair;
+import net.minecraft.block.Block;
 import net.minecraft.client.recipebook.ClientRecipeBook;
 import net.minecraft.client.recipebook.RecipeBookGroup;
 import net.minecraft.data.server.recipe.CraftingRecipeJsonBuilder;
 import net.minecraft.entity.SpawnReason;
+import net.minecraft.entity.vehicle.BoatEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.network.codec.PacketCodecs;
 import net.minecraft.recipe.book.*;
@@ -82,6 +84,15 @@ public final class EnumExtenders {
             RecipeBookGroup.class,
             extender -> RecipeBookGroup.SEARCH_MAP = CustomRecipeBookGroupsRegistry.getCombinedSearchMap(),
             Pair.of(ItemStack[].class, 0)
+    );
+    public static final EnumExtender<BoatEntity.Type> BOAT_ENTITY_TYPE = EnumExtender.create(
+            BoatEntity.Type.class,
+            extender -> {
+                BoatEntity.Type.CODEC = StringIdentifiable.createCodec(BoatEntity.Type::values);
+                BoatEntity.Type.BY_ID = ValueLists.createIdToValueFunction((ToIntFunction<BoatEntity.Type>) Enum::ordinal, BoatEntity.Type.values(), ValueLists.OutOfBoundsHandling.ZERO);
+            },
+            Pair.of(String.class, 0),
+            Pair.of(Block.class, 0)
     );
 
     private EnumExtenders() throws UnsupportedOperationException {

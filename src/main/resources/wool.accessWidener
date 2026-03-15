@@ -17,3 +17,6 @@ mutable field net/minecraft/recipe/book/CookingRecipeCategory CODEC Lnet/minecra
 accessible field net/minecraft/recipe/book/RecipeBookOptions CATEGORY_OPTION_NAMES Ljava/util/Map;
 mutable field net/minecraft/recipe/book/RecipeBookOptions CATEGORY_OPTION_NAMES Ljava/util/Map;
 mutable field net/minecraft/client/recipebook/RecipeBookGroup SEARCH_MAP Ljava/util/Map;
+mutable field net/minecraft/entity/vehicle/BoatEntity$Type CODEC Lnet/minecraft/util/StringIdentifiable$EnumCodec;
+accessible field net/minecraft/entity/vehicle/BoatEntity$Type BY_ID Ljava/util/function/IntFunction;
+mutable field net/minecraft/entity/vehicle/BoatEntity$Type BY_ID Ljava/util/function/IntFunction;

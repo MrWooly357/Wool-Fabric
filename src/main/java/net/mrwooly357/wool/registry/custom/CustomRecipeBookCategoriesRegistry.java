@@ -13,8 +13,8 @@ import java.util.Optional;
 
 public final class CustomRecipeBookCategoriesRegistry {
 
-    private static final Map<RecipeBookCategory, Pair<String, String>> TO_CATEGORY_OPTION_NAMES = new HashMap<>();
-    private static final Map<RecipeBookCategory, List<RecipeBookGroup>> TO_BOOK_GROUPS = new HashMap<>();
+    private static final Map<RecipeBookCategory, Pair<String, String>> TO_CATEGORY_OPTION_NAME = new HashMap<>();
+    private static final Map<RecipeBookCategory, List<RecipeBookGroup>> TO_BOOK_GROUP = new HashMap<>();
 
     private CustomRecipeBookCategoriesRegistry() throws UnsupportedOperationException {
         throw new UnsupportedOperationException("Can't instantiate RecipeBookOptionsCategoryNamesRegistry!");
@@ -22,15 +22,15 @@ public final class CustomRecipeBookCategoriesRegistry {
 
 
     public static void register(RecipeBookCategory category, String isOpen, String isFilteringCraftable, List<RecipeBookGroup> bookGroups) {
-        TO_CATEGORY_OPTION_NAMES.put(category, Pair.of(isOpen, isFilteringCraftable));
-        TO_BOOK_GROUPS.put(category, bookGroups);
+        TO_CATEGORY_OPTION_NAME.put(category, Pair.of(isOpen, isFilteringCraftable));
+        TO_BOOK_GROUP.put(category, bookGroups);
     }
 
     public static Map<RecipeBookCategory, Pair<String, String>> getCombinedOptionNames() {
-        return MapUtil.immutableCopyWith(RecipeBookOptions.CATEGORY_OPTION_NAMES, TO_CATEGORY_OPTION_NAMES);
+        return MapUtil.immutableCopyWith(RecipeBookOptions.CATEGORY_OPTION_NAMES, TO_CATEGORY_OPTION_NAME);
     }
 
     public static Optional<List<RecipeBookGroup>> getBookGroups(RecipeBookCategory category) {
-        return Optional.ofNullable(TO_BOOK_GROUPS.get(category));
+        return Optional.ofNullable(TO_BOOK_GROUP.get(category));
     }
 }

@@ -47,6 +47,10 @@ public abstract class Config {
 
     protected abstract Codec<? extends Config> getCodec();
 
+    protected static boolean doesNotExist(Identifier id, String suffix) {
+        return Files.notExists(getPath(getDirectoryPath(id), suffix), LinkOption.NOFOLLOW_LINKS);
+    }
+
     @SuppressWarnings("unchecked")
     protected static void serialize(Identifier id, String suffix, Config config, DynamicOps<JsonElement> ops) {
         Path directoryPath = getDirectoryPath(id);
@@ -95,10 +99,6 @@ public abstract class Config {
             return fallback;
     }
 
-    protected static boolean doesNotExist(Identifier id, String suffix) {
-        return Files.notExists(getPath(getDirectoryPath(id), suffix), LinkOption.NOFOLLOW_LINKS);
-    }
-
     protected static Path getDirectoryPath(Identifier id) {
         return FabricLoader.getInstance().getConfigDir()
                 .resolve(id.getNamespace());
@@ -106,6 +106,22 @@ public abstract class Config {
 
     protected static Path getPath(Path directoryPath, String id) {
         return directoryPath.resolve(id.replaceAll("[^\\p{L}\\p{N}._-]", "-") + ".json");
+    }
+
+    @SuppressWarnings("unchecked")
+    protected <A> A get(Category category, String id) {
+        return (A) category.options.get(id);
+    }
+
+    @Override
+    public int hashCode() {
+        return root.hashCode();
+    }
+
+    @Override
+    public boolean equals(Object other) {
+        return super.equals(other) || (other instanceof Config config
+                && root.equals(config.root));
     }
 
 
@@ -146,6 +162,22 @@ public abstract class Config {
 
         public void set(C config) {
             this.config = config;
+        }
+
+        @Override
+        public int hashCode() {
+            return config.hashCode();
+        }
+
+        @Override
+        public boolean equals(Object other) {
+            return super.equals(other) || (other instanceof Instance<?> instance
+                    && config.equals(instance.config));
+        }
+
+        @Override
+        public String toString() {
+            return "Config.Instance[config: " + config + "]";
         }
     }
 }

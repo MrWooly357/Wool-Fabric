@@ -1,5 +1,6 @@
 package net.mrwooly357.wool.config.custom.wool;
 
+import net.mrwooly357.wool.Wool;
 import net.mrwooly357.wool.config.Config;
 import net.mrwooly357.wool.config.ConfigManager;
 import net.mrwooly357.wool.config.ConfigManagersRegistry;
@@ -22,6 +23,7 @@ public final class WoolConfig {
 
 
     public static void register() {
+        Wool.logInitialization("config");
         ConfigManagersRegistry.registerGeneral(new ConfigManager.General<>(true, WoolServerConfig::doesNotExist, WoolServerConfig::save, SERVER, WoolServerConfig::load));
         ConfigManagersRegistry.registerWorld(new ConfigManager.World<>(
                 true,

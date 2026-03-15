@@ -9,6 +9,10 @@ public final class ConfigManagersRegistry {
     private static final Set<ConfigManager.General<?>> GENERAL_CONFIG_MANAGERS = new HashSet<>();
     private static final Set<ConfigManager.World<?>> WORLD_CONFIG_MANAGERS = new HashSet<>();
 
+    private ConfigManagersRegistry() throws UnsupportedOperationException {
+        throw new UnsupportedOperationException("Can't instantiate ConfigManagersRegistry!");
+    }
+
 
     public static void registerGeneral(ConfigManager.General<?> manager) {
         GENERAL_CONFIG_MANAGERS.add(manager);
