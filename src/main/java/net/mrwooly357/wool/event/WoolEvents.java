@@ -18,40 +18,31 @@ public final class WoolEvents {
 
     public static void initializeServer() {
         Wool.logInitialization("server events");
-        ServerLifecycleEvents.SERVER_STARTED.register(server -> {
-            ConfigManagersRegistry.forEachGeneral(manager -> {
-                if (manager.isServer()) {
+        ServerLifecycleEvents.SERVER_STARTING.register(server -> {
+            ConfigManagersRegistry.forEachGeneralServer((id, manager) -> {
+                if (manager.doesNotExist())
+                    manager.save();
 
-                    if (manager.doesNotExist())
-                        manager.save();
-
-                    manager.load();
-                }
+                manager.load();
             });
             String name = server.getSaveProperties().getLevelName();
             DynamicRegistryManager registryManager = server.getRegistryManager();
-            ConfigManagersRegistry.forEachWorld(manager -> {
-                if (manager.isServer()) {
+            ConfigManagersRegistry.forEachServerWorld((id, manager) -> {
+                if (manager.doesNotExist(name))
+                    manager.save(name, registryManager);
 
-                    if (manager.doesNotExist(name))
-                        manager.save(name, registryManager);
-
-                    manager.load(name, registryManager);
-                }
+                manager.load(name, registryManager);
             });
         });
     }
 
     public static void initializeClient() {
         Wool.logInitialization("client events");
-        ClientLifecycleEvents.CLIENT_STARTED.register(client -> ConfigManagersRegistry.forEachGeneral(manager -> {
-            if (manager.isClient()) {
+        ClientLifecycleEvents.CLIENT_STARTED.register(client -> ConfigManagersRegistry.forEachGeneralClient((id, manager) -> {
+            if (manager.doesNotExist())
+                manager.save();
 
-                if (manager.doesNotExist())
-                    manager.save();
-
-                manager.load();
-            }
+            manager.load();
         }));
         ClientPlayConnectionEvents.JOIN.register((handler, sender, client) -> {
             String name;
@@ -69,15 +60,11 @@ public final class WoolEvents {
             }
 
             DynamicRegistryManager registryManager = handler.getRegistryManager();
+            ConfigManagersRegistry.forEachClientWorld((id, manager) -> {
+                if (manager.doesNotExist(name))
+                    manager.save(name, registryManager);
 
-            ConfigManagersRegistry.forEachWorld(manager -> {
-                if (manager.isClient()) {
-
-                    if (manager.doesNotExist(name))
-                        manager.save(name, registryManager);
-
-                    manager.load(name, registryManager);
-                }
+                manager.load(name, registryManager);
             });
         });
     }

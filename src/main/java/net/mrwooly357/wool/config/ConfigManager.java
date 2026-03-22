@@ -8,34 +8,17 @@ import net.mrwooly357.wool.util.consumer.TriConsumer;
 import java.util.Map;
 import java.util.function.*;
 
-public sealed class ConfigManager {
-
-    private final boolean server;
-
-    private ConfigManager(boolean server) {
-        this.server = server;
-    }
+public sealed interface ConfigManager {
 
 
-    public boolean isServer() {
-        return server;
-    }
-
-    public boolean isClient() {
-        return !server;
-    }
-
-
-    public static final class General<C extends Config> extends ConfigManager {
+    final class General<C extends Config> implements ConfigManager {
 
         private final BooleanSupplier doesNotExist;
         private final Consumer<C> saver;
         private final GeneralConfig.Instance<C> instance;
         private final Supplier<C> loader;
 
-        public General(boolean server, BooleanSupplier doesNotExist, Consumer<C> saver, GeneralConfig.Instance<C> instance, Supplier<C> loader) {
-            super(server);
-
+        public General(BooleanSupplier doesNotExist, Consumer<C> saver, GeneralConfig.Instance<C> instance, Supplier<C> loader) {
             this.doesNotExist = doesNotExist;
             this.saver = saver;
             this.instance = instance;
@@ -57,7 +40,7 @@ public sealed class ConfigManager {
     }
 
 
-    public static final class World<C extends Config> extends ConfigManager {
+    final class World<C extends Config> implements ConfigManager {
 
         private final Function<String, Boolean> doesNotExist;
         private final TriConsumer<C, String, DynamicRegistryManager> saver;
@@ -67,7 +50,6 @@ public sealed class ConfigManager {
         private final Consumer<String> deleter;
 
         public World(
-                boolean server,
                 Function<String, Boolean> doesNotExist,
                 TriConsumer<C, String, DynamicRegistryManager> saver,
                 Map<String,  WorldConfig.Instance<C>> instances,
@@ -75,8 +57,6 @@ public sealed class ConfigManager {
                 C initial,
                 Consumer<String> deleter
         ) {
-            super(server);
-
             this.doesNotExist = doesNotExist;
             this.saver = saver;
             this.instances = instances;

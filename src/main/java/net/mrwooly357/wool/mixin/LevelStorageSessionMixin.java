@@ -26,6 +26,7 @@ public abstract class LevelStorageSessionMixin {
             )
     )
     private void injectDeleteSession(CallbackInfo ci) {
-        ConfigManagersRegistry.forEachWorld(manager -> manager.delete(directoryName));
+        ConfigManagersRegistry.forEachServerWorld((id, manager) -> manager.delete(directoryName));
+        ConfigManagersRegistry.forEachClientWorld((id, manager) -> manager.delete(directoryName));
     }
 }

@@ -3,6 +3,7 @@ package net.mrwooly357.wool;
 import net.fabricmc.api.ModInitializer;
 
 import net.minecraft.util.Identifier;
+import net.mrwooly357.wool.command.WoolCommands;
 import net.mrwooly357.wool.config.custom.wool.WoolConfig;
 import net.mrwooly357.wool.event.WoolEvents;
 import org.slf4j.Logger;
@@ -18,6 +19,7 @@ public final class Wool implements ModInitializer {
 	public void onInitialize() {
 		WoolConfig.register();
 		WoolEvents.initializeServer();
+		WoolCommands.initialize();
 	}
 
 	public static void logInitialization(String message) {

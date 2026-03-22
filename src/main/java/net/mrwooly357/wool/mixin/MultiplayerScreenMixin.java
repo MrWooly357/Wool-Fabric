@@ -20,10 +20,7 @@ public abstract class MultiplayerScreenMixin {
     private void inject(boolean confirmedAction, CallbackInfo ci) {
         if (confirmedAction && serverListWidget.getSelectedOrNull() instanceof MultiplayerServerListWidget.ServerEntry entry) {
             String name = entry.getServer().name;
-            ConfigManagersRegistry.forEachWorld(manager -> {
-                if (manager.isClient())
-                    manager.delete(name);
-            });
+            ConfigManagersRegistry.forEachClientWorld((id, manager) -> manager.delete(name));
         }
     }
 }

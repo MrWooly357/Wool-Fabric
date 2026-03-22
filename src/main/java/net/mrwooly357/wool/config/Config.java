@@ -17,7 +17,6 @@ import java.io.IOException;
 import java.io.Reader;
 import java.io.Writer;
 import java.nio.file.Files;
-import java.nio.file.LinkOption;
 import java.nio.file.NoSuchFileException;
 import java.nio.file.Path;
 import java.util.List;
@@ -48,13 +47,13 @@ public abstract class Config {
     protected abstract Codec<? extends Config> getCodec();
 
     protected static boolean doesNotExist(Identifier id, String suffix) {
-        return Files.notExists(getPath(getDirectoryPath(id), suffix), LinkOption.NOFOLLOW_LINKS);
+        return Files.notExists(getPath(getDirectoryPath(id), getId(id, suffix)));
     }
 
     @SuppressWarnings("unchecked")
     protected static void serialize(Identifier id, String suffix, Config config, DynamicOps<JsonElement> ops) {
         Path directoryPath = getDirectoryPath(id);
-        String id1 = suffix.isEmpty() ? id.toString() : id + "-" + suffix;
+        String id1 = getId(id, suffix);
 
         if (Files.notExists(directoryPath))
             try {
@@ -79,7 +78,7 @@ public abstract class Config {
     @SuppressWarnings("unchecked")
     protected static Config deserialize(Identifier id, String suffix, Codec<? extends Config> codec, DynamicOps<JsonElement> ops, Config fallback) throws NoSuchFileException {
         Path directoryPath = getDirectoryPath(id);
-        String id1 = suffix.isEmpty() ? id.toString() : id + "-" + suffix;
+        String id1 = getId(id, suffix);
 
         if (Files.notExists(directoryPath))
             throw new NoSuchFileException("Config " + id1 + " file not found!");
@@ -89,8 +88,7 @@ public abstract class Config {
         if (Files.exists(path))
             try (Reader reader = Files.newBufferedReader(path)) {
                 return ((Codec<Config>) codec).parse(ops, JsonParser.parseReader(reader))
-                        .ifError(error -> LOGGER.error("Failed to decode config {} {}!", id1, error.message()))
-                        .resultOrPartial()
+                        .resultOrPartial(message -> LOGGER.error("Failed to decode config {} {}!", id1, message))
                         .orElse(fallback);
             } catch (IOException e) {
                 throw new RuntimeException("Failed to read config " + id1 + "!", e);
@@ -102,6 +100,10 @@ public abstract class Config {
     protected static Path getDirectoryPath(Identifier id) {
         return FabricLoader.getInstance().getConfigDir()
                 .resolve(id.getNamespace());
+    }
+
+    protected static String getId(Identifier id, String suffix) {
+        return suffix.isEmpty() ? id.toString() : id + "-" + suffix;
     }
 
     protected static Path getPath(Path directoryPath, String id) {
@@ -122,6 +124,11 @@ public abstract class Config {
     public boolean equals(Object other) {
         return super.equals(other) || (other instanceof Config config
                 && root.equals(config.root));
+    }
+
+    @Override
+    public String toString() {
+        return "Config[root: " + root + "]";
     }
 
 

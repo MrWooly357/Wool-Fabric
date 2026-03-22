@@ -24,9 +24,13 @@ public final class WoolConfig {
 
     public static void register() {
         Wool.logInitialization("config");
-        ConfigManagersRegistry.registerGeneral(new ConfigManager.General<>(true, WoolServerConfig::doesNotExist, WoolServerConfig::save, SERVER, WoolServerConfig::load));
-        ConfigManagersRegistry.registerWorld(new ConfigManager.World<>(
-                true,
+        ConfigManagersRegistry.registerGeneralServer(Wool.MOD_ID, new ConfigManager.General<>(
+                WoolServerConfig::doesNotExist,
+                WoolServerConfig::save,
+                SERVER,
+                WoolServerConfig::load)
+        );
+        ConfigManagersRegistry.registerServerWorld(Wool.MOD_ID, new ConfigManager.World<>(
                 WoolServerWorldConfig::doesNotExist,
                 WoolServerWorldConfig::save,
                 SERVER_WORLD,
@@ -34,9 +38,12 @@ public final class WoolConfig {
                 WoolServerWorldConfig.DEFAULT,
                 WoolServerWorldConfig::delete
         ));
-        ConfigManagersRegistry.registerGeneral(new ConfigManager.General<>(false, WoolClientConfig::doesNotExist, WoolClientConfig::save, CLIENT, WoolClientConfig::load));
-        ConfigManagersRegistry.registerWorld(new ConfigManager.World<>(
-                false,
+        ConfigManagersRegistry.registerGeneralClient(Wool.MOD_ID, new ConfigManager.General<>(
+                WoolClientConfig::doesNotExist,
+                WoolClientConfig::save, CLIENT,
+                WoolClientConfig::load
+        ));
+        ConfigManagersRegistry.registerClientWorld(Wool.MOD_ID, new ConfigManager.World<>(
                 WoolClientWorldConfig::doesNotExist,
                 WoolClientWorldConfig::save,
                 CLIENT_WORLD,
