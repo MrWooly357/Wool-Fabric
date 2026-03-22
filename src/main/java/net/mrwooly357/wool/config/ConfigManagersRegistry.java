@@ -1,5 +1,7 @@
 package net.mrwooly357.wool.config;
 
+import net.minecraft.registry.DynamicRegistryManager;
+
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.function.BiConsumer;
@@ -33,12 +35,52 @@ public final class ConfigManagersRegistry {
         CLIENT_WORLD_CONFIG_MANAGERS.put(modId, manager);
     }
 
-    public static Stream<String> getAllGeneralIds() {
+    public static Stream<String> getAllGeneralServerIds() {
         return GENERAL_SERVER_CONFIG_MANAGERS.keySet().stream();
+    }
+
+    public static Stream<String> getAllGeneralClientIds() {
+        return GENERAL_CLIENT_CONFIG_MANAGERS.keySet().stream();
+    }
+
+    public static Stream<String> getAllServerWorldIds() {
+        return SERVER_WORLD_CONFIG_MANAGERS.keySet().stream();
+    }
+
+    public static Stream<String> getAllClientWorldIds() {
+        return CLIENT_WORLD_CONFIG_MANAGERS.keySet().stream();
+    }
+
+    public static void saveGeneralServer(String id) {
+        GENERAL_SERVER_CONFIG_MANAGERS.get(id).save();
+    }
+
+    public static void saveGeneralClient(String id) {
+        GENERAL_CLIENT_CONFIG_MANAGERS.get(id).save();
+    }
+
+    public static void saveServerWorld(String id, String name, DynamicRegistryManager registryManager) {
+        SERVER_WORLD_CONFIG_MANAGERS.get(id).save(name, registryManager);
+    }
+
+    public static void saveClientWorld(String id, String name, DynamicRegistryManager registryManager) {
+        CLIENT_WORLD_CONFIG_MANAGERS.get(id).save(name, registryManager);
     }
 
     public static void loadGeneralServer(String id) {
         GENERAL_SERVER_CONFIG_MANAGERS.get(id).load();
+    }
+
+    public static void loadGeneralClient(String id) {
+        GENERAL_CLIENT_CONFIG_MANAGERS.get(id).load();
+    }
+
+    public static void loadServerWorld(String id, String name, DynamicRegistryManager registryManager) {
+        SERVER_WORLD_CONFIG_MANAGERS.get(id).load(name, registryManager);
+    }
+
+    public static void loadClientWorld(String id, String name, DynamicRegistryManager registryManager) {
+        CLIENT_WORLD_CONFIG_MANAGERS.get(id).load(name, registryManager);
     }
 
     public static void forEachGeneralServer(BiConsumer<? super String, ? super ConfigManager.General<?>> action) {

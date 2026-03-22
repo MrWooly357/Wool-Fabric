@@ -1,0 +1,6 @@
+{
+  "command.wool.server_config.general.load.feedback": "Loading %s general server config.",
+  "command.wool.server_config.general.save.feedback": "Saving %s general server config.",
+  "command.wool.server_config.world.load.feedback": "Loading %s server world config.",
+  "command.wool.server_config.world.save.feedback": "Saving %s server world config."
+}

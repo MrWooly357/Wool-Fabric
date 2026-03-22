@@ -3,6 +3,9 @@ package net.mrwooly357.wool;
 import net.fabricmc.fabric.api.datagen.v1.DataGeneratorEntrypoint;
 import net.fabricmc.fabric.api.datagen.v1.FabricDataGenerator;
 import net.minecraft.registry.RegistryBuilder;
+import net.mrwooly357.wool.data_gen.WoolEnUKLanguageProvider;
+import net.mrwooly357.wool.data_gen.WoolEnUSLanguageProvider;
+import net.mrwooly357.wool.data_gen.WoolRuRuLanguageProvider;
 
 public final class WoolDataGenerator implements DataGeneratorEntrypoint {
 
@@ -11,7 +14,12 @@ public final class WoolDataGenerator implements DataGeneratorEntrypoint {
 
 	@Override
 	public void onInitializeDataGenerator(FabricDataGenerator generator) {
-		if (GENERATE) {}
+		if (GENERATE) {
+			FabricDataGenerator.Pack pack = generator.createPack();
+			pack.addProvider(WoolEnUSLanguageProvider::new);
+			pack.addProvider(WoolEnUKLanguageProvider::new);
+			pack.addProvider(WoolRuRuLanguageProvider::new);
+		}
 	}
 
 	@Override
