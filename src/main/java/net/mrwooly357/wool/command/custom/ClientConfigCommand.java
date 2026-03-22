@@ -46,7 +46,7 @@ public final class ClientConfigCommand {
                                                                         .executes(context -> {
                                                                             String id = StringArgumentType.getString(context, "id");
                                                                             FabricClientCommandSource source = context.getSource();
-                                                                            ConfigManagersRegistry.saveServerWorld(id, getClientWorldName(source), source.getRegistryManager());
+                                                                            ConfigManagersRegistry.saveClientWorld(id, getClientWorldName(source), source.getRegistryManager());
                                                                             context.getSource().sendFeedback(Text.translatable("command." + Wool.MOD_ID + ".client_config.world.save.feedback", id));
 
                                                                             return Command.SINGLE_SUCCESS;
@@ -79,7 +79,7 @@ public final class ClientConfigCommand {
                                                                         .executes(context -> {
                                                                             String id = StringArgumentType.getString(context, "id");
                                                                             FabricClientCommandSource source = context.getSource();
-                                                                            ConfigManagersRegistry.loadServerWorld(id, getClientWorldName(source), source.getRegistryManager());
+                                                                            ConfigManagersRegistry.loadClientWorld(id, getClientWorldName(source), source.getRegistryManager());
                                                                             context.getSource().sendFeedback(Text.translatable("command." + Wool.MOD_ID + ".client_config.world.load.feedback", id));
 
                                                                             return Command.SINGLE_SUCCESS;
