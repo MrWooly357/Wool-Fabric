@@ -22,6 +22,10 @@ public final class WoolRuRuLanguageProvider extends FabricLanguageProvider {
         addCommand(builder, "server_config.world.save.feedback", "Сохранение %s серверного конфига мира.");
         addCommand(builder, "server_config.general.load.feedback", "Загрузка %s основного серверного конфига.");
         addCommand(builder, "server_config.world.load.feedback", "Загрузка %s серверного конфига мира.");
+        addCommand(builder, "client_config.general.save.feedback", "Сохранение %s основного клиентского конфига.");
+        addCommand(builder, "client_config.world.save.feedback", "Сохранение %s клиентского конфига мира.");
+        addCommand(builder, "client_config.general.load.feedback", "Загрузка %s основного клиентского конфига.");
+        addCommand(builder, "client_config.world.load.feedback", "Загрузка %s клиентского конфига мира.");
     }
 
     private static void addCommand(TranslationBuilder builder, String path, String translation) {

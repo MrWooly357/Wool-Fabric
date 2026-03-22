@@ -16,8 +16,8 @@ public final class WoolEvents {
     }
 
 
-    public static void initializeServer() {
-        Wool.logInitialization("server events");
+    public static void initialize() {
+        Wool.logInitialization("events");
         ServerLifecycleEvents.SERVER_STARTING.register(server -> {
             ConfigManagersRegistry.forEachGeneralServer((id, manager) -> {
                 if (manager.doesNotExist())

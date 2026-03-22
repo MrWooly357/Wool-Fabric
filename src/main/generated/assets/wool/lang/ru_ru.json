@@ -1,4 +1,8 @@
 {
+  "command.wool.client_config.general.load.feedback": "Загрузка %s основного клиентского конфига.",
+  "command.wool.client_config.general.save.feedback": "Сохранение %s основного клиентского конфига.",
+  "command.wool.client_config.world.load.feedback": "Загрузка %s клиентского конфига мира.",
+  "command.wool.client_config.world.save.feedback": "Сохранение %s клиентского конфига мира.",
   "command.wool.server_config.general.load.feedback": "Загрузка %s основного серверного конфига.",
   "command.wool.server_config.general.save.feedback": "Сохранение %s основного серверного конфига.",
   "command.wool.server_config.world.load.feedback": "Загрузка %s серверного конфига мира.",

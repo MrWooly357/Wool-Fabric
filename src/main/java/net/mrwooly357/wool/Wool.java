@@ -18,7 +18,7 @@ public final class Wool implements ModInitializer {
 	@Override
 	public void onInitialize() {
 		WoolConfig.register();
-		WoolEvents.initializeServer();
+		WoolEvents.initialize();
 		WoolCommands.initialize();
 	}
 

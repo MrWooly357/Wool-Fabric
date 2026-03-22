@@ -22,6 +22,10 @@ public final class WoolEnUSLanguageProvider extends FabricLanguageProvider {
         addCommand(builder, "server_config.world.save.feedback", "Saving %s server world config.");
         addCommand(builder, "server_config.general.load.feedback", "Loading %s general server config.");
         addCommand(builder, "server_config.world.load.feedback", "Loading %s server world config.");
+        addCommand(builder, "client_config.general.save.feedback", "Saving %s general client config.");
+        addCommand(builder, "client_config.world.save.feedback", "Saving %s client world config.");
+        addCommand(builder, "client_config.general.load.feedback", "Loading %s general client config.");
+        addCommand(builder, "client_config.world.load.feedback", "Loading %s client world config.");
     }
 
     private static void addCommand(TranslationBuilder builder, String path, String translation) {
