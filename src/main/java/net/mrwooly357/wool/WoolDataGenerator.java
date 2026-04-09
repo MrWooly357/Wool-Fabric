@@ -9,7 +9,7 @@ import net.mrwooly357.wool.data_gen.WoolRuRuLanguageProvider;
 
 public final class WoolDataGenerator implements DataGeneratorEntrypoint {
 
-	private static final boolean GENERATE = true;
+	private static final boolean GENERATE = false;
 
 
 	@Override
